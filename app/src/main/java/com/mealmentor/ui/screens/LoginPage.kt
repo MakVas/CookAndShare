@@ -79,18 +79,26 @@ fun LoginPage() {
             modifier = Modifier
                 .padding(start = 5.dp)
                 .clickable {
-                    Toast.makeText(
-                        context,
-                        "Forgot Password",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast
+                        .makeText(
+                            context,
+                            "Forgot Password",
+                            Toast.LENGTH_SHORT
+                        )
+                        .show()
                 }
         )
 
         Spacer(modifier = Modifier.padding(vertical = 5.dp))
 
         ElevatedButton(
-            onClick = { /*TODO*/ },
+            onClick = {
+                Toast.makeText(
+                    context,
+                    "Login",
+                    Toast.LENGTH_SHORT
+                ).show()
+            },
             shape = ButtonDefaults.elevatedShape,
             colors = ButtonDefaults.elevatedButtonColors(
                 containerColor = MaterialTheme.colorScheme.tertiary,
@@ -116,7 +124,7 @@ fun LoginPage() {
 
         Row(
             horizontalArrangement = Arrangement.Center
-        ){
+        ) {
 
             Text(
                 text = stringResource(id = R.string.dont_have_account),
@@ -131,11 +139,13 @@ fun LoginPage() {
                 modifier = Modifier
                     .padding(start = 5.dp)
                     .clickable {
-                        Toast.makeText(
-                            context,
-                            "Sign Up",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        Toast
+                            .makeText(
+                                context,
+                                "Sign Up",
+                                Toast.LENGTH_SHORT
+                            )
+                            .show()
                     }
             )
         }
