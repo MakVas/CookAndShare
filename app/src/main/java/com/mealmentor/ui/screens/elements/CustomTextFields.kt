@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -37,11 +38,11 @@ fun EmailField(text: String, onValueChange: (String) -> Unit) {
         shape = RoundedCornerShape(15.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp)
-            .height(60.dp)
+            .padding(horizontal = 16.dp)
+            .height(65.dp)
             .shadow(4.dp, RoundedCornerShape(15.dp), clip = true),
         label = {
-            Text("Електронна пошта")
+            Text(stringResource(id = R.string.email))
         },
         leadingIcon = {
             Icon(
@@ -78,10 +79,7 @@ fun EmailField(text: String, onValueChange: (String) -> Unit) {
             )
 
         ),
-        keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Next,
-            keyboardType = KeyboardType.Email
-        ),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
         singleLine = true
     )
 }
@@ -96,11 +94,11 @@ fun PasswordField(text: String, onValueChange: (String) -> Unit) {
         shape = RoundedCornerShape(15.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp)
-            .height(60.dp)
+            .padding(horizontal = 16.dp)
+            .height(65.dp)
             .shadow(4.dp, RoundedCornerShape(15.dp), clip = true),
         label = {
-            Text("Пароль")
+            Text(stringResource(id = R.string.password))
         },
         leadingIcon = {
             Icon(
