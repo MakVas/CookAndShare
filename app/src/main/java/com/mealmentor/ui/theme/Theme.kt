@@ -14,17 +14,22 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.mealmentor.ui.screens.LoginPage
 
 private val DarkColorScheme = darkColorScheme(
-        primary = Purple80,
-        secondary = PurpleGrey80,
-        tertiary = Pink80
+        primary = CustomChocolate,
+        secondary = CustomChocolate,
+        tertiary = Pink80,
+        onPrimary = CustomYellow,
+        background = CustomChocolate
 )
 
 private val LightColorScheme = lightColorScheme(
-        primary = Purple40,
-        secondary = PurpleGrey40,
-        tertiary = Pink40
+        primary = CustomYellow,
+        secondary = CustomLightYellow,
+        tertiary = Pink40,
+        onPrimary = CustomChocolate,
+        background = CustomYellow
 
         /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -58,7 +63,9 @@ fun MealMentorKotlinTheme(
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            window.navigationBarColor = colorScheme.secondary.toArgb()
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
+            WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars = !darkTheme
         }
     }
 
