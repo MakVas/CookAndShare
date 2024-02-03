@@ -3,6 +3,7 @@ package com.mealmentor
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.mealmentor.ui.screens.LoginPage
 import com.mealmentor.ui.theme.MealMentorKotlinTheme
 
 class MainActivity : ComponentActivity() {
@@ -10,7 +11,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MealMentorKotlinTheme {
-
+                LoginPage()
             }
         }
     }
