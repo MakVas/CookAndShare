@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Meal Mentor</string>
+    <string name="email">Електронна пошта</string>
+    <string name="password">Пароль</string>
+    <string name="forgot_password">Забули пароль?</string>
+    <string name="login">Увійти</string>
+    <string name="dont_have_account">Бажаєте зареєструватись?</string>
+    <string name="sign_up">Реєстрація</string>
+</resources>
