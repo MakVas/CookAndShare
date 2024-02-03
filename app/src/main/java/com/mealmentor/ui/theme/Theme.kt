@@ -10,6 +10,7 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
@@ -17,10 +18,10 @@ import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
         primary = CustomChocolate,
-        secondary = CustomChocolate,
+        secondary = Color.Gray,
         tertiary = Pink80,
         onPrimary = CustomYellow,
-        background = CustomChocolate
+        onSecondary = CustomYellow
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -28,8 +29,7 @@ private val LightColorScheme = lightColorScheme(
         secondary = CustomLightYellow,
         tertiary = Pink40,
         onPrimary = CustomChocolate,
-        background = CustomYellow
-
+        onSecondary = CustomChocolate,
         /* Other default colors to override
     background = Color(0xFFFFFBFE),
     surface = Color(0xFFFFFBFE),
