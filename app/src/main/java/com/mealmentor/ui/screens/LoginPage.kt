@@ -32,6 +32,18 @@ import com.mealmentor.ui.screens.elements.PasswordField
 @Composable
 fun LoginPage() {
 
+    // Отримання контексту
+    val context = LocalContext.current
+
+    // Дві функції remember для збереження стану текстового поля
+    val emailText = remember {
+        mutableStateOf("")
+    }
+
+    val passwordText = remember {
+        mutableStateOf("")
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -39,18 +51,6 @@ fun LoginPage() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-
-        // Дві функції remember для збереження стану текстового поля
-        val emailText = remember {
-            mutableStateOf("")
-        }
-
-        val passwordText = remember {
-            mutableStateOf("")
-        }
-
-        // Отримання контексту
-        val context = LocalContext.current
 
         // Виклик функцій для відображення текстових полів
         EmailField(
@@ -115,7 +115,6 @@ fun LoginPage() {
         ) {
             Text(
                 text = stringResource(id = R.string.login),
-                color = MaterialTheme.colorScheme.onTertiary,
                 style = MaterialTheme.typography.labelLarge
             )
         }
@@ -162,4 +161,33 @@ fun LoginPage() {
         color = MaterialTheme.colorScheme.onPrimary,
         style = MaterialTheme.typography.titleLarge
     )
+
+    // Кнопка "Увійти з Google"
+    ElevatedButton(
+        onClick = {
+            Toast.makeText(
+                context,
+                "Google Button",
+                Toast.LENGTH_SHORT
+            ).show()
+        },
+        shape = ButtonDefaults.elevatedShape,
+        colors = ButtonDefaults.elevatedButtonColors(
+            containerColor = MaterialTheme.colorScheme.secondary,
+            contentColor = MaterialTheme.colorScheme.onSecondary
+        ),
+        elevation = ButtonDefaults.elevatedButtonElevation(
+            defaultElevation = 4.dp,
+            pressedElevation = 0.dp
+        ),
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .height(65.dp)
+            .fillMaxWidth()
+    ) {
+        Text(
+            text = stringResource(id = R.string.login_with_google),
+            style = MaterialTheme.typography.labelLarge
+        )
+    }
 }
