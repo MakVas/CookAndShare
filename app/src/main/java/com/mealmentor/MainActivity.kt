@@ -24,6 +24,7 @@ import com.mealmentor.database.sign_in.GoogleAuthClient
 import com.mealmentor.database.sign_in.SignInViewModel
 import com.mealmentor.ui.screens.LoginPage
 import com.mealmentor.ui.screens.ProfilePage
+import com.mealmentor.ui.screens.SplashScreen
 import com.mealmentor.ui.theme.MealMentorKotlinTheme
 import kotlinx.coroutines.launch
 
@@ -45,16 +46,19 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val navController = rememberNavController()
                     NavHost(
-                        navController = navController, startDestination = "sign_in"
+                        navController = navController, startDestination = "splash"
                     ) {
+                        composable("splash") {
+                            SplashScreen{
+                                if(googleAuthClient.getSignedInUser() != null)
+                                    navController.navigate("profile")
+                                else navController.navigate("sign_in")
+                            }
+                        }
+
                         composable("sign_in") {
                             val viewModel = viewModel<SignInViewModel>()
                             val state by viewModel.state.collectAsState()
-
-                            LaunchedEffect(key1 = Unit){
-                                if(googleAuthClient.getSignedInUser() != null)
-                                    navController.navigate("profile")
-                            }
 
                             val launcher = rememberLauncherForActivityResult(
                                 contract = ActivityResultContracts.StartIntentSenderForResult(),
