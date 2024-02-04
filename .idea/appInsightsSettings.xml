@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.mealmentor" />
+                  <option name="mobileSdkAppId" value="1:126199744492:android:1e3028e799e4562ed2e2c9" />
+                  <option name="projectId" value="meal-mentor-2e5d6" />
+                  <option name="projectNumber" value="126199744492" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

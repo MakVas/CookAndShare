@@ -1,0 +1,122 @@
+{
+  "project_info": {
+    "project_number": "126199744492",
+    "firebase_url": "https://meal-mentor-2e5d6-default-rtdb.firebaseio.com",
+    "project_id": "meal-mentor-2e5d6",
+    "storage_bucket": "meal-mentor-2e5d6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126199744492:android:c71b05fd55e32b0cd2e2c9",
+        "android_client_info": {
+          "package_name": "com.example.test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126199744492-4ei24655d63g6vcivqnv5n4jt2k2fhjm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.test",
+            "certificate_hash": "3277ad2b3d755c5b5c520145d5e44dc173cf18c5"
+          }
+        },
+        {
+          "client_id": "126199744492-j0k4tn7ghaoqn50eer9t51oismqr4ohc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.test",
+            "certificate_hash": "b5dfe2103be9d1fcca557d4b537f6fd1b14907d5"
+          }
+        },
+        {
+          "client_id": "126199744492-re7a0pa2fnmfot6pitiivq0t3g3ljj44.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.test",
+            "certificate_hash": "1cef18bfd33c2dae41cc1f6a7bb16ee3e88cee53"
+          }
+        },
+        {
+          "client_id": "126199744492-8lnu7kv3kcpcic0h7e75qrco9inlso7v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCS2aJHDnXMiCNJjmPETAs0bqp03obzS6o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126199744492-8lnu7kv3kcpcic0h7e75qrco9inlso7v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126199744492:android:1e3028e799e4562ed2e2c9",
+        "android_client_info": {
+          "package_name": "com.mealmentor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126199744492-8lnu7kv3kcpcic0h7e75qrco9inlso7v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCS2aJHDnXMiCNJjmPETAs0bqp03obzS6o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126199744492-8lnu7kv3kcpcic0h7e75qrco9inlso7v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126199744492:android:f2efb9e796b5b1a0d2e2c9",
+        "android_client_info": {
+          "package_name": "com.mealmentor.meal_mentor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126199744492-8lnu7kv3kcpcic0h7e75qrco9inlso7v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCS2aJHDnXMiCNJjmPETAs0bqp03obzS6o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126199744492-8lnu7kv3kcpcic0h7e75qrco9inlso7v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
