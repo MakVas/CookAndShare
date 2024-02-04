@@ -19,6 +19,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -29,15 +30,29 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mealmentor.R
+import com.mealmentor.database.sign_in.SignInState
 import com.mealmentor.ui.screens.elements.EmailField
 import com.mealmentor.ui.screens.elements.PasswordField
 
 // LoginPage це функція, яка містить розмітку сторінки входу в додаток
 @Composable
-fun LoginPage() {
+fun LoginPage(
+    state: SignInState,
+    onGoogleSignInClick: () -> Unit
+) {
 
     // Отримання контексту
     val context = LocalContext.current
+
+    LaunchedEffect(key1 = state.signInError) {
+        state.signInError?.let { error ->
+            Toast.makeText(
+                context,
+                error,
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
 
     // Дві функції remember для збереження стану текстового поля
     val emailText = remember {
@@ -48,9 +63,9 @@ fun LoginPage() {
         mutableStateOf("")
     }
 
-    Box (
+    Box(
         modifier = Modifier.fillMaxSize()
-    ){
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -157,12 +172,12 @@ fun LoginPage() {
 
         }
 
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 50.dp),
             horizontalAlignment = Alignment.CenterHorizontally
-        ){
+        ) {
             Text(
                 text = "Meal Mentor",
                 textAlign = TextAlign.Center,
@@ -180,11 +195,7 @@ fun LoginPage() {
         // Кнопка "Увійти з Google"
         ElevatedButton(
             onClick = {
-                Toast.makeText(
-                    context,
-                    "Google Button",
-                    Toast.LENGTH_SHORT
-                ).show()
+                onGoogleSignInClick()
             },
             shape = ButtonDefaults.elevatedShape,
             colors = ButtonDefaults.elevatedButtonColors(
@@ -220,5 +231,4 @@ fun LoginPage() {
             }
         }
     }
-
 }

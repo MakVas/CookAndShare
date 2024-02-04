@@ -21,7 +21,8 @@ private val DarkColorScheme = darkColorScheme(
         secondary = Color.Gray,
         tertiary = Pink80,
         onPrimary = CustomYellow,
-        onSecondary = CustomYellow
+        onSecondary = CustomYellow,
+        background = CustomChocolate
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -30,7 +31,8 @@ private val LightColorScheme = lightColorScheme(
         tertiary = CustomChocolate,
         onPrimary = CustomChocolate,
         onSecondary = CustomChocolate,
-        onTertiary = CustomYellow
+        onTertiary = CustomYellow,
+        background = CustomYellow
         /* Other default colors to override
     background = Color(0xFFFFFBFE),
     surface = Color(0xFFFFFBFE),
