@@ -157,16 +157,25 @@ fun LoginPage() {
 
         }
 
-        // Відображення тексту "Meal Mentor"
-        Text(
-            text = "Meal Mentor",
+        Column (
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 50.dp),
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.onPrimary,
-            style = MaterialTheme.typography.titleLarge
-        )
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
+            Text(
+                text = "Meal Mentor",
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.onPrimary,
+                style = MaterialTheme.typography.titleLarge
+            )
+            Text(
+                text = stringResource(id = R.string.login_to_acc),
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.onPrimary,
+                style = MaterialTheme.typography.labelSmall
+            )
+        }
 
         // Кнопка "Увійти з Google"
         ElevatedButton(
