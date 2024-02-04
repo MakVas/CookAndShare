@@ -36,6 +36,7 @@ class MainActivity : ComponentActivity() {
             oneTapClient = Identity.getSignInClient(applicationContext)
         )
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -48,34 +49,35 @@ class MainActivity : ComponentActivity() {
                     NavHost(
                         navController = navController, startDestination = "splash"
                     ) {
+                        // Splash screen
                         composable("splash") {
-                            SplashScreen{
-                                if(googleAuthClient.getSignedInUser() != null)
+                            SplashScreen {
+                                if (googleAuthClient.getSignedInUser() != null)
                                     navController.navigate("profile")
                                 else navController.navigate("sign_in")
                             }
                         }
-
+                        // Вікно авторизації
                         composable("sign_in") {
                             val viewModel = viewModel<SignInViewModel>()
                             val state by viewModel.state.collectAsState()
 
                             val launcher = rememberLauncherForActivityResult(
                                 contract = ActivityResultContracts.StartIntentSenderForResult(),
-                                onResult = {result ->
-                                    if(result.resultCode == RESULT_OK)
+                                onResult = { result ->
+                                    if (result.resultCode == RESULT_OK)
                                         lifecycleScope.launch {
                                             val signInResult = googleAuthClient.signInWithIntent(
-                                                result.data?: return@launch
+                                                result.data ?: return@launch
                                             )
                                             viewModel.onSignInResult(signInResult)
                                         }
 
                                 }
                             )
-                            
-                            LaunchedEffect(key1 = state.isSignInSuccessful){
-                                if(state.isSignInSuccessful){
+
+                            LaunchedEffect(key1 = state.isSignInSuccessful) {
+                                if (state.isSignInSuccessful) {
                                     Toast.makeText(
                                         applicationContext,
                                         "Sign in successful",
@@ -86,11 +88,11 @@ class MainActivity : ComponentActivity() {
                                     viewModel.resetState()
                                 }
                             }
-                            
+
                             LoginPage(
                                 state = state,
                                 onGoogleSignInClick = {
-                                    lifecycleScope.launch{
+                                    lifecycleScope.launch {
                                         val signInIntentSender = googleAuthClient.signIn()
                                         launcher.launch(
                                             IntentSenderRequest.Builder(
@@ -98,8 +100,10 @@ class MainActivity : ComponentActivity() {
                                             ).build()
                                         )
                                     }
-                            })
+                                })
                         }
+
+                        // Вікно профілю
                         composable("profile") {
                             ProfilePage(
                                 userData = googleAuthClient.getSignedInUser(),
@@ -111,12 +115,12 @@ class MainActivity : ComponentActivity() {
                                             "Sign out successful",
                                             Toast.LENGTH_LONG
                                         ).show()
-
-                                        navController.popBackStack()
+                                        navController.navigate("sign_in")
                                     }
                                 }
                             )
                         }
+
                     }
                 }
             }

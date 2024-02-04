@@ -44,6 +44,15 @@ fun LoginPage(
     // Отримання контексту
     val context = LocalContext.current
 
+    // Дві функції remember для збереження стану текстового поля
+    val emailText = remember {
+        mutableStateOf("")
+    }
+
+    val passwordText = remember {
+        mutableStateOf("")
+    }
+
     LaunchedEffect(key1 = state.signInError) {
         state.signInError?.let { error ->
             Toast.makeText(
@@ -52,15 +61,6 @@ fun LoginPage(
                 Toast.LENGTH_LONG
             ).show()
         }
-    }
-
-    // Дві функції remember для збереження стану текстового поля
-    val emailText = remember {
-        mutableStateOf("")
-    }
-
-    val passwordText = remember {
-        mutableStateOf("")
     }
 
     Box(

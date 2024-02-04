@@ -28,14 +28,14 @@ import com.mealmentor.database.sign_in.UserData
 @Composable
 fun ProfilePage(
     userData: UserData?,
-    onSignOut:() -> Unit
+    onSignOut: () -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
-        if(userData?.profilePictureUrl != null){
+    ) {
+        if (userData?.profilePictureUrl != null) {
             AsyncImage(
                 model = userData.profilePictureUrl,
                 contentDescription = "Profile Picture",
@@ -46,7 +46,7 @@ fun ProfilePage(
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
-        if(userData?.username != null){
+        if (userData?.username != null) {
             Text(
                 text = userData.username,
                 style = MaterialTheme.typography.titleLarge,
