@@ -1,4 +1,4 @@
-package com.mealmentor.database.sign_in
+package com.mealmentor.logic.database.sign_in
 
 data class SignInResult(
     val data: UserData?,

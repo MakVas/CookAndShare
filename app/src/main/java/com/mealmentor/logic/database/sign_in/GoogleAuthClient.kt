@@ -1,4 +1,4 @@
-package com.mealmentor.database.sign_in
+package com.mealmentor.logic.database.sign_in
 
 import android.content.Context
 import android.content.Intent
