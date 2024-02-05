@@ -36,22 +36,29 @@ import com.mealmentor.ui.screens.elements.PasswordField
 
 // LoginPage це функція, яка містить розмітку сторінки входу в додаток
 @Composable
-fun LoginPage(
+fun SignUpPage(
     state: SignInState,
     onGoogleSignInClick: () -> Unit,
-    navigateToForgotPasswordPage: () -> Unit,
-    navigateToSignUpPage: () -> Unit
+    navigateToLogInPage: () -> Unit
 ) {
 
     // Отримання контексту
     val context = LocalContext.current
 
-    // Дві функції remember для збереження стану текстового поля
+    // Чотири функції remember для збереження стану текстового поля
+    val usernameText = remember {
+        mutableStateOf("")
+    }
+
     val emailText = remember {
         mutableStateOf("")
     }
 
     val passwordText = remember {
+        mutableStateOf("")
+    }
+
+    val password2Text = remember {
         mutableStateOf("")
     }
 
@@ -68,6 +75,7 @@ fun LoginPage(
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -77,9 +85,20 @@ fun LoginPage(
         ) {
 
             CustomTextField(
+                fieldLabel = stringResource(id = R.string.username),
+                leadingIconId = R.drawable.user,
+                text = usernameText.value,
+                onValueChange = {
+                    usernameText.value = it
+                }
+            )
+
+            Spacer(modifier = Modifier.padding(vertical = 8.dp))
+
+            CustomTextField(
                 fieldLabel = stringResource(id = R.string.email),
-                text = emailText.value,
                 leadingIconId = R.drawable.email,
+                text = emailText.value,
                 onValueChange = {
                     emailText.value = it
                 }
@@ -95,21 +114,17 @@ fun LoginPage(
                 }
             )
 
-            Spacer(modifier = Modifier.padding(vertical = 5.dp))
+            Spacer(modifier = Modifier.padding(vertical = 8.dp))
 
-            Text(
-                text = stringResource(id = R.string.forgot_password),
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onPrimary,
-                style = MaterialTheme.typography.labelMedium,
-                modifier = Modifier
-                    .padding(start = 5.dp)
-                    .clickable {
-                        navigateToForgotPasswordPage()
-                    }
+            PasswordField(
+                fieldLabel = stringResource(id = R.string.confirm_password),
+                text = password2Text.value,
+                onValueChange = {
+                    password2Text.value = it
+                }
             )
 
-            Spacer(modifier = Modifier.padding(vertical = 5.dp))
+            Spacer(modifier = Modifier.padding(vertical = 8.dp))
 
             ElevatedButton(
                 onClick = {
@@ -134,7 +149,7 @@ fun LoginPage(
                     .fillMaxWidth()
             ) {
                 Text(
-                    text = stringResource(id = R.string.login),
+                    text = stringResource(id = R.string.sign_up),
                     style = MaterialTheme.typography.labelLarge
                 )
             }
@@ -146,19 +161,19 @@ fun LoginPage(
             ) {
 
                 Text(
-                    text = stringResource(id = R.string.dont_have_account),
+                    text = stringResource(id = R.string.have_account),
                     color = MaterialTheme.colorScheme.onPrimary,
                     style = MaterialTheme.typography.labelSmall
                 )
 
                 Text(
-                    text = stringResource(id = R.string.sign_up),
+                    text = stringResource(id = R.string.login),
                     color = MaterialTheme.colorScheme.onPrimary,
                     style = MaterialTheme.typography.labelMedium,
                     modifier = Modifier
                         .padding(start = 5.dp)
                         .clickable {
-                            navigateToSignUpPage()
+                            navigateToLogInPage()
                         }
                 )
             }
@@ -178,7 +193,7 @@ fun LoginPage(
                 style = MaterialTheme.typography.titleLarge
             )
             Text(
-                text = stringResource(id = R.string.login_to_acc),
+                text = stringResource(id = R.string.sign_up_text),
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onPrimary,
                 style = MaterialTheme.typography.labelSmall

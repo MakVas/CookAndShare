@@ -21,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -31,7 +30,12 @@ import com.mealmentor.R
 
 // Функція, що створює кастомне текстове поле для введення електронної пошти
 @Composable
-fun EmailField(text: String, onValueChange: (String) -> Unit) {
+fun CustomTextField(
+    leadingIconId: Int,
+    fieldLabel: String,
+    text: String,
+    onValueChange: (String) -> Unit
+) {
     TextField(
         value = text,
         onValueChange = onValueChange,
@@ -42,11 +46,11 @@ fun EmailField(text: String, onValueChange: (String) -> Unit) {
             .height(65.dp)
             .shadow(4.dp, RoundedCornerShape(15.dp), clip = true),
         label = {
-            Text(stringResource(id = R.string.email))
+            Text(fieldLabel)
         },
         leadingIcon = {
             Icon(
-                painter = painterResource(id = R.drawable.email),
+                painter = painterResource(leadingIconId),
                 contentDescription = "email_img",
                 tint = MaterialTheme.colorScheme.onPrimary
             )
@@ -54,7 +58,7 @@ fun EmailField(text: String, onValueChange: (String) -> Unit) {
         trailingIcon = {
             if (text.isNotEmpty()) {
                 Icon(
-                    painter = painterResource(id = R.drawable.close),
+                    painter = painterResource(R.drawable.close),
                     contentDescription = "close",
                     tint = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.clickable {
@@ -86,7 +90,11 @@ fun EmailField(text: String, onValueChange: (String) -> Unit) {
 
 // Функція, що створює кастомне текстове поле для введення паролю
 @Composable
-fun PasswordField(text: String, onValueChange: (String) -> Unit) {
+fun PasswordField(
+    fieldLabel: String,
+    text: String,
+    onValueChange: (String) -> Unit
+) {
     var passwordVisibility by remember { mutableStateOf(false) }
     TextField(
         value = text,
@@ -98,7 +106,7 @@ fun PasswordField(text: String, onValueChange: (String) -> Unit) {
             .height(65.dp)
             .shadow(4.dp, RoundedCornerShape(15.dp), clip = true),
         label = {
-            Text(stringResource(id = R.string.password))
+            Text(fieldLabel)
         },
         leadingIcon = {
             Icon(
