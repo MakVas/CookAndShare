@@ -10,4 +10,8 @@
     <string name="login_with_google">Продовжити з Google</string>
     <string name="login_to_acc">Увійдіть до свого акаунту</string>
     <string name="sign_out">Вийти</string>
+    <string name="have_account">Вже маєте акаунт?</string>
+    <string name="sign_up_text">Створіть новий акаунт</string>
+    <string name="username">Ім\'я користувача</string>
+    <string name="confirm_password">Підтвердіть пароль</string>
 </resources>
