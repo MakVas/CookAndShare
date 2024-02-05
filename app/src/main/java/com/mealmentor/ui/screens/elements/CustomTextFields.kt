@@ -3,7 +3,6 @@ package com.mealmentor.ui.screens.elements
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.TextSelectionColors
@@ -42,7 +41,6 @@ fun CustomTextField(
         shape = RoundedCornerShape(15.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
             .height(65.dp)
             .shadow(4.dp, RoundedCornerShape(15.dp), clip = true),
         label = {
@@ -102,7 +100,6 @@ fun PasswordField(
         shape = RoundedCornerShape(15.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
             .height(65.dp)
             .shadow(4.dp, RoundedCornerShape(15.dp), clip = true),
         label = {

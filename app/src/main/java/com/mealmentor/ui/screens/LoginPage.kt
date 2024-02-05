@@ -1,7 +1,6 @@
 package com.mealmentor.ui.screens
 
 import android.widget.Toast
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -67,7 +66,7 @@ fun LoginPage(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+            .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Column(
@@ -200,9 +199,9 @@ fun LoginPage(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                .padding(bottom = 16.dp)
                 .height(65.dp),
-            contentPadding = PaddingValues(start = 16.dp, top = 10.dp, end = 16.dp, bottom = 10.dp)
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 10.dp)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
