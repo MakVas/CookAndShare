@@ -23,7 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.mealmentor.R
-import com.mealmentor.database.sign_in.UserData
+import com.mealmentor.logic.database.sign_in.UserData
 
 @Composable
 fun ProfilePage(

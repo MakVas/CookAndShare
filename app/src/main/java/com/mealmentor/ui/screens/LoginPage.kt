@@ -30,7 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mealmentor.R
-import com.mealmentor.database.sign_in.SignInState
+import com.mealmentor.logic.database.sign_in.SignInState
 import com.mealmentor.ui.screens.elements.EmailField
 import com.mealmentor.ui.screens.elements.PasswordField
 
