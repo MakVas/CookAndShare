@@ -23,8 +23,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.mealmentor.R
 import com.mealmentor.logic.database.sign_in.SignInState
+import com.mealmentor.ui.pages.screens.LoginPage
+import com.mealmentor.ui.pages.screens.SignUpPage
 
 @Composable
 fun AuthPage(
@@ -43,7 +48,16 @@ fun AuthPage(
             ).show()
         }
     }
+
     //тут має бути логіка перемикання між скрінами
+    val navController = rememberNavController()
+    val currentRoute = navController.currentDestination?.route
+    val text = if (currentRoute == "sign_up") {
+        stringResource(id = R.string.sign_up_text)
+    } else {
+        stringResource(id = R.string.login_to_acc)
+    }
+
 
     Column(
         modifier = Modifier
@@ -64,8 +78,9 @@ fun AuthPage(
                 color = MaterialTheme.colorScheme.onPrimary,
                 style = MaterialTheme.typography.titleLarge
             )
+
             Text(
-                text = stringResource(id = R.string.sign_up_text),
+                text = text,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onPrimary,
                 style = MaterialTheme.typography.labelSmall
@@ -73,6 +88,32 @@ fun AuthPage(
         }
 
         //тут має бути викликано скрін входу/авторизації
+        NavHost(
+            navController = navController, startDestination = "login"
+        ) {
+            composable("login") {
+                LoginPage(
+                    context = context,
+                    navigateToForgotPasswordPage = {
+                        navController.popBackStack()
+                        navController.navigate("forgot_password")
+                    },
+                    navigateToSignUpPage = {
+                        navController.popBackStack()
+                        navController.navigate("sign_up")
+                    }
+                )
+            }
+            composable("sign_up") {
+                SignUpPage(
+                    context = context,
+                    navigateToLogInPage = {
+                        navController.popBackStack()
+                        navController.navigate("login")
+                    }
+                )
+            }
+        }
 
         // Кнопка увійти з гугл
         ElevatedButton(
