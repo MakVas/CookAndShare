@@ -14,4 +14,8 @@
     <string name="sign_up_text">Створіть новий акаунт</string>
     <string name="username">Ім\'я користувача</string>
     <string name="confirm_password">Підтвердіть пароль</string>
+    <string name="home">Головна</string>
+    <string name="add">Додати</string>
+    <string name="search">Пошук</string>
+    <string name="settings">Налаштування</string>
 </resources>

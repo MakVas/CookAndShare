@@ -1,4 +1,4 @@
-package com.mealmentor.ui.screens.elements
+package com.mealmentor.ui.pages.screens.elements
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
