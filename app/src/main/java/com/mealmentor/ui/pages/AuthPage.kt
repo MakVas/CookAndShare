@@ -16,6 +16,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -28,8 +30,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mealmentor.R
 import com.mealmentor.logic.database.sign_in.SignInState
-import com.mealmentor.ui.pages.screens.LoginPage
-import com.mealmentor.ui.pages.screens.SignUpPage
+import com.mealmentor.ui.pages.screens.Screens
+import com.mealmentor.ui.pages.screens.auth.LoginPage
+import com.mealmentor.ui.pages.screens.auth.SignUpPage
 
 @Composable
 fun AuthPage(
@@ -51,14 +54,7 @@ fun AuthPage(
 
     //тут має бути логіка перемикання між скрінами
     val navController = rememberNavController()
-    val currentRoute = navController.currentDestination?.route
-    val text = if (currentRoute == "sign_up") {
-        stringResource(id = R.string.sign_up_text)
-    } else {
-        stringResource(id = R.string.login_to_acc)
-    }
-
-
+    val currentText = remember { mutableIntStateOf(R.string.login_to_acc) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -78,9 +74,8 @@ fun AuthPage(
                 color = MaterialTheme.colorScheme.onPrimary,
                 style = MaterialTheme.typography.titleLarge
             )
-
             Text(
-                text = text,
+                text = stringResource(id = currentText.intValue),
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onPrimary,
                 style = MaterialTheme.typography.labelSmall
@@ -89,27 +84,30 @@ fun AuthPage(
 
         //тут має бути викликано скрін входу/авторизації
         NavHost(
-            navController = navController, startDestination = "login"
+            navController = navController, startDestination = Screens.Login.name
         ) {
-            composable("login") {
+            composable(Screens.Login.name) {
                 LoginPage(
                     context = context,
                     navigateToForgotPasswordPage = {
+                        currentText.intValue = R.string.forgot_password
                         navController.popBackStack()
-                        navController.navigate("forgot_password")
+                        navController.navigate(Screens.ForgotPassword.name)
                     },
                     navigateToSignUpPage = {
+                        currentText.intValue = R.string.sign_up_text
                         navController.popBackStack()
-                        navController.navigate("sign_up")
+                        navController.navigate(Screens.SignUp.name)
                     }
                 )
             }
-            composable("sign_up") {
+            composable(Screens.SignUp.name) {
                 SignUpPage(
                     context = context,
                     navigateToLogInPage = {
+                        currentText.intValue = R.string.login_to_acc
                         navController.popBackStack()
-                        navController.navigate("login")
+                        navController.navigate(Screens.Login.name)
                     }
                 )
             }
