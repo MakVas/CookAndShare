@@ -1,6 +1,6 @@
 package com.mealmentor.ui.pages
 
-import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
@@ -11,7 +11,6 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,8 +27,10 @@ import com.mealmentor.logic.database.sign_in.UserData
 import com.mealmentor.logic.navigation.getBottomNavigationItems
 import com.mealmentor.ui.pages.screens.main.ProfileScreen
 import com.mealmentor.ui.pages.screens.Screens
+import com.mealmentor.ui.pages.screens.main.AddRecipeScreen
+import com.mealmentor.ui.pages.screens.main.HomeScreen
+import com.mealmentor.ui.pages.screens.main.SearchScreen
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainPage(
     userData: UserData?,
@@ -38,26 +39,28 @@ fun MainPage(
 
     val navController = rememberNavController()
 
-    Surface(modifier = Modifier) {
-        Scaffold(
-            bottomBar = {
-                NavigationBar(navController)
-            }
+    Scaffold(
+        bottomBar = {
+            NavigationBar(navController)
+        }
+    ) {values ->
+        NavHost(
+            navController = navController,
+            startDestination = Screens.Home.name,
+            modifier = Modifier
+                .padding(values)
         ) {
-            //тут по-ідеї має бути вміст сторінки
-            NavHost(navController = navController, startDestination = Screens.Home.name) {
-                composable(Screens.Home.name) {
-                    Text("Home")
-                }
-                composable(Screens.AddRecipe.name) {
-                    Text("Add")
-                }
-                composable(Screens.Search.name) {
-                    Text("Search")
-                }
-                composable(Screens.Profile.name) {
-                    ProfileScreen(userData = userData, onSignOut = onSignOut)
-                }
+            composable(Screens.Home.name) {
+                HomeScreen()
+            }
+            composable(Screens.AddRecipe.name) {
+                AddRecipeScreen()
+            }
+            composable(Screens.Search.name) {
+                SearchScreen()
+            }
+            composable(Screens.Profile.name) {
+                ProfileScreen(userData = userData, onSignOut = onSignOut)
             }
         }
     }

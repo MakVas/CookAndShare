@@ -33,6 +33,9 @@ import com.mealmentor.logic.database.sign_in.SignInState
 import com.mealmentor.ui.pages.screens.Screens
 import com.mealmentor.ui.pages.screens.auth.LoginPage
 import com.mealmentor.ui.pages.screens.auth.SignUpPage
+import com.mealmentor.ui.theme.ButtonText
+import com.mealmentor.ui.theme.MainTitle
+import com.mealmentor.ui.theme.SmallTitle
 
 @Composable
 fun AuthPage(
@@ -69,16 +72,16 @@ fun AuthPage(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Meal Mentor",
+                text = stringResource(id = R.string.app_name),
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onPrimary,
-                style = MaterialTheme.typography.titleLarge
+                style = MainTitle
             )
             Text(
                 text = stringResource(id = currentText.intValue),
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onPrimary,
-                style = MaterialTheme.typography.labelSmall
+                style = SmallTitle
             )
         }
 
@@ -145,7 +148,7 @@ fun AuthPage(
                 )
                 Text(
                     text = stringResource(id = R.string.login_with_google),
-                    style = MaterialTheme.typography.labelLarge,
+                    style = ButtonText,
                     modifier = Modifier.padding(start = 16.dp)
                 )
             }

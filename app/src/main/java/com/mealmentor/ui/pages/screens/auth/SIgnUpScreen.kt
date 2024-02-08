@@ -24,6 +24,9 @@ import androidx.compose.ui.unit.dp
 import com.mealmentor.R
 import com.mealmentor.ui.pages.screens.elements.CustomTextField
 import com.mealmentor.ui.pages.screens.elements.PasswordField
+import com.mealmentor.ui.theme.ButtonText
+import com.mealmentor.ui.theme.SmallTitle
+import com.mealmentor.ui.theme.SmallTitleBold
 
 // LoginPage це функція, яка містить розмітку сторінки входу в додаток
 @Composable
@@ -120,7 +123,7 @@ fun SignUpPage(
         ) {
             Text(
                 text = stringResource(id = R.string.sign_up),
-                style = MaterialTheme.typography.labelLarge
+                style = ButtonText
             )
         }
 
@@ -133,13 +136,13 @@ fun SignUpPage(
             Text(
                 text = stringResource(id = R.string.have_account),
                 color = MaterialTheme.colorScheme.onPrimary,
-                style = MaterialTheme.typography.labelSmall
+                style = SmallTitle
             )
 
             Text(
                 text = stringResource(id = R.string.login),
                 color = MaterialTheme.colorScheme.onPrimary,
-                style = MaterialTheme.typography.labelMedium,
+                style = SmallTitleBold,
                 modifier = Modifier
                     .padding(start = 5.dp)
                     .clickable {
