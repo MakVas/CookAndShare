@@ -24,6 +24,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,7 +34,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -59,6 +62,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainPage(
     userData: UserData?,
@@ -71,10 +75,13 @@ fun MainPage(
 
     val currentText = remember { mutableIntStateOf(R.string.app_name) }
 
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
     DrawerBar(onSignOut, scope, drawerState) {
         Scaffold(
+            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             topBar = {
-                TopBar(currentText.intValue, scope, drawerState)
+                TopBar(currentText.intValue, scope, drawerState, scrollBehavior)
             },
             bottomBar = {
                 NavigationBar(navController)
@@ -114,11 +121,13 @@ fun MainPage(
 private fun TopBar(
     text: Int,
     scope: CoroutineScope,
-    drawerState: DrawerState
+    drawerState: DrawerState,
+    scrollBehavior: TopAppBarScrollBehavior
 ) {
     TopAppBar(
+        modifier = Modifier.shadow(elevation = 3.dp),
+        scrollBehavior = scrollBehavior,
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary,
             titleContentColor = MaterialTheme.colorScheme.onPrimary
         ),
         title = {
@@ -141,7 +150,7 @@ private fun TopBar(
                     tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
-        }
+        },
     )
 }
 
@@ -149,6 +158,7 @@ private fun TopBar(
 @Composable
 private fun NavigationBar(navController: NavController) {
     NavigationBar(
+        modifier = Modifier.shadow(elevation = 3.dp),
         containerColor = MaterialTheme.colorScheme.secondary
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()

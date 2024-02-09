@@ -32,8 +32,8 @@ fun getDrawerItems(): List<DrawerItem> {
         DrawerItem(
             title = stringResource(id = R.string.info),
             route = NavigationRoutes.Info.name,
-            selectedIcon = ImageVector.vectorResource(id = R.drawable.plus),
-            unselectedIcon = ImageVector.vectorResource(id = R.drawable.plus_nonactive),
+            selectedIcon = ImageVector.vectorResource(id = R.drawable.info),
+            unselectedIcon = ImageVector.vectorResource(id = R.drawable.info_nonactive),
             badgeCount = 23
         ),
     )
