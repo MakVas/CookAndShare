@@ -113,7 +113,7 @@ fun SignUpPage(
                 contentColor = MaterialTheme.colorScheme.onTertiary
             ),
             elevation = ButtonDefaults.elevatedButtonElevation(
-                defaultElevation = 4.dp,
+                defaultElevation = 3.dp,
                 pressedElevation = 0.dp
             ),
             modifier = Modifier

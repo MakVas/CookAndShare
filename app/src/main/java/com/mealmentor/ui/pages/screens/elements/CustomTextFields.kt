@@ -38,11 +38,11 @@ fun CustomTextField(
     TextField(
         value = text,
         onValueChange = onValueChange,
-        shape = RoundedCornerShape(15.dp),
+        shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .fillMaxWidth()
             .height(65.dp)
-            .shadow(4.dp, RoundedCornerShape(15.dp), clip = true),
+            .shadow(1.dp, RoundedCornerShape(16.dp), clip = true),
         label = {
             Text(fieldLabel)
         },
@@ -97,11 +97,11 @@ fun PasswordField(
     TextField(
         value = text,
         onValueChange = onValueChange,
-        shape = RoundedCornerShape(15.dp),
+        shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .fillMaxWidth()
             .height(65.dp)
-            .shadow(4.dp, RoundedCornerShape(15.dp), clip = true),
+            .shadow(1.dp, RoundedCornerShape(16.dp), clip = true),
         label = {
             Text(fieldLabel)
         },

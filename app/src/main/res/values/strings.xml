@@ -21,4 +21,5 @@
     <string name="profile">Profile</string>
     <string name="top_of_the_day">Top of the day</string>
     <string name="subscribed_recipes">Subscribed recipes</string>
+    <string name="info">Information</string>
 </resources>

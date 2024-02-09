@@ -23,6 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.auth.api.identity.Identity
 import com.mealmentor.logic.database.sign_in.GoogleAuthClient
 import com.mealmentor.logic.database.sign_in.SignInViewModel
+import com.mealmentor.logic.navigation.NavigationRoutes
 import com.mealmentor.ui.pages.AuthPage
 import com.mealmentor.ui.pages.MainPage
 import com.mealmentor.ui.pages.screens.SplashScreen
@@ -54,25 +55,25 @@ class MainActivity : ComponentActivity() {
         ) {
             val navController = rememberNavController()
             NavHost(
-                navController = navController, startDestination = "splash_screen"
+                navController = navController, startDestination = NavigationRoutes.Splash.name
             ) {
 
 
-                composable("splash_screen") {
+                composable(NavigationRoutes.Splash.name) {
                     SplashScreen {
                         if (googleAuthClient.getSignedInUser() != null) {
                             navController.popBackStack()
-                            navController.navigate("main")
+                            navController.navigate(NavigationRoutes.Main.name)
                         } else {
                             navController.popBackStack()
-                            navController.navigate("auth")
+                            navController.navigate(NavigationRoutes.Auth.name)
                         }
                     }
                 }
 
 
                 // Вікно авторизації
-                composable("auth") {
+                composable(NavigationRoutes.Auth.name) {
                     val viewModel = viewModel<SignInViewModel>()
                     val state by viewModel.state.collectAsState()
 
@@ -94,7 +95,7 @@ class MainActivity : ComponentActivity() {
                                 applicationContext, "Sign in successful", Toast.LENGTH_LONG
                             ).show()
                             navController.popBackStack()
-                            navController.navigate("main")
+                            navController.navigate(NavigationRoutes.Main.name)
                             viewModel.resetState()
                         }
                     }
@@ -112,7 +113,7 @@ class MainActivity : ComponentActivity() {
                 }
 
                 // Вікно профілю
-                composable("main") {
+                composable(NavigationRoutes.Main.name) {
                     MainPage(userData = googleAuthClient.getSignedInUser(), onSignOut = {
                         lifecycleScope.launch {
                             googleAuthClient.signOut()
@@ -120,7 +121,7 @@ class MainActivity : ComponentActivity() {
                                 applicationContext, "Sign out successful", Toast.LENGTH_LONG
                             ).show()
                             navController.popBackStack()
-                            navController.navigate("auth")
+                            navController.navigate(NavigationRoutes.Auth.name)
                         }
                     })
                 }
@@ -128,3 +129,4 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+

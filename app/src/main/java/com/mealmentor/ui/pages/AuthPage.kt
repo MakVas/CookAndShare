@@ -30,7 +30,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mealmentor.R
 import com.mealmentor.logic.database.sign_in.SignInState
-import com.mealmentor.ui.pages.screens.Screens
+import com.mealmentor.logic.navigation.NavigationRoutes
 import com.mealmentor.ui.pages.screens.auth.LoginPage
 import com.mealmentor.ui.pages.screens.auth.SignUpPage
 import com.mealmentor.ui.theme.ButtonText
@@ -41,7 +41,7 @@ import com.mealmentor.ui.theme.SmallTitle
 fun AuthPage(
     state: SignInState,
     onGoogleSignInClick: () -> Unit,
-){
+) {
     // Отримання контексту
     val context = LocalContext.current
 
@@ -87,30 +87,30 @@ fun AuthPage(
 
         //тут має бути викликано скрін входу/авторизації
         NavHost(
-            navController = navController, startDestination = Screens.Login.name
+            navController = navController, startDestination = NavigationRoutes.Login.name
         ) {
-            composable(Screens.Login.name) {
+            composable(NavigationRoutes.Login.name) {
                 LoginPage(
                     context = context,
                     navigateToForgotPasswordPage = {
                         currentText.intValue = R.string.forgot_password
                         navController.popBackStack()
-                        navController.navigate(Screens.ForgotPassword.name)
+                        navController.navigate(NavigationRoutes.ForgotPassword.name)
                     },
                     navigateToSignUpPage = {
                         currentText.intValue = R.string.sign_up_text
                         navController.popBackStack()
-                        navController.navigate(Screens.SignUp.name)
+                        navController.navigate(NavigationRoutes.SignUp.name)
                     }
                 )
             }
-            composable(Screens.SignUp.name) {
+            composable(NavigationRoutes.SignUp.name) {
                 SignUpPage(
                     context = context,
                     navigateToLogInPage = {
                         currentText.intValue = R.string.login_to_acc
                         navController.popBackStack()
-                        navController.navigate(Screens.Login.name)
+                        navController.navigate(NavigationRoutes.Login.name)
                     }
                 )
             }
@@ -127,7 +127,7 @@ fun AuthPage(
                 contentColor = MaterialTheme.colorScheme.onSecondary
             ),
             elevation = ButtonDefaults.elevatedButtonElevation(
-                defaultElevation = 4.dp,
+                defaultElevation = 3.dp,
                 pressedElevation = 0.dp
             ),
             modifier = Modifier
