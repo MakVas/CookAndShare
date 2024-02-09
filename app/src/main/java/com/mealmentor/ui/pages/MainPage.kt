@@ -279,7 +279,8 @@ private fun DrawerBar(
                         Text(
                             modifier = Modifier.fillMaxWidth(),
                             text = stringResource(id = R.string.sign_out),
-                            textAlign = TextAlign.Center
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Bold
                         )
                     },
                     selected = false,

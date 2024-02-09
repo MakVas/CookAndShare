@@ -11,4 +11,8 @@
     <color name="custom_chocolate">#FF7D4545</color>
     <color name="custom_yellow">#FFF4CB39</color>
     <color name="custom_green">#FF349A38</color>
+    <color name="custom_dark1">#FF040D12</color>
+    <color name="custom_dark2">#FF183D3D</color>
+    <color name="custom_dark3">#FF5C8374</color>
+    <color name="custom_dark4">#FF93B1A6</color>
 </resources>
