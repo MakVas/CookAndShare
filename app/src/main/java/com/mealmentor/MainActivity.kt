@@ -7,6 +7,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -26,9 +27,11 @@ import com.mealmentor.logic.database.sign_in.FirebaseViewModel
 import com.mealmentor.logic.database.sign_in.GoogleAuthClient
 import com.mealmentor.logic.database.sign_in.SignInViewModel
 import com.mealmentor.logic.navigation.NavigationRoutes
+import com.mealmentor.ui.additional.NotificationMessage
 import com.mealmentor.ui.pages.AuthPage
 import com.mealmentor.ui.pages.MainPage
 import com.mealmentor.ui.pages.screens.SplashScreen
+import com.mealmentor.ui.pages.screens.elements.RecipeViewModel
 import com.mealmentor.ui.theme.MealMentorKotlinTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -59,6 +62,9 @@ class MainActivity : ComponentActivity() {
         ) {
             val viewModel = hiltViewModel<FirebaseViewModel>()
             val navController = rememberNavController()
+
+            NotificationMessage(viewModel = viewModel)
+
             NavHost(
                 navController = navController, startDestination = NavigationRoutes.Splash.name
             ) {
@@ -105,7 +111,6 @@ class MainActivity : ComponentActivity() {
                     }
 
                     AuthPage(
-                        //navController = navController,
                         state = state,
                         viewModel = viewModel,
                         onGoogleSignInClick = {
@@ -127,9 +132,10 @@ class MainActivity : ComponentActivity() {
 
                 // Вікно профілю
                 composable(NavigationRoutes.Main.name) {
+                    val recipeViewModel: RecipeViewModel by viewModels()
                     MainPage(
+                        viewModel = recipeViewModel,
                         userData = googleAuthClient.getSignedInUser(),
-                        viewModel = viewModel,
                         onSignOut = {
                         lifecycleScope.launch {
                             googleAuthClient.signOut()

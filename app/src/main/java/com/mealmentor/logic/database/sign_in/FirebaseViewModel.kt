@@ -12,7 +12,7 @@ class FirebaseViewModel @Inject constructor(
 ): ViewModel() {
     val signedIn = mutableStateOf(false)
     val inProgress = mutableStateOf(false)
-    val popupNotification = mutableStateOf(false)
+    val popupNotification = mutableStateOf<Event<String>?>(null)
 
     fun onSignUp(email: String, password: String) {
         inProgress.value = true
@@ -21,8 +21,9 @@ class FirebaseViewModel @Inject constructor(
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     signedIn.value = true
+                    handleException(task.exception, "Signup successful")
                 } else {
-                    //   popupNotification.value = true
+                    handleException(task.exception, "Signup failed")
                 }
                 inProgress.value = false
             }
@@ -35,10 +36,18 @@ class FirebaseViewModel @Inject constructor(
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     signedIn.value = true
+                    handleException(task.exception, "Login successful")
                 } else {
-                    //   popupNotification.value = true
+                    handleException(task.exception, "Login failed")
                 }
                 inProgress.value = false
             }
+    }
+
+    private fun handleException(exception: Exception? = null, customMessage: String? = "") {
+        exception?.printStackTrace()
+        val errorMessage = exception?.localizedMessage ?: ""
+        val message = if (customMessage?.isEmpty() == true) errorMessage else "$customMessage: $errorMessage"
+        popupNotification.value = Event(message)
     }
 }
