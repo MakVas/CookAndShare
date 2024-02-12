@@ -15,12 +15,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.auth.api.identity.Identity
+import com.mealmentor.logic.database.sign_in.FirebaseViewModel
 import com.mealmentor.logic.database.sign_in.GoogleAuthClient
 import com.mealmentor.logic.database.sign_in.SignInViewModel
 import com.mealmentor.logic.navigation.NavigationRoutes
@@ -28,8 +30,10 @@ import com.mealmentor.ui.pages.AuthPage
 import com.mealmentor.ui.pages.MainPage
 import com.mealmentor.ui.pages.screens.SplashScreen
 import com.mealmentor.ui.theme.MealMentorKotlinTheme
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val googleAuthClient by lazy {
@@ -53,6 +57,7 @@ class MainActivity : ComponentActivity() {
         Surface(
             modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
         ) {
+            val viewModel = hiltViewModel<FirebaseViewModel>()
             val navController = rememberNavController()
             NavHost(
                 navController = navController, startDestination = NavigationRoutes.Splash.name
@@ -71,11 +76,10 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-
                 // Вікно авторизації
                 composable(NavigationRoutes.Auth.name) {
-                    val viewModel = viewModel<SignInViewModel>()
-                    val state by viewModel.state.collectAsState()
+                    val googleViewModel = viewModel<SignInViewModel>()
+                    val state by googleViewModel.state.collectAsState()
 
                     val launcher =
                         rememberLauncherForActivityResult(contract = ActivityResultContracts.StartIntentSenderForResult(),
@@ -84,7 +88,7 @@ class MainActivity : ComponentActivity() {
                                     val signInResult = googleAuthClient.signInWithIntent(
                                         result.data ?: return@launch
                                     )
-                                    viewModel.onSignInResult(signInResult)
+                                    googleViewModel.onSignInResult(signInResult)
                                 }
 
                             })
@@ -96,25 +100,37 @@ class MainActivity : ComponentActivity() {
                             ).show()
                             navController.popBackStack()
                             navController.navigate(NavigationRoutes.Main.name)
-                            viewModel.resetState()
+                            googleViewModel.resetState()
                         }
                     }
 
-                    AuthPage(state = state, onGoogleSignInClick = {
-                        lifecycleScope.launch {
-                            val signInIntentSender = googleAuthClient.signIn()
-                            launcher.launch(
-                                IntentSenderRequest.Builder(
-                                    signInIntentSender ?: return@launch
-                                ).build()
-                            )
+                    AuthPage(
+                        //navController = navController,
+                        state = state,
+                        viewModel = viewModel,
+                        onGoogleSignInClick = {
+                            lifecycleScope.launch {
+                                val signInIntentSender = googleAuthClient.signIn()
+                                launcher.launch(
+                                    IntentSenderRequest.Builder(
+                                        signInIntentSender ?: return@launch
+                                    ).build()
+                                )
+                            }
+                        },
+                        onMainNavigation = {
+                            navController.popBackStack()
+                            navController.navigate(NavigationRoutes.Main.name)
                         }
-                    })
+                    )
                 }
 
                 // Вікно профілю
                 composable(NavigationRoutes.Main.name) {
-                    MainPage(userData = googleAuthClient.getSignedInUser(), onSignOut = {
+                    MainPage(
+                        userData = googleAuthClient.getSignedInUser(),
+                        viewModel = viewModel,
+                        onSignOut = {
                         lifecycleScope.launch {
                             googleAuthClient.signOut()
                             Toast.makeText(

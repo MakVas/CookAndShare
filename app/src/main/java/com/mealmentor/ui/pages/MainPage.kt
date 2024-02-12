@@ -50,6 +50,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mealmentor.R
+import com.mealmentor.logic.database.sign_in.FirebaseViewModel
 import com.mealmentor.logic.database.sign_in.UserData
 import com.mealmentor.logic.navigation.getBottomNavigationItems
 import com.mealmentor.ui.pages.screens.main.ProfileScreen
@@ -66,6 +67,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainPage(
     userData: UserData?,
+    viewModel: FirebaseViewModel,
     onSignOut: () -> Unit
 ) {
     val navController = rememberNavController()

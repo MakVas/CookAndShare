@@ -29,6 +29,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mealmentor.R
+import com.mealmentor.logic.database.sign_in.FirebaseViewModel
 import com.mealmentor.logic.database.sign_in.SignInState
 import com.mealmentor.logic.navigation.NavigationRoutes
 import com.mealmentor.ui.pages.screens.auth.LoginPage
@@ -39,12 +40,15 @@ import com.mealmentor.ui.theme.SmallTitle
 
 @Composable
 fun AuthPage(
+   // navController: NavHostController,
     state: SignInState,
+    viewModel: FirebaseViewModel,
     onGoogleSignInClick: () -> Unit,
+    onMainNavigation: () -> Unit
 ) {
     // Отримання контексту
     val context = LocalContext.current
-
+    val navController = rememberNavController()
     LaunchedEffect(key1 = state.signInError) {
         state.signInError?.let { error ->
             Toast.makeText(
@@ -55,8 +59,6 @@ fun AuthPage(
         }
     }
 
-    //тут має бути логіка перемикання між скрінами
-    val navController = rememberNavController()
     val currentText = remember { mutableIntStateOf(R.string.login_to_acc) }
     Column(
         modifier = Modifier
@@ -91,7 +93,8 @@ fun AuthPage(
         ) {
             composable(NavigationRoutes.Login.name) {
                 LoginPage(
-                    context = context,
+                    //context = context,
+                    viewModel = viewModel,
                     navigateToForgotPasswordPage = {
                         currentText.intValue = R.string.forgot_password
                         navController.popBackStack()
@@ -101,16 +104,23 @@ fun AuthPage(
                         currentText.intValue = R.string.sign_up_text
                         navController.popBackStack()
                         navController.navigate(NavigationRoutes.SignUp.name)
+                    },
+                    navigateToMainPage = {
+                        onMainNavigation()
                     }
                 )
             }
             composable(NavigationRoutes.SignUp.name) {
                 SignUpPage(
-                    context = context,
+                    //context = context,
+                    viewModel = viewModel,
                     navigateToLogInPage = {
                         currentText.intValue = R.string.login_to_acc
                         navController.popBackStack()
                         navController.navigate(NavigationRoutes.Login.name)
+                    },
+                    navigateToMainPage = {
+                        onMainNavigation()
                     }
                 )
             }
