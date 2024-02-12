@@ -22,4 +22,10 @@
     <string name="top_of_the_day">Top of the day</string>
     <string name="subscribed_recipes">Subscribed recipes</string>
     <string name="info">Information</string>
+    <string name="username_error">Enter username</string>
+    <string name="email_error">Enter email</string>
+    <string name="password_error">Enter password</string>
+    <string name="password2_error">Confirm password</string>
+    <string name="password_length_error">Password must be at least 6 symbols</string>
+    <string name="password_match_error">Password not match</string>
 </resources>

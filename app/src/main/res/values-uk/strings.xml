@@ -22,4 +22,10 @@
     <string name="top_of_the_day">Пропозиції дня</string>
     <string name="subscribed_recipes">Відстежувані рецепти</string>
     <string name="info">Довідка</string>
+    <string name="username_error">Введіть ім\'я користувача</string>
+    <string name="email_error">Введіть електронну пошту</string>
+    <string name="password_error">Введіть пароль</string>
+    <string name="password2_error">Підтвердіть пароль</string>
+    <string name="password_length_error">Пароль повинен містити не менше 6 символів</string>
+    <string name="password_match_error">Паролі не збігаються</string>
 </resources>
