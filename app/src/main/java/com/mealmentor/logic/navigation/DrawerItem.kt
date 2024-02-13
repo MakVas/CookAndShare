@@ -5,6 +5,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import com.mealmentor.R
+import com.mealmentor.util.Screens
 
 data class DrawerItem(
     val title: String,
@@ -19,19 +20,19 @@ fun getDrawerItems(): List<DrawerItem> {
     return listOf(
         DrawerItem(
             title = stringResource(id = R.string.home),
-            route = NavigationRoutes.Home.name,
+            route = Screens.HomeScreen.route,
             selectedIcon = ImageVector.vectorResource(id = R.drawable.home),
             unselectedIcon = ImageVector.vectorResource(id = R.drawable.home_nonactive)
         ),
         DrawerItem(
             title = stringResource(id = R.string.settings),
-            route = NavigationRoutes.Settings.name,
+            route = Screens.Settings.route,
             selectedIcon = ImageVector.vectorResource(id = R.drawable.settings),
             unselectedIcon = ImageVector.vectorResource(id = R.drawable.settings_nonactive)
         ),
         DrawerItem(
             title = stringResource(id = R.string.info),
-            route = NavigationRoutes.Info.name,
+            route = Screens.Info.route,
             selectedIcon = ImageVector.vectorResource(id = R.drawable.info),
             unselectedIcon = ImageVector.vectorResource(id = R.drawable.info_nonactive),
             badgeCount = 23

@@ -28,4 +28,6 @@
     <string name="password2_error">Confirm password</string>
     <string name="password_length_error">Password must be at least 6 symbols</string>
     <string name="password_match_error">Password not match</string>
+    <string name="login_failed">Login failed</string>
+    <string name="sign_up_failed">Register failed</string>
 </resources>
