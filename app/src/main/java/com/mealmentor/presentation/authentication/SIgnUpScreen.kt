@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -153,9 +152,7 @@ fun SignUpScreen(navController: NavHostController, viewModel: AuthenticationView
                 )
                 when (val response = viewModel.signUpState.value) {
                     is Response.Loading -> {
-                        CircularProgressIndicator(
-                            modifier = Modifier.fillMaxSize()
-                        )
+
                     }
 
                     is Response.Success -> {

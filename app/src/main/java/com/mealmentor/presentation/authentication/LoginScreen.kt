@@ -5,13 +5,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -71,10 +69,10 @@ fun LoginScreen(navController: NavHostController, viewModel: AuthenticationViewM
         }
 
         Column(
+            Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-
             var emailText by remember { mutableStateOf("") }
             var passwordText by remember { mutableStateOf("") }
 
@@ -87,9 +85,6 @@ fun LoginScreen(navController: NavHostController, viewModel: AuthenticationViewM
                 }
             )
 
-            Spacer(modifier = Modifier.padding(vertical = 8.dp))
-
-
             PasswordField(
                 fieldLabel = stringResource(id = R.string.password),
                 text = passwordText,
@@ -97,9 +92,6 @@ fun LoginScreen(navController: NavHostController, viewModel: AuthenticationViewM
                     passwordText = it
                 }
             )
-
-            Spacer(modifier = Modifier.padding(vertical = 5.dp))
-
             Text(
                 text = stringResource(id = R.string.forgot_password),
                 textAlign = TextAlign.Center,
@@ -111,8 +103,6 @@ fun LoginScreen(navController: NavHostController, viewModel: AuthenticationViewM
                         //navigateToForgotPasswordPage()
                     }
             )
-
-            Spacer(modifier = Modifier.padding(vertical = 5.dp))
 
             ElevatedButton(
                 onClick = {
@@ -139,33 +129,28 @@ fun LoginScreen(navController: NavHostController, viewModel: AuthenticationViewM
                     text = stringResource(id = R.string.login),
                     style = ButtonText
                 )
-                when (val response = viewModel.signInState.value) {
-                    is Response.Loading -> {
-                        CircularProgressIndicator(
-                            modifier = Modifier.fillMaxSize()
-                        )
-                    }
+            }
+            when (val response = viewModel.signInState.value) {
+                is Response.Loading -> {
 
-                    is Response.Success -> {
-                        if (response.data) {
-                            navController.navigate(Screens.Main.route) {
-                                popUpTo(Screens.LoginScreen.route) {
-                                    inclusive = true
-                                }
+                }
+
+                is Response.Success -> {
+                    if (response.data) {
+                        navController.navigate(Screens.Main.route) {
+                            popUpTo(Screens.LoginScreen.route) {
+                                inclusive = true
                             }
-                        } else {
-                            Toast(stringResource(id = R.string.login_failed))
                         }
-                    }
-
-                    is Response.Error -> {
-                        Toast(message = response.message)
+                    } else {
+                        Toast(stringResource(id = R.string.login_failed))
                     }
                 }
+
+                is Response.Error -> {
+                    Toast(message = response.message)
+                }
             }
-
-            Spacer(modifier = Modifier.padding(vertical = 5.dp))
-
             Row(
                 horizontalArrangement = Arrangement.Center
             ) {
@@ -189,42 +174,42 @@ fun LoginScreen(navController: NavHostController, viewModel: AuthenticationViewM
                         }
                 )
             }
+        }
 
-            ElevatedButton(
-                onClick = {
-                    //gfbgfbgfbgfbgfbfg
-                },
-                shape = ButtonDefaults.elevatedShape,
-                colors = ButtonDefaults.elevatedButtonColors(
-                    containerColor = MaterialTheme.colorScheme.secondary,
-                    contentColor = MaterialTheme.colorScheme.onSecondary
-                ),
-                elevation = ButtonDefaults.elevatedButtonElevation(
-                    defaultElevation = 3.dp,
-                    pressedElevation = 0.dp
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp)
-                    .height(65.dp),
-                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 10.dp)
+        ElevatedButton(
+            onClick = {
+                //gfbgfbgfbgfbgfbfg
+            },
+            shape = ButtonDefaults.elevatedShape,
+            colors = ButtonDefaults.elevatedButtonColors(
+                containerColor = MaterialTheme.colorScheme.secondary,
+                contentColor = MaterialTheme.colorScheme.onSecondary
+            ),
+            elevation = ButtonDefaults.elevatedButtonElevation(
+                defaultElevation = 3.dp,
+                pressedElevation = 0.dp
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp)
+                .height(65.dp),
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 10.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.google),
-                        contentDescription = "google_img",
-                        tint = MaterialTheme.colorScheme.onSecondary
-                    )
-                    Text(
-                        text = stringResource(id = R.string.login_with_google),
-                        style = ButtonText,
-                        modifier = Modifier.padding(start = 16.dp)
-                    )
-                }
+                Icon(
+                    painter = painterResource(id = R.drawable.google),
+                    contentDescription = "google_img",
+                    tint = MaterialTheme.colorScheme.onSecondary
+                )
+                Text(
+                    text = stringResource(id = R.string.login_with_google),
+                    style = ButtonText,
+                    modifier = Modifier.padding(start = 16.dp)
+                )
             }
         }
     }
