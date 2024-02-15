@@ -67,7 +67,7 @@ fun Navigation(navController: NavHostController, authViewModel: AuthenticationVi
         }
 
         composable(Screens.Main.route) {
-            MainPage( navController_ = navController, viewModel = authViewModel)
+            MainPage(viewModel = authViewModel)
         }
     }
 }

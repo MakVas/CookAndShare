@@ -28,6 +28,6 @@
     <string name="password2_error">Підтвердіть пароль</string>
     <string name="password_length_error">Пароль повинен містити не менше 6 символів</string>
     <string name="password_match_error">Паролі не збігаються</string>
-    <string name="login_failed">Login failed</string>
-    <string name="sign_up_failed">Register failed</string>
+    <string name="login_failed">Помилка авторизації</string>
+    <string name="sign_up_failed">Помилка реєстрації</string>
 </resources>
