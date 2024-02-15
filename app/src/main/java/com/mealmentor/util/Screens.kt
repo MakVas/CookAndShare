@@ -1,17 +1,17 @@
 package com.mealmentor.util
 
 sealed class Screens(val route: String) {
-    object SplashScreen : Screens("splash_screen")
-    object LoginScreen : Screens("login_screen")
-    object SignUpScreen : Screens("sign_up_screen")
-    object Main : Screens("main")
-    object HomeScreen : Screens("home_screen")
-    object AddRecipeScreen : Screens("add_recipe_screen")
-    object SearchRecipeScreen : Screens("search_recipe_screen")
-    object ProfileScreen : Screens("profile_screen")
+    data object SplashScreen : Screens("splash_screen")
+    data object LoginScreen : Screens("login_screen")
+    data object SignUpScreen : Screens("sign_up_screen")
+    data object Main : Screens("main")
+    data object HomeScreen : Screens("home_screen")
+    data object AddRecipeScreen : Screens("add_recipe_screen")
+    data object SearchRecipeScreen : Screens("search_recipe_screen")
+    data object ProfileScreen : Screens("profile_screen")
 
 
-    object Settings : Screens("settings")
-    object Info : Screens("info")
+    data object Settings : Screens("settings")
+    data object Info : Screens("info")
 
 }

@@ -12,7 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.auth.api.identity.Identity
-import com.mealmentor.logic.database.sign_in.GoogleAuthClient
+import com.mealmentor.i_have_fix_this_folder.GoogleAuthClient
 import com.mealmentor.presentation.SplashScreen
 import com.mealmentor.presentation.authentication.AuthenticationViewModel
 import com.mealmentor.util.Screens
@@ -67,7 +67,7 @@ fun Navigation(navController: NavHostController, authViewModel: AuthenticationVi
         }
 
         composable(Screens.Main.route) {
-            MainPage(navController = navController, viewModel = authViewModel)
+            MainPage( navController_ = navController, viewModel = authViewModel)
         }
     }
 }

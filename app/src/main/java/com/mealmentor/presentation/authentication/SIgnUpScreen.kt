@@ -10,6 +10,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
@@ -82,7 +85,7 @@ fun SignUpScreen(navController: NavHostController, viewModel: AuthenticationView
 
             CustomTextField(
                 fieldLabel = stringResource(id = R.string.username),
-                leadingIconId = R.drawable.user,
+                icon = Icons.Default.AccountCircle,
                 text = usernameText,
                 onValueChange = {
                     usernameText = it
@@ -93,7 +96,7 @@ fun SignUpScreen(navController: NavHostController, viewModel: AuthenticationView
 
             CustomTextField(
                 fieldLabel = stringResource(id = R.string.email),
-                leadingIconId = R.drawable.email,
+                icon = Icons.Default.Email,
                 text = emailText,
                 onValueChange = {
                     emailText = it

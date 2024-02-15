@@ -1,4 +1,4 @@
-package com.mealmentor.logic.database.sign_in
+package com.mealmentor.i_have_fix_this_folder
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

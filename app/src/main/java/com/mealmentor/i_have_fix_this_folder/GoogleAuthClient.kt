@@ -1,4 +1,4 @@
-package com.mealmentor.logic.database.sign_in
+package com.mealmentor.i_have_fix_this_folder
 
 import android.content.Context
 import android.content.Intent

@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
@@ -79,7 +81,7 @@ fun LoginScreen(navController: NavHostController, viewModel: AuthenticationViewM
             CustomTextField(
                 fieldLabel = stringResource(id = R.string.email),
                 text = emailText,
-                leadingIconId = R.drawable.email,
+                icon = Icons.Default.Email,
                 onValueChange = {
                     emailText = it
                 }

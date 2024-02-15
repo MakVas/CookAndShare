@@ -1,5 +1,12 @@
-package com.mealmentor.logic.navigation
+package com.mealmentor.presentation
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -21,21 +28,21 @@ fun getDrawerItems(): List<DrawerItem> {
         DrawerItem(
             title = stringResource(id = R.string.home),
             route = Screens.HomeScreen.route,
-            selectedIcon = ImageVector.vectorResource(id = R.drawable.home),
-            unselectedIcon = ImageVector.vectorResource(id = R.drawable.home_nonactive)
+            selectedIcon = Icons.Default.Home,
+            unselectedIcon = Icons.Outlined.Home
         ),
         DrawerItem(
             title = stringResource(id = R.string.settings),
             route = Screens.Settings.route,
-            selectedIcon = ImageVector.vectorResource(id = R.drawable.settings),
-            unselectedIcon = ImageVector.vectorResource(id = R.drawable.settings_nonactive)
+            selectedIcon = Icons.Default.Settings,
+            unselectedIcon = Icons.Outlined.Settings
         ),
         DrawerItem(
             title = stringResource(id = R.string.info),
             route = Screens.Info.route,
-            selectedIcon = ImageVector.vectorResource(id = R.drawable.info),
-            unselectedIcon = ImageVector.vectorResource(id = R.drawable.info_nonactive),
-            badgeCount = 23
+            selectedIcon = Icons.Default.Info,
+            unselectedIcon = Icons.Outlined.Info,
+            //badgeCount = 23
         ),
     )
 

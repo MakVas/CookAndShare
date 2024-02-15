@@ -51,10 +51,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mealmentor.R
-import com.mealmentor.logic.database.sign_in.UserData
 import com.mealmentor.presentation.getBottomNavigationItems
 import com.mealmentor.util.Screens
-import com.mealmentor.logic.navigation.getDrawerItems
+import com.mealmentor.presentation.getDrawerItems
 import com.mealmentor.presentation.authentication.AuthenticationViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -62,8 +61,8 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainPage(navController: NavHostController, viewModel: AuthenticationViewModel) {
-    val _navController = rememberNavController()
+fun MainPage(navController_: NavHostController, viewModel: AuthenticationViewModel) {
+    val navController = rememberNavController()
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -79,32 +78,32 @@ fun MainPage(navController: NavHostController, viewModel: AuthenticationViewMode
                 TopBar(currentText.intValue, scope, drawerState, scrollBehavior)
             },
             bottomBar = {
-                NavigationBar(_navController)
+                NavigationBar(navController)
             }
         ) { values ->
             NavHost(
-                navController = _navController,
-                startDestination = Screens.HomeScreen.route,
-                modifier = Modifier
-                    .padding(values)
+                    navController = navController,
+            startDestination = Screens.HomeScreen.route,
+            modifier = Modifier
+                .padding(values)
             ) {
-                composable(Screens.HomeScreen.route) {
-                    currentText.intValue = R.string.home
-                    HomeScreen()
-                }
-                composable(Screens.AddRecipeScreen.route) {
-                    currentText.intValue = R.string.add
-                    AddRecipeScreen()
-                }
-                composable(Screens.SearchRecipeScreen.route) {
-                    currentText.intValue = R.string.search
-                    SearchScreen()
-                }
-                composable(Screens.ProfileScreen.route) {
-                    currentText.intValue = R.string.profile
-                    ProfileScreen()
-                }
+            composable(Screens.HomeScreen.route) {
+                currentText.intValue = R.string.home
+                HomeScreen()
             }
+            composable(Screens.AddRecipeScreen.route) {
+                currentText.intValue = R.string.add
+                AddRecipeScreen()
+            }
+            composable(Screens.SearchRecipeScreen.route) {
+                currentText.intValue = R.string.search
+                SearchScreen()
+            }
+            composable(Screens.ProfileScreen.route) {
+                currentText.intValue = R.string.profile
+                ProfileScreen()
+            }
+        }
         }
     }
 }
@@ -172,21 +171,24 @@ private fun NavigationBar(navController: NavController) {
                 },
                 label = { Text(text = item.title) },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = MaterialTheme.colorScheme.inversePrimary,
-                    selectedTextColor = MaterialTheme.colorScheme.inversePrimary,
+                    selectedIconColor = MaterialTheme.colorScheme.secondary,
+                    selectedTextColor = MaterialTheme.colorScheme.onSecondary,
                     unselectedIconColor = MaterialTheme.colorScheme.onSecondary,
                     unselectedTextColor = MaterialTheme.colorScheme.onSecondary,
-                    indicatorColor = MaterialTheme.colorScheme.secondary
+                    indicatorColor = MaterialTheme.colorScheme.onSecondary
                 ),
                 icon = {
                     BadgedBox(
                         badge = {
                             if (item.badgeCount != null) {
-                                Badge {
+                                Badge (
+                                    containerColor = MaterialTheme.colorScheme.inversePrimary,
+                                    contentColor = MaterialTheme.colorScheme.primary
+                                ){
                                     Text(text = item.badgeCount.toString())
                                 }
                             } else if (item.hasNews) {
-                                Badge()
+                                Badge(containerColor = MaterialTheme.colorScheme.inversePrimary)
                             }
                         }
                     ) {

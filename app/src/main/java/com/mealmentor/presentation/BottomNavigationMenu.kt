@@ -1,5 +1,15 @@
 package com.mealmentor.presentation
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.rounded.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -22,31 +32,30 @@ fun getBottomNavigationItems(): List<BottomNavigationItem> {
         BottomNavigationItem(
             title = stringResource(id = R.string.home),
             route = Screens.HomeScreen.route,
-            selectedIcon = ImageVector.vectorResource(id = R.drawable.home),
-            unselectedIcon = ImageVector.vectorResource(id = R.drawable.home_nonactive),
-            hasNews = true
+            selectedIcon = Icons.Default.Home,
+            unselectedIcon = Icons.Outlined.Home,
+            hasNews = false
         ),
         BottomNavigationItem(
             title = stringResource(id = R.string.add),
             route = Screens.AddRecipeScreen.route,
-            selectedIcon = ImageVector.vectorResource(id = R.drawable.plus),
-            unselectedIcon = ImageVector.vectorResource(id = R.drawable.plus_nonactive),
+            selectedIcon = Icons.Default.Add,
+            unselectedIcon = Icons.Outlined.Add,
             hasNews = false
         ),
         BottomNavigationItem(
             title = stringResource(id = R.string.search),
             route = Screens.SearchRecipeScreen.route,
-            selectedIcon = ImageVector.vectorResource(id = R.drawable.search),
-            unselectedIcon = ImageVector.vectorResource(id = R.drawable.search_nonactive),
+            selectedIcon = Icons.Default.Search,
+            unselectedIcon = Icons.Outlined.Search,
             hasNews = false
         ),
         BottomNavigationItem(
             title = stringResource(id = R.string.profile),
             route = Screens.ProfileScreen.route,
-            selectedIcon = ImageVector.vectorResource(id = R.drawable.profile),
-            unselectedIcon = ImageVector.vectorResource(id = R.drawable.profile_nonactive),
-            hasNews = false,
-            badgeCount = 45
+            selectedIcon = Icons.Default.AccountCircle,
+            unselectedIcon = Icons.Outlined.AccountCircle,
+            hasNews = false
         ),
     )
 }
