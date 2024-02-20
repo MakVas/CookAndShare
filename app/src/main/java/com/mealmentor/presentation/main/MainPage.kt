@@ -105,7 +105,7 @@ fun MainPage(
             }
             composable(Screens.ProfileScreen.route) {
                 currentText.intValue = R.string.profile
-                ProfileScreen()
+                ProfileScreen(viewModel)
             }
         }
         }

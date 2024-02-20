@@ -2,12 +2,15 @@ package com.mealmentor.data
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.firestore.FirebaseFirestore
+import com.mealmentor.model.User
+import com.mealmentor.util.Constants
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
-    private val auth: FirebaseAuth
+    private val auth: FirebaseAuth,
+    private val firestore: FirebaseFirestore
 ): AuthRepository {
     override val currentUser: FirebaseUser?
         get() = auth.currentUser
@@ -32,7 +35,9 @@ class AuthRepositoryImpl @Inject constructor(
     ): Resource<FirebaseUser> {
         return try {
             val result = auth.createUserWithEmailAndPassword(email, password).await()
-            result?.user?.updateProfile(UserProfileChangeRequest.Builder().setDisplayName(name).build())?.await()
+            val userID = result.user!!.uid
+            val user = User(name = name, email = email, userID = userID)
+            firestore.collection(Constants.COLLECTION_NAME_USERS).document(userID).set(user).await()
             Resource.Success(result.user!!)
         }catch (e: Exception){
             e.printStackTrace()

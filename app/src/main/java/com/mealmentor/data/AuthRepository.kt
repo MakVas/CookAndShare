@@ -2,7 +2,7 @@ package com.mealmentor.data
 
 import com.google.firebase.auth.FirebaseUser
 
-interface  AuthRepository {
+interface AuthRepository {
     val currentUser: FirebaseUser?
     suspend fun login(email: String, password: String): Resource<FirebaseUser>
     suspend fun signup(email: String, password: String, name: String): Resource<FirebaseUser>
