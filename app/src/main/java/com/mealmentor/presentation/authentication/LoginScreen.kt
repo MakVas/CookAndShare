@@ -1,5 +1,6 @@
 package com.mealmentor.presentation.authentication
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,36 +13,47 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.mealmentor.R
+import com.mealmentor.data.Resource
 import com.mealmentor.presentation.CustomTextField
 import com.mealmentor.presentation.PasswordField
-import com.mealmentor.presentation.Toast
 import com.mealmentor.ui.theme.ButtonText
 import com.mealmentor.ui.theme.MainTitle
 import com.mealmentor.ui.theme.SmallTitle
 import com.mealmentor.ui.theme.SmallTitleBold
-import com.mealmentor.util.Response
 import com.mealmentor.util.Screens
 
 // LoginPage це функція, яка містить розмітку сторінки входу в додаток
 @Composable
-fun LoginScreen(navController: NavHostController, viewModel: AuthenticationViewModel) {
+fun LoginScreen(
+    viewModel: AuthViewModel?,
+    navController: NavHostController
+) {
+
+    var emailText by remember { mutableStateOf("") }
+    var passwordText by remember { mutableStateOf("") }
+
+    val loginFlow = viewModel?.loginFlow?.collectAsState()
 
     Column(
         modifier = Modifier
@@ -75,9 +87,6 @@ fun LoginScreen(navController: NavHostController, viewModel: AuthenticationViewM
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            var emailText by remember { mutableStateOf("") }
-            var passwordText by remember { mutableStateOf("") }
-
             CustomTextField(
                 fieldLabel = stringResource(id = R.string.email),
                 text = emailText,
@@ -108,10 +117,7 @@ fun LoginScreen(navController: NavHostController, viewModel: AuthenticationViewM
 
             ElevatedButton(
                 onClick = {
-                    viewModel.signIn(
-                        email = emailText,
-                        password = passwordText
-                    )
+                    viewModel?.login(emailText, passwordText)
                 },
                 shape = ButtonDefaults.elevatedShape,
                 colors = ButtonDefaults.elevatedButtonColors(
@@ -131,27 +137,6 @@ fun LoginScreen(navController: NavHostController, viewModel: AuthenticationViewM
                     text = stringResource(id = R.string.login),
                     style = ButtonText
                 )
-            }
-            when (val response = viewModel.signInState.value) {
-                is Response.Loading -> {
-
-                }
-
-                is Response.Success -> {
-                    if (response.data) {
-                        navController.navigate(Screens.Main.route) {
-                            popUpTo(Screens.LoginScreen.route) {
-                                inclusive = true
-                            }
-                        }
-                    } else {
-                        Toast(stringResource(id = R.string.login_failed))
-                    }
-                }
-
-                is Response.Error -> {
-                    Toast(message = response.message)
-                }
             }
             Row(
                 horizontalArrangement = Arrangement.Center
@@ -212,6 +197,24 @@ fun LoginScreen(navController: NavHostController, viewModel: AuthenticationViewM
                     style = ButtonText,
                     modifier = Modifier.padding(start = 16.dp)
                 )
+            }
+        }
+        loginFlow?.value?.let {
+            when (it) {
+                is Resource.Error -> {
+                    val context = LocalContext.current
+                    Toast.makeText(context, it.exception.message, Toast.LENGTH_LONG).show()
+                }
+                Resource.Loading -> {
+                    CircularProgressIndicator()
+                }
+                is Resource.Success -> {
+                    LaunchedEffect(Unit){
+                        navController.navigate(route = Screens.Main.route) {
+                            popUpTo(Screens.LoginScreen.route) { inclusive = true }
+                        }
+                    }
+                }
             }
         }
     }

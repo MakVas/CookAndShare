@@ -1,5 +1,7 @@
 package com.mealmentor.presentation.authentication
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,35 +15,47 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.mealmentor.R
+import com.mealmentor.data.Resource
 import com.mealmentor.presentation.CustomTextField
 import com.mealmentor.presentation.PasswordField
-import com.mealmentor.presentation.Toast
 import com.mealmentor.ui.theme.ButtonText
 import com.mealmentor.ui.theme.MainTitle
 import com.mealmentor.ui.theme.SmallTitle
 import com.mealmentor.ui.theme.SmallTitleBold
-import com.mealmentor.util.Response
 import com.mealmentor.util.Screens
 
 // LoginPage це функція, яка містить розмітку сторінки входу в додаток
 @Composable
-fun SignUpScreen(navController: NavHostController, viewModel: AuthenticationViewModel) {
+fun SignUpScreen(
+    viewModel: AuthViewModel?,
+    navController: NavHostController
+) {
+    var usernameText by remember { mutableStateOf("") }
+    var emailText by remember { mutableStateOf("") }
+    var passwordText by remember { mutableStateOf("") }
+    var password2Text by remember { mutableStateOf("") }
+    var passwordLength by remember { mutableStateOf(false) }
 
+    val signUpFlow = viewModel?.signupFlow?.collectAsState()
 
     Column(
         modifier = Modifier
@@ -70,11 +84,6 @@ fun SignUpScreen(navController: NavHostController, viewModel: AuthenticationView
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        var usernameText by remember { mutableStateOf("") }
-        var emailText by remember { mutableStateOf("") }
-        var passwordText by remember { mutableStateOf("") }
-        var password2Text by remember { mutableStateOf("") }
-        var passwordLength by remember { mutableStateOf(false) }
 
         CustomTextField(
             fieldLabel = stringResource(id = R.string.username),
@@ -122,11 +131,10 @@ fun SignUpScreen(navController: NavHostController, viewModel: AuthenticationView
 
         ElevatedButton(
             onClick = {
-                viewModel.signUp(
-                    name = usernameText,
-                    email = emailText,
-                    password = passwordText
-                )
+                Log.wtf("123", usernameText)
+                Log.wtf("123", emailText)
+                Log.wtf("123", passwordText)
+                viewModel?.signup(emailText, passwordText, usernameText)
             },
             shape = ButtonDefaults.elevatedShape,
             colors = ButtonDefaults.elevatedButtonColors(
@@ -146,27 +154,6 @@ fun SignUpScreen(navController: NavHostController, viewModel: AuthenticationView
                 text = stringResource(id = R.string.sign_up),
                 style = ButtonText
             )
-            when (val response = viewModel.signUpState.value) {
-                is Response.Loading -> {
-
-                }
-
-                is Response.Success -> {
-                    if (response.data) {
-                        navController.navigate(Screens.Main.route) {
-                            popUpTo(Screens.LoginScreen.route) {
-                                inclusive = true
-                            }
-                        }
-                    } else {
-                        Toast(stringResource(id = R.string.sign_up_failed))
-                    }
-                }
-
-                is Response.Error -> {
-                    Toast(message = response.message)
-                }
-            }
         }
 
         Spacer(modifier = Modifier.padding(vertical = 5.dp))
@@ -193,6 +180,24 @@ fun SignUpScreen(navController: NavHostController, viewModel: AuthenticationView
                         }
                     }
             )
+        }
+        signUpFlow?.value?.let {
+            when (it) {
+                is Resource.Error -> {
+                    val context = LocalContext.current
+                    Toast.makeText(context, it.exception.message, Toast.LENGTH_LONG).show()
+                }
+                Resource.Loading -> {
+                    CircularProgressIndicator()
+                }
+                is Resource.Success -> {
+                    LaunchedEffect(Unit){
+                        navController.navigate(route = Screens.Main.route) {
+                            popUpTo(Screens.LoginScreen.route) { inclusive = true }
+                        }
+                    }
+                }
+            }
         }
     }
 }

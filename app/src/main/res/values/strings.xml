@@ -1,5 +1,5 @@
 <resources>
-    <string name="web_client_id" translatable="false">126199744492-8lnu7kv3kcpcic0h7e75qrco9inlso7v.apps.googleusercontent.com</string>
+    <string name="web_client_id" translatable="false">AIzaSyBwDBp06krAvssnt8QgF5HITDG6vBDBNRM.apps.googleusercontent.com</string>
     <string name="app_name">Meal Mentor</string>
     <string name="email">Email</string>
     <string name="password">Password</string>

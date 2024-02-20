@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun ProfileScreen() {
-
     Box(
         modifier = Modifier
             .fillMaxSize()

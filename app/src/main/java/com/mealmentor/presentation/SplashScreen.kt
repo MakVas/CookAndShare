@@ -17,13 +17,16 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import com.mealmentor.R
-import com.mealmentor.presentation.authentication.AuthenticationViewModel
+import com.mealmentor.presentation.authentication.AuthViewModel
 import com.mealmentor.util.Screens
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen(navController: NavController, authViewModel: AuthenticationViewModel) {
-    val authValue = authViewModel.isUserAuthenticated
+fun SplashScreen(
+    viewModel: AuthViewModel?,
+    navController: NavController
+) {
+    val authValue = viewModel?.currentUser != null
 
     val alpha = remember {
         Animatable(0f)

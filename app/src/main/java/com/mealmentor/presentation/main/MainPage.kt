@@ -46,22 +46,26 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mealmentor.R
+import com.mealmentor.presentation.authentication.AuthViewModel
 import com.mealmentor.presentation.getBottomNavigationItems
 import com.mealmentor.util.Screens
 import com.mealmentor.presentation.getDrawerItems
-import com.mealmentor.presentation.authentication.AuthenticationViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainPage(viewModel: AuthenticationViewModel) {
+fun MainPage(
+    viewModel: AuthViewModel?,
+    _navController: NavHostController
+) {
     val navController = rememberNavController()
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -71,7 +75,7 @@ fun MainPage(viewModel: AuthenticationViewModel) {
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
-    DrawerBar(scope, drawerState) {
+    DrawerBar(viewModel, _navController,scope, drawerState) {
         Scaffold(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             topBar = {
@@ -82,7 +86,7 @@ fun MainPage(viewModel: AuthenticationViewModel) {
             }
         ) { values ->
             NavHost(
-                    navController = navController,
+                navController = navController,
             startDestination = Screens.HomeScreen.route,
             modifier = Modifier
                 .padding(values)
@@ -208,6 +212,8 @@ private fun NavigationBar(navController: NavController) {
 
 @Composable
 private fun DrawerBar(
+    viewModel: AuthViewModel?,
+    navController: NavHostController,
     scope: CoroutineScope,
     drawerState: DrawerState,
     content: @Composable () -> Unit
@@ -279,7 +285,12 @@ private fun DrawerBar(
                     },
                     selected = false,
                     onClick = {
-                        //onSignOut()
+                        viewModel?.logout()
+                        navController.navigate(Screens.LoginScreen.route) {
+                            popUpTo(Screens.LoginScreen.route) {
+                                inclusive = true
+                            }
+                        }
                         scope.launch {
                             drawerState.close()
                         }

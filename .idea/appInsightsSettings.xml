@@ -9,9 +9,9 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.mealmentor" />
-                  <option name="mobileSdkAppId" value="1:126199744492:android:1e3028e799e4562ed2e2c9" />
-                  <option name="projectId" value="meal-mentor-2e5d6" />
-                  <option name="projectNumber" value="126199744492" />
+                  <option name="mobileSdkAppId" value="1:881880458807:android:fdad2197fa517a0d3681b2" />
+                  <option name="projectId" value="meal-mentor-crossplatform" />
+                  <option name="projectNumber" value="881880458807" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
