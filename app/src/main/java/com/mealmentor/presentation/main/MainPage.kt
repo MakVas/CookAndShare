@@ -43,6 +43,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -56,6 +57,11 @@ import com.mealmentor.presentation.authentication.AuthViewModel
 import com.mealmentor.presentation.getBottomNavigationItems
 import com.mealmentor.util.Screens
 import com.mealmentor.presentation.getDrawerItems
+import com.mealmentor.presentation.main.screens.AddRecipeScreen
+import com.mealmentor.presentation.main.screens.HomeScreen
+import com.mealmentor.presentation.main.screens.profile.ProfileScreen
+import com.mealmentor.presentation.main.screens.SearchScreen
+import com.mealmentor.presentation.main.screens.profile.ProfileViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -66,6 +72,8 @@ fun MainPage(
     viewModel: AuthViewModel?,
     _navController: NavHostController
 ) {
+    val profileViewModel = hiltViewModel<ProfileViewModel>()
+
     val navController = rememberNavController()
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -105,7 +113,7 @@ fun MainPage(
             }
             composable(Screens.ProfileScreen.route) {
                 currentText.intValue = R.string.profile
-                ProfileScreen(viewModel)
+                ProfileScreen(profileViewModel)
             }
         }
         }

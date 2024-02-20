@@ -1,4 +1,4 @@
-package com.mealmentor.presentation.main
+package com.mealmentor.presentation.main.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
