@@ -1,4 +1,4 @@
-package com.mealmentor.presentation
+package com.mealmentor.presentation.main.screens.custom
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home

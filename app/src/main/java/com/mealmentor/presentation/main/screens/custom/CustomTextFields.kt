@@ -1,4 +1,4 @@
-package com.mealmentor.presentation
+package com.mealmentor.presentation.main.screens.custom
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth

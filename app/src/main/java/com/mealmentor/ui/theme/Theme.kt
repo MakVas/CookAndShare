@@ -13,45 +13,47 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-        primary = CustomDark1,
-        secondary = CustomDark2,
-        tertiary = CustomDark3,
-        onPrimary = CustomDark4,
-        onSecondary = CustomDark4,
-        onTertiary = CustomDark1,
-        background = CustomDark1,
-        inversePrimary = Color.White,
-        surface = CustomDark1
+    primary = CustomDark1,
+    secondary = CustomDark2,
+    secondaryContainer = CustomMiddle,
+    tertiary = CustomDark3,
+    onPrimary = CustomDark4,
+    onSecondary = CustomDark4,
+    onTertiary = CustomDark1,
+    background = CustomDark1,
+    inversePrimary = Color.White,
+    surface = CustomDark1
 )
 
 private val LightColorScheme = lightColorScheme(
-        primary = CustomYellow,
-        secondary = CustomLightYellow,
-        tertiary = CustomChocolate,
-        onPrimary = CustomChocolate,
-        onSecondary = CustomChocolate,
-        onTertiary = CustomYellow,
-        background = CustomYellow,
-        inversePrimary = Color.Black,
-        surface = CustomYellow
-        /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    primary = CustomYellow,
+    secondary = CustomLightYellow,
+    secondaryContainer = CustomMiddleYellow,
+    tertiary = CustomChocolate,
+    onPrimary = CustomChocolate,
+    onSecondary = CustomChocolate,
+    onTertiary = CustomYellow,
+    background = CustomYellow,
+    inversePrimary = Color.Black,
+    surface = CustomYellow
+    /* Other default colors to override
+background = Color(0xFFFFFBFE),
+surface = Color(0xFFFFFBFE),
+onPrimary = Color.White,
+onSecondary = Color.White,
+onTertiary = Color.White,
+onBackground = Color(0xFF1C1B1F),
+onSurface = Color(0xFF1C1B1F),
+*/
 )
 
 @Composable
 fun MealMentorKotlinTheme(
-        darkTheme: Boolean = isSystemInDarkTheme(),
-        // Dynamic color is available on Android 12+
-        content: @Composable () -> Unit
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    // Dynamic color is available on Android 12+
+    content: @Composable () -> Unit
 ) {
-    val colorScheme = when(darkTheme) {
+    val colorScheme = when (darkTheme) {
         true -> DarkColorScheme
         false -> LightColorScheme
     }
@@ -62,13 +64,14 @@ fun MealMentorKotlinTheme(
             window.statusBarColor = colorScheme.primary.toArgb()
             window.navigationBarColor = colorScheme.secondary.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
-            WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars = !darkTheme
+            WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars =
+                !darkTheme
         }
     }
 
     MaterialTheme(
-            colorScheme = colorScheme,
-            typography = Typography,
-            content = content
+        colorScheme = colorScheme,
+        typography = Typography,
+        content = content
     )
 }

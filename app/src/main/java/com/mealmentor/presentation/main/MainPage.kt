@@ -54,9 +54,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mealmentor.R
 import com.mealmentor.presentation.authentication.AuthViewModel
-import com.mealmentor.presentation.getBottomNavigationItems
+import com.mealmentor.presentation.main.screens.custom.getBottomNavigationItems
 import com.mealmentor.util.Screens
-import com.mealmentor.presentation.getDrawerItems
+import com.mealmentor.presentation.main.screens.custom.getDrawerItems
 import com.mealmentor.presentation.main.screens.AddRecipeScreen
 import com.mealmentor.presentation.main.screens.HomeScreen
 import com.mealmentor.presentation.main.screens.profile.ProfileScreen

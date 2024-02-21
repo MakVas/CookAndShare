@@ -35,8 +35,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.mealmentor.R
 import com.mealmentor.data.Resource
-import com.mealmentor.presentation.CustomTextField
-import com.mealmentor.presentation.PasswordField
+import com.mealmentor.presentation.main.screens.custom.CustomTextField
+import com.mealmentor.presentation.main.screens.custom.PasswordField
 import com.mealmentor.ui.theme.ButtonText
 import com.mealmentor.ui.theme.MainTitle
 import com.mealmentor.ui.theme.SmallTitle
