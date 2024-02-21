@@ -1,4 +1,4 @@
-package com.mealmentor.presentation.main.screens
+package com.mealmentor.presentation.main.screens.search
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

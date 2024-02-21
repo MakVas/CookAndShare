@@ -54,13 +54,13 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mealmentor.R
 import com.mealmentor.presentation.authentication.AuthViewModel
-import com.mealmentor.presentation.main.screens.custom.getBottomNavigationItems
+import com.mealmentor.presentation.custom.getBottomNavigationItems
 import com.mealmentor.util.Screens
-import com.mealmentor.presentation.main.screens.custom.getDrawerItems
-import com.mealmentor.presentation.main.screens.AddRecipeScreen
-import com.mealmentor.presentation.main.screens.HomeScreen
+import com.mealmentor.presentation.custom.getDrawerItems
+import com.mealmentor.presentation.main.screens.add_recipe.AddRecipeScreen
+import com.mealmentor.presentation.main.screens.home.HomeScreen
 import com.mealmentor.presentation.main.screens.profile.ProfileScreen
-import com.mealmentor.presentation.main.screens.SearchScreen
+import com.mealmentor.presentation.main.screens.search.SearchScreen
 import com.mealmentor.presentation.main.screens.profile.ProfileViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -238,6 +238,9 @@ private fun DrawerBar(
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
                 getDrawerItems().forEachIndexed { index, drawerItem ->
+
+                    Spacer(modifier = Modifier.height(4.dp))
+
                     NavigationDrawerItem(
                         colors = NavigationDrawerItemDefaults.colors(
                             selectedContainerColor = MaterialTheme.colorScheme.secondary,
@@ -275,6 +278,8 @@ private fun DrawerBar(
                             .padding(NavigationDrawerItemDefaults.ItemPadding)
                     )
                 }
+
+                Spacer(modifier = Modifier.height(4.dp))
 
                 NavigationDrawerItem(
                     colors = NavigationDrawerItemDefaults.colors(

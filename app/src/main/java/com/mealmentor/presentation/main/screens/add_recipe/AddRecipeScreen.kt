@@ -1,4 +1,4 @@
-package com.mealmentor.presentation.main.screens
+package com.mealmentor.presentation.main.screens.add_recipe
 
 import androidx.compose.runtime.Composable
 

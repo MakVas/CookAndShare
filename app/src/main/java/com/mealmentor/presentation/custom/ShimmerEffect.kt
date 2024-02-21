@@ -1,4 +1,4 @@
-package com.mealmentor.presentation.main.screens.custom
+package com.mealmentor.presentation.custom
 
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable

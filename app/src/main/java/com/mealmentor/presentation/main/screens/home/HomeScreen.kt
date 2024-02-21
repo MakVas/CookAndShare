@@ -1,4 +1,4 @@
-package com.mealmentor.presentation.main.screens
+package com.mealmentor.presentation.main.screens.home
 
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -30,8 +30,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mealmentor.R
-import com.mealmentor.presentation.main.screens.custom.CustomPagerIndicator
-import com.mealmentor.presentation.main.screens.custom.RecipeColumnItem
+import com.mealmentor.presentation.custom.CustomPagerIndicator
+import com.mealmentor.presentation.custom.RecipeColumnItem
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
