@@ -36,7 +36,7 @@ fun CustomTextField(
     icon: ImageVector,
     fieldLabel: String,
     text: String,
-    onValueChange: (String) -> Unit
+    onValueChange: ((String) -> Unit)
 ) {
     TextField(
         value = text,

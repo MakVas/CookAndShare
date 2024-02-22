@@ -15,7 +15,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -88,22 +87,20 @@ fun SignUpScreen(
         CustomTextField(
             fieldLabel = stringResource(id = R.string.username),
             icon = Icons.Default.AccountCircle,
-            text = usernameText,
-            onValueChange = {
-                usernameText = it
-            }
-        )
+            text = usernameText
+        ) {
+            usernameText = it
+        }
 
         Spacer(modifier = Modifier.padding(vertical = 8.dp))
 
         CustomTextField(
             fieldLabel = stringResource(id = R.string.email),
             icon = Icons.Default.Email,
-            text = emailText,
-            onValueChange = {
-                emailText = it
-            }
-        )
+            text = emailText
+        ) {
+            emailText = it
+        }
 
         Spacer(modifier = Modifier.padding(vertical = 8.dp))
 
@@ -187,11 +184,12 @@ fun SignUpScreen(
                     val context = LocalContext.current
                     Toast.makeText(context, it.exception.message, Toast.LENGTH_LONG).show()
                 }
+
                 Resource.Loading -> {
-                    CircularProgressIndicator()
                 }
+
                 is Resource.Success -> {
-                    LaunchedEffect(Unit){
+                    LaunchedEffect(Unit) {
                         navController.navigate(route = Screens.Main.route) {
                             popUpTo(Screens.LoginScreen.route) { inclusive = true }
                         }

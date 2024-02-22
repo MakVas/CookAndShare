@@ -31,7 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mealmentor.R
 import com.mealmentor.presentation.custom.CustomPagerIndicator
-import com.mealmentor.presentation.custom.RecipeColumnItem
+import com.mealmentor.presentation.custom.RecipeItem
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -109,7 +109,7 @@ fun SubRow() {
             contentPadding = PaddingValues(horizontal = 32.dp),
             pageSpacing = 16.dp,
         ) { page ->
-            RecipeColumnItem(text = "Item $page")
+            RecipeItem(text = "Item $page")
         }
         CustomPagerIndicator(bannerPagerState.targetPage, bannerList.size)
     }
@@ -119,7 +119,7 @@ fun LazyListScope.subColumn(
     modifier: Modifier = Modifier
 ) {
     items(50) {
-        RecipeColumnItem(text = "Item $it", modifier)
+        RecipeItem(text = "Item $it", modifier)
         Spacer(modifier = Modifier.height(16.dp))
     }
 }

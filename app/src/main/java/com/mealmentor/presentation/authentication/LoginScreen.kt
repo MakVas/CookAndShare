@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -90,11 +89,10 @@ fun LoginScreen(
             CustomTextField(
                 fieldLabel = stringResource(id = R.string.email),
                 text = emailText,
-                icon = Icons.Default.Email,
-                onValueChange = {
-                    emailText = it
-                }
-            )
+                icon = Icons.Default.Email
+            ) {
+                emailText = it
+            }
 
             PasswordField(
                 fieldLabel = stringResource(id = R.string.password),
@@ -206,7 +204,6 @@ fun LoginScreen(
                     Toast.makeText(context, it.exception.message, Toast.LENGTH_LONG).show()
                 }
                 Resource.Loading -> {
-                    CircularProgressIndicator()
                 }
                 is Resource.Success -> {
                     LaunchedEffect(Unit){

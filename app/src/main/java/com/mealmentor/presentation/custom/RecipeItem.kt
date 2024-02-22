@@ -19,7 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun RecipeColumnItem(
+fun RecipeItem(
     text: String,
     modifier: Modifier = Modifier
    // userData: UserData

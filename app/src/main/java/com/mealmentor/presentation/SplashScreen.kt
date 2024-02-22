@@ -3,10 +3,10 @@ package com.mealmentor.presentation
 import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -60,10 +60,9 @@ fun SplashScreen(
             .background(MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center
     ) {
-        Icon(
+        Image(
             modifier = Modifier.alpha(alpha.value),
-            tint = MaterialTheme.colorScheme.onPrimary,
-            painter = painterResource(id = R.drawable.google),
+            painter = painterResource(id = R.drawable.top_project_logo),
             contentDescription = "Meal Mentor Logo"
         )
     }

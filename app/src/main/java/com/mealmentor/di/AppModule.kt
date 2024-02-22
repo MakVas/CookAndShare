@@ -16,19 +16,15 @@ import javax.inject.Singleton
 @Module
 class AppModule {
 
-    @Singleton
     @Provides
     fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 
-    @Singleton
     @Provides
     fun provideFirestore(): FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    @Singleton
     @Provides
     fun provideAuthRepository(impl: AuthRepositoryImpl): AuthRepository = impl
 
-    @Singleton
     @Provides
     fun provideFirestoreRepository(impl: FirestoreRepositoryImpl): FirestoreRepository = impl
 }
