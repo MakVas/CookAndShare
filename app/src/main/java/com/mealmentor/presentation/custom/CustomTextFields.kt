@@ -33,19 +33,24 @@ import com.mealmentor.R
 // Функція, що створює кастомне текстове поле для введення електронної пошти
 @Composable
 fun CustomTextField(
+    isShadow: Boolean,
     icon: ImageVector,
     fieldLabel: String,
     text: String,
     onValueChange: ((String) -> Unit)
 ) {
+    val modifier = if (isShadow) {
+        Modifier.fillMaxWidth()
+            .height(65.dp)
+            .shadow(1.dp, RoundedCornerShape(16.dp), clip = true)
+    } else {
+        Modifier.fillMaxWidth()
+    }
     TextField(
         value = text,
         onValueChange = onValueChange,
         shape = RoundedCornerShape(16.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(65.dp)
-            .shadow(1.dp, RoundedCornerShape(16.dp), clip = true),
+        modifier = modifier,
         label = {
             Text(fieldLabel)
         },
@@ -85,7 +90,7 @@ fun CustomTextField(
 
         ),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-        singleLine = true
+        singleLine = true,
     )
 }
 
@@ -156,5 +161,42 @@ fun PasswordField(
             keyboardType = KeyboardType.Password
         ),
         singleLine = true
+    )
+}
+
+
+@Composable
+fun RecipeTextField(
+    fieldLabel: String,
+    text: String,
+    onValueChange: ((String) -> Unit)
+){
+    TextField(
+        value = text,
+        onValueChange = onValueChange,
+        shape = RoundedCornerShape(16.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(300.dp)
+            .shadow(1.dp, RoundedCornerShape(16.dp), clip = true),
+        label = {
+            Text(fieldLabel)
+        },
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = MaterialTheme.colorScheme.secondary,
+            unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
+            disabledContainerColor = MaterialTheme.colorScheme.secondary,
+            cursorColor = MaterialTheme.colorScheme.onSecondary,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedLabelColor = MaterialTheme.colorScheme.onSecondary,
+            unfocusedLabelColor = MaterialTheme.colorScheme.onSecondary,
+            selectionColors = TextSelectionColors(
+                handleColor = MaterialTheme.colorScheme.onSecondary,
+                backgroundColor = MaterialTheme.colorScheme.onSecondary
+            )
+
+        ),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Default)
     )
 }

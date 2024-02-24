@@ -87,6 +87,7 @@ fun LoginScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             CustomTextField(
+                isShadow = true,
                 fieldLabel = stringResource(id = R.string.email),
                 text = emailText,
                 icon = Icons.Default.Email

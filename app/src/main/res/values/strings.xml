@@ -30,4 +30,9 @@
     <string name="password_match_error">Password not match</string>
     <string name="login_failed">Login failed</string>
     <string name="sign_up_failed">Register failed</string>
+    <string name="recipe_name">Recipe name</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="cooking_method">Cooking method</string>
+    <string name="publish_recipe">Publish recipe</string>
+    <string name="categories">Categories</string>
 </resources>

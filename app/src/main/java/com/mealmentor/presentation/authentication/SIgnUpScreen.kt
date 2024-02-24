@@ -1,6 +1,5 @@
 package com.mealmentor.presentation.authentication
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -85,6 +84,7 @@ fun SignUpScreen(
 
 
         CustomTextField(
+            isShadow = true,
             fieldLabel = stringResource(id = R.string.username),
             icon = Icons.Default.AccountCircle,
             text = usernameText
@@ -95,6 +95,7 @@ fun SignUpScreen(
         Spacer(modifier = Modifier.padding(vertical = 8.dp))
 
         CustomTextField(
+            isShadow = true,
             fieldLabel = stringResource(id = R.string.email),
             icon = Icons.Default.Email,
             text = emailText
@@ -128,9 +129,6 @@ fun SignUpScreen(
 
         ElevatedButton(
             onClick = {
-                Log.wtf("123", usernameText)
-                Log.wtf("123", emailText)
-                Log.wtf("123", passwordText)
                 viewModel?.signup(emailText, passwordText, usernameText)
             },
             shape = ButtonDefaults.elevatedShape,

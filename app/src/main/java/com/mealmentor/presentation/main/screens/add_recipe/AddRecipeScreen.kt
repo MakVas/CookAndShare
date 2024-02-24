@@ -1,8 +1,8 @@
 package com.mealmentor.presentation.main.screens.add_recipe
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,18 +12,26 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.DriveFileRenameOutline
+import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Button
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
@@ -31,11 +39,13 @@ import androidx.compose.ui.unit.dp
 import com.mealmentor.R
 import com.mealmentor.presentation.custom.CustomTextField
 import com.mealmentor.presentation.custom.RecipeItem
+import com.mealmentor.presentation.custom.RecipeTextField
 import com.mealmentor.ui.theme.ButtonText
 
 @Composable
 fun AddRecipeScreen() {
-    var emailText by remember { mutableStateOf("") }
+    val recipeName = remember { mutableStateOf("") }
+    var cookingMethod by remember { mutableStateOf("") }
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -44,11 +54,11 @@ fun AddRecipeScreen() {
     ){
         Spacer(modifier = Modifier.padding(top = 16.dp))
 
-        RecipeItem(text = "Попередній перегляд")
+        RecipeItem(text = recipeName.value)
 
         Spacer(modifier = Modifier.padding(top = 16.dp))
 
-        Box()
+        Card(recipeName)
 
         Spacer(modifier = Modifier.padding(top = 16.dp))
 
@@ -66,22 +76,39 @@ fun AddRecipeScreen() {
                 pressedElevation = 0.dp
             ),
             modifier = Modifier
-                .height(65.dp)
-                .fillMaxWidth()
+                .height(60.dp)
+                .fillMaxWidth(),
+            contentPadding = PaddingValues(horizontal = 12.dp),
         ) {
-            Text(
-                text = stringResource(id = R.string.login),
-                style = ButtonText
-            )
+            Box (
+                modifier = Modifier.fillMaxSize(),
+            ){
+                Icon(
+                    modifier = Modifier.align(Alignment.CenterStart),
+                    imageVector = Icons.Default.DriveFileRenameOutline,
+                    contentDescription = "ingredients"
+                )
+                Text(
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .padding(start = 40.dp),
+                    text = stringResource(id = R.string.ingredients),
+                    style = typography.bodyLarge
+                )
+                Icon(
+                    modifier = Modifier.align(Alignment.CenterEnd),
+                    imageVector = Icons.Default.KeyboardArrowRight,
+                    contentDescription = "ingredients"
+                )
+            }
         }
 
         Spacer(modifier = Modifier.padding(top = 16.dp))
 
-        CustomTextField(
-            icon = Icons.Default.Email,
-            fieldLabel = stringResource(id = R.string.email),
-            text = emailText,
-            onValueChange = { emailText = it }
+        RecipeTextField(
+            fieldLabel = stringResource(id = R.string.cooking_method),
+            text = cookingMethod,
+            onValueChange = { cookingMethod = it }
         )
 
         Spacer(modifier = Modifier.padding(top = 16.dp))
@@ -104,27 +131,30 @@ fun AddRecipeScreen() {
                 .fillMaxWidth()
         ) {
             Text(
-                text = stringResource(id = R.string.login),
+                text = stringResource(id = R.string.publish_recipe),
                 style = ButtonText
             )
         }
+
+        Spacer(modifier = Modifier.padding(top = 16.dp))
     }
 }
 
 @Composable
-fun Box(){
-    var emailText by remember { mutableStateOf("") }
+fun Card(recipeName: MutableState<String>){
 
-    Box(
-        modifier = Modifier
-            .background(colorScheme.secondary)
+    ElevatedCard(
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(1.dp),
+        colors = CardDefaults.cardColors(containerColor = colorScheme.secondary)
     ) {
         Column {
             CustomTextField(
-                icon = Icons.Default.Email,
-                fieldLabel = stringResource(id = R.string.email),
-                text = emailText,
-                onValueChange = { emailText = it }
+                isShadow = false,
+                icon = Icons.Default.DriveFileRenameOutline,
+                fieldLabel = stringResource(id = R.string.recipe_name),
+                text = recipeName.value,
+                onValueChange = { recipeName.value = it }
             )
 
             Divider(
@@ -142,14 +172,32 @@ fun Box(){
                     containerColor = colorScheme.secondary,
                     contentColor = colorScheme.onSecondary
                 ),
+                contentPadding = PaddingValues(horizontal = 12.dp),
                 modifier = Modifier
-                    .height(65.dp)
+                    .height(56.dp)
                     .fillMaxWidth()
             ) {
-                Text(
-                    text = stringResource(id = R.string.login),
-                    style = ButtonText
-                )
+                Box (
+                    modifier = Modifier.fillMaxSize(),
+                ){
+                    Icon(
+                        modifier = Modifier.align(Alignment.CenterStart),
+                        imageVector = Icons.Default.Restaurant,
+                        contentDescription = "categories"
+                    )
+                    Text(
+                        modifier = Modifier
+                            .align(Alignment.CenterStart)
+                            .padding(start = 40.dp),
+                        text = stringResource(id = R.string.categories),
+                        style = typography.bodyLarge
+                    )
+                    Icon(
+                        modifier = Modifier.align(Alignment.CenterEnd),
+                        imageVector = Icons.Default.KeyboardArrowRight,
+                        contentDescription = "categories"
+                    )
+                }
             }
         }
     }

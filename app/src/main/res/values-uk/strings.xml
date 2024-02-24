@@ -30,4 +30,9 @@
     <string name="password_match_error">Паролі не збігаються</string>
     <string name="login_failed">Помилка авторизації</string>
     <string name="sign_up_failed">Помилка реєстрації</string>
+    <string name="recipe_name">Назва рецепту</string>
+    <string name="ingredients">Інгредієнти</string>
+    <string name="cooking_method">Спосіб приготування</string>
+    <string name="publish_recipe">Опублікувати рецепт</string>
+    <string name="categories">Категорії</string>
 </resources>
