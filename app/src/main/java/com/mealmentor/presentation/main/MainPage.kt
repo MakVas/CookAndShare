@@ -70,7 +70,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainPage(
     viewModel: AuthViewModel?,
-    _navController: NavHostController
+    localNavController: NavHostController
 ) {
     val profileViewModel = hiltViewModel<ProfileViewModel>()
 
@@ -83,7 +83,7 @@ fun MainPage(
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
-    DrawerBar(viewModel, _navController,scope, drawerState) {
+    DrawerBar(viewModel, localNavController,scope, drawerState) {
         Scaffold(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             topBar = {
@@ -255,7 +255,7 @@ private fun DrawerBar(
                         label = { Text(drawerItem.title) },
                         selected = index == selectedItemIndex,
                         onClick = {
-                            //Тут має буть навігація
+                            //Тут має бути навігація
                             selectedItemIndex = index
                             scope.launch {
                                 drawerState.close()

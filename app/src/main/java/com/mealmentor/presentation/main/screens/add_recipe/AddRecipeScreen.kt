@@ -15,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DriveFileRenameOutline
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Restaurant
+import androidx.compose.material.icons.filled.Tag
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Button
@@ -85,7 +86,7 @@ fun AddRecipeScreen() {
             ){
                 Icon(
                     modifier = Modifier.align(Alignment.CenterStart),
-                    imageVector = Icons.Default.DriveFileRenameOutline,
+                    imageVector = Icons.Default.Restaurant,
                     contentDescription = "ingredients"
                 )
                 Text(
@@ -135,7 +136,6 @@ fun AddRecipeScreen() {
                 style = ButtonText
             )
         }
-
         Spacer(modifier = Modifier.padding(top = 16.dp))
     }
 }
@@ -182,7 +182,7 @@ fun Card(recipeName: MutableState<String>){
                 ){
                     Icon(
                         modifier = Modifier.align(Alignment.CenterStart),
-                        imageVector = Icons.Default.Restaurant,
+                        imageVector = Icons.Default.Tag,
                         contentDescription = "categories"
                     )
                     Text(

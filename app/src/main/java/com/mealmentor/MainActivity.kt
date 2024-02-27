@@ -59,7 +59,7 @@ fun Navigation(
         }
 
         composable(Screens.Main.route) {
-            MainPage(viewModel = viewModel ,_navController = navController)
+            MainPage(viewModel = viewModel ,localNavController = navController)
         }
     }
 }
