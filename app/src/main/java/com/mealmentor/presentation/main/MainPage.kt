@@ -1,5 +1,6 @@
 package com.mealmentor.presentation.main
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -24,14 +25,18 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -40,6 +45,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -84,7 +90,11 @@ fun MainPage(
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
+    val sheetState = rememberModalBottomSheetState()
+    val isSheetExpanded = rememberSaveable { mutableStateOf(false) }
+
     DrawerBar(viewModel, localNavController,scope, drawerState) {
+        BottomSheet(sheetState = sheetState, isSheetExpanded = isSheetExpanded)
         Scaffold(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             topBar = {
@@ -96,13 +106,13 @@ fun MainPage(
         ) { values ->
             NavHost(
                 navController = navController,
-            startDestination = Screens.HomeScreen.route,
-            modifier = Modifier
-                .padding(values)
+                startDestination = Screens.HomeScreen.route,
+                modifier = Modifier
+                    .padding(values)
             ) {
             composable(Screens.HomeScreen.route) {
                 currentText.intValue = R.string.app_name
-                HomeScreen()
+                HomeScreen(isSheetExpanded = isSheetExpanded)
             }
             composable(Screens.AddRecipeScreen.route) {
                 currentText.intValue = R.string.preview
@@ -322,12 +332,18 @@ private fun DrawerBar(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomSheet(){
-    ModalBottomSheet(
-        onDismissRequest = {
-
+fun BottomSheet(sheetState: SheetState, isSheetExpanded: MutableState<Boolean>){
+    if(isSheetExpanded.value) {
+        ModalBottomSheet(
+            sheetState = sheetState,
+            onDismissRequest = {
+                isSheetExpanded.value = false
+            }
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.top_project_logo),
+                contentDescription = "Recipe Image"
+            )
         }
-    ) {
-
     }
 }

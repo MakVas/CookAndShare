@@ -20,6 +20,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -36,7 +37,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(isSheetExpanded: MutableState<Boolean>) {
 
     Scaffold { values ->
         Box(
@@ -45,13 +46,13 @@ fun HomeScreen() {
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
         ) {
-            NestedScrolling()
+            NestedScrolling(isSheetExpanded)
         }
     }
 }
 
 @Composable
-fun NestedScrolling() {
+fun NestedScrolling(isSheetExpanded: MutableState<Boolean>) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize(),
@@ -68,7 +69,7 @@ fun NestedScrolling() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            SubRow()
+            SubRow(isSheetExpanded)
 
             Text(
                 modifier = Modifier.padding(start = 16.dp),
@@ -78,13 +79,16 @@ fun NestedScrolling() {
 
             Spacer(modifier = Modifier.height(16.dp))
         }
-        subColumn(Modifier.padding(horizontal = 16.dp))
+        subColumn(
+            isSheetExpanded,
+            Modifier.padding(horizontal = 16.dp)
+        )
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun SubRow() {
+fun SubRow(isSheetExpanded: MutableState<Boolean>) {
     val bannerList = (0..5).toList()
     val bannerPagerState = rememberPagerState { bannerList.size }
     var bannerAutomaticallyScrollPage by rememberSaveable { mutableIntStateOf(0) }
@@ -111,6 +115,7 @@ fun SubRow() {
         ) { page ->
             RecipeItem(
                 onClick = {
+                   isSheetExpanded.value = true
                 },
                 name = "username",
                 title = "Item $page",
@@ -122,11 +127,13 @@ fun SubRow() {
 }
 
 fun LazyListScope.subColumn(
+    isSheetExpanded: MutableState<Boolean>,
     modifier: Modifier = Modifier
 ) {
     items(50) {
         RecipeItem(
             onClick = {
+                isSheetExpanded.value = true
             },
             name = "username",
             title = "Item $it",
