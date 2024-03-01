@@ -35,4 +35,5 @@
     <string name="cooking_method">Спосіб приготування</string>
     <string name="publish_recipe">Опублікувати рецепт</string>
     <string name="categories">Категорії</string>
+    <string name="preview">Попередній перегляд</string>
 </resources>

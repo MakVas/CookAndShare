@@ -9,7 +9,7 @@ import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -58,7 +58,7 @@ fun CustomTextField(
             Icon(
                 imageVector = icon,
                 contentDescription = "email_img",
-                tint = MaterialTheme.colorScheme.onPrimary
+                tint = colorScheme.onPrimary
             )
         },
         trailingIcon = {
@@ -66,7 +66,7 @@ fun CustomTextField(
                 Icon(
                     painter = painterResource(R.drawable.close),
                     contentDescription = "close",
-                    tint = MaterialTheme.colorScheme.onPrimary,
+                    tint = colorScheme.onPrimary,
                     modifier = Modifier.clickable {
                         onValueChange("")
                     }
@@ -75,17 +75,19 @@ fun CustomTextField(
             }
         },
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = MaterialTheme.colorScheme.secondary,
-            unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
-            disabledContainerColor = MaterialTheme.colorScheme.secondary,
-            cursorColor = MaterialTheme.colorScheme.onSecondary,
+            focusedTextColor = colorScheme.onSecondary,
+            unfocusedTextColor= colorScheme.onSecondary,
+            focusedContainerColor = colorScheme.secondary,
+            unfocusedContainerColor = colorScheme.secondary,
+            disabledContainerColor = colorScheme.secondary,
+            cursorColor = colorScheme.onSecondary,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-            focusedLabelColor = MaterialTheme.colorScheme.onSecondary,
-            unfocusedLabelColor = MaterialTheme.colorScheme.onSecondary,
+            focusedLabelColor = colorScheme.onSecondary,
+            unfocusedLabelColor = colorScheme.onSecondary,
             selectionColors = TextSelectionColors(
-                handleColor = MaterialTheme.colorScheme.onSecondary,
-                backgroundColor = MaterialTheme.colorScheme.onSecondary
+                handleColor = colorScheme.onSecondary,
+                backgroundColor = colorScheme.onSecondary
             )
 
         ),
@@ -117,7 +119,7 @@ fun PasswordField(
             Icon(
                 imageVector = Icons.Default.Lock,
                 contentDescription = "password_img",
-                tint = MaterialTheme.colorScheme.onPrimary
+                tint = colorScheme.onPrimary
             )
         },
         trailingIcon = {
@@ -130,7 +132,7 @@ fun PasswordField(
                 Icon(
                     painter = visibility,
                     contentDescription = if (passwordVisibility) "Show password" else "Hide password",
-                    tint = MaterialTheme.colorScheme.onPrimary,
+                    tint = colorScheme.onPrimary,
                     modifier = Modifier.clickable {
                         passwordVisibility = !passwordVisibility
                     }
@@ -143,17 +145,19 @@ fun PasswordField(
             PasswordVisualTransformation()
         },
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = MaterialTheme.colorScheme.secondary,
-            unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
-            disabledContainerColor = MaterialTheme.colorScheme.secondary,
-            cursorColor = MaterialTheme.colorScheme.onSecondary,
+            focusedTextColor = colorScheme.onSecondary,
+            unfocusedTextColor= colorScheme.onSecondary,
+            focusedContainerColor = colorScheme.secondary,
+            unfocusedContainerColor = colorScheme.secondary,
+            disabledContainerColor = colorScheme.secondary,
+            cursorColor = colorScheme.onSecondary,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-            focusedLabelColor = MaterialTheme.colorScheme.onSecondary,
-            unfocusedLabelColor = MaterialTheme.colorScheme.onSecondary,
+            focusedLabelColor = colorScheme.onSecondary,
+            unfocusedLabelColor = colorScheme.onSecondary,
             selectionColors = TextSelectionColors(
-                handleColor = MaterialTheme.colorScheme.onSecondary,
-                backgroundColor = MaterialTheme.colorScheme.onSecondary
+                handleColor = colorScheme.onSecondary,
+                backgroundColor = colorScheme.onSecondary
             )
         ),
         keyboardOptions = KeyboardOptions(
@@ -183,17 +187,19 @@ fun RecipeTextField(
             Text(fieldLabel)
         },
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = MaterialTheme.colorScheme.secondary,
-            unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
-            disabledContainerColor = MaterialTheme.colorScheme.secondary,
-            cursorColor = MaterialTheme.colorScheme.onSecondary,
+            focusedTextColor = colorScheme.onSecondary,
+            unfocusedTextColor= colorScheme.onSecondary,
+            focusedContainerColor = colorScheme.secondary,
+            unfocusedContainerColor = colorScheme.secondary,
+            disabledContainerColor = colorScheme.secondary,
+            cursorColor = colorScheme.onSecondary,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-            focusedLabelColor = MaterialTheme.colorScheme.onSecondary,
-            unfocusedLabelColor = MaterialTheme.colorScheme.onSecondary,
+            focusedLabelColor = colorScheme.onSecondary,
+            unfocusedLabelColor = colorScheme.onSecondary,
             selectionColors = TextSelectionColors(
-                handleColor = MaterialTheme.colorScheme.onSecondary,
-                backgroundColor = MaterialTheme.colorScheme.onSecondary
+                handleColor = colorScheme.onSecondary,
+                backgroundColor = colorScheme.onSecondary
             )
 
         ),

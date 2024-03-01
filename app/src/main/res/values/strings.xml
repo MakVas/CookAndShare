@@ -35,4 +35,5 @@
     <string name="cooking_method">Cooking method</string>
     <string name="publish_recipe">Publish recipe</string>
     <string name="categories">Categories</string>
+    <string name="preview">Preview</string>
 </resources>

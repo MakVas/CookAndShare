@@ -16,8 +16,11 @@ val SmallTitleBold = TextStyle(
     fontWeight = FontWeight.Bold,
     fontSize = 15.sp
 )
-
 val ButtonText = TextStyle(
     fontWeight = FontWeight.Bold,
+    fontSize = 20.sp
+)
+val RecipeTitle = TextStyle(
+    fontWeight = FontWeight.SemiBold,
     fontSize = 20.sp
 )

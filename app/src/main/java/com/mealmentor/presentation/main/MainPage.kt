@@ -15,6 +15,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationBar
@@ -100,11 +101,11 @@ fun MainPage(
                 .padding(values)
             ) {
             composable(Screens.HomeScreen.route) {
-                currentText.intValue = R.string.home
+                currentText.intValue = R.string.app_name
                 HomeScreen()
             }
             composable(Screens.AddRecipeScreen.route) {
-                currentText.intValue = R.string.add
+                currentText.intValue = R.string.preview
                 AddRecipeScreen()
             }
             composable(Screens.SearchRecipeScreen.route) {
@@ -316,5 +317,17 @@ private fun DrawerBar(
         drawerState = drawerState,
     ) {
         content()
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BottomSheet(){
+    ModalBottomSheet(
+        onDismissRequest = {
+
+        }
+    ) {
+
     }
 }

@@ -55,7 +55,14 @@ fun AddRecipeScreen() {
     ){
         Spacer(modifier = Modifier.padding(top = 16.dp))
 
-        RecipeItem(text = recipeName.value)
+        RecipeItem(
+            onClick = {
+
+            },
+            name = "username",
+            title = recipeName.value,
+            likes = "123"
+        )
 
         Spacer(modifier = Modifier.padding(top = 16.dp))
 
@@ -154,7 +161,13 @@ fun Card(recipeName: MutableState<String>){
                 icon = Icons.Default.DriveFileRenameOutline,
                 fieldLabel = stringResource(id = R.string.recipe_name),
                 text = recipeName.value,
-                onValueChange = { recipeName.value = it }
+                onValueChange = {
+                    if (it.length <= 30) {
+                        recipeName.value = it
+                    } else {
+                        recipeName.value = it.substring(0, 30)
+                    }
+                }
             )
 
             Divider(

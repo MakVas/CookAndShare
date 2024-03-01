@@ -109,7 +109,13 @@ fun SubRow() {
             contentPadding = PaddingValues(horizontal = 32.dp),
             pageSpacing = 16.dp,
         ) { page ->
-            RecipeItem(text = "Item $page")
+            RecipeItem(
+                onClick = {
+                },
+                name = "username",
+                title = "Item $page",
+                likes = "123"
+            )
         }
         CustomPagerIndicator(bannerPagerState.targetPage, bannerList.size)
     }
@@ -119,7 +125,14 @@ fun LazyListScope.subColumn(
     modifier: Modifier = Modifier
 ) {
     items(50) {
-        RecipeItem(text = "Item $it", modifier)
+        RecipeItem(
+            onClick = {
+            },
+            name = "username",
+            title = "Item $it",
+            likes = "123",
+            modifier = modifier
+        )
         Spacer(modifier = Modifier.height(16.dp))
     }
 }
