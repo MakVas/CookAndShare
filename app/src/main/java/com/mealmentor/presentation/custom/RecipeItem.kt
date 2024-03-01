@@ -80,7 +80,7 @@ fun RecipeItem(
                 ) {
                     Text(
                         text = title,
-                        style = RecipeTitle,
+                        style = RecipeTitle
                     )
 
                     Text(
@@ -88,18 +88,18 @@ fun RecipeItem(
                         style = typography.labelLarge,
                     )
                 }
-                Column (
+                Column(
                     modifier = Modifier
                         .fillMaxHeight()
                         .padding(end = 16.dp, bottom = 10.dp, top = 10.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceBetween,
-                ){
+                ) {
                     IconButton(
                         modifier = Modifier
                             .size(30.dp),
                         onClick = { Log.d("RecipeItem", "Like Btn Clicked") },
-                    ){
+                    ) {
                         Icon(
                             modifier = Modifier.size(30.dp),
                             imageVector = Icons.Default.FavoriteBorder,

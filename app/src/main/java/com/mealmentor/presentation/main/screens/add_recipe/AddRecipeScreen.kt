@@ -162,10 +162,10 @@ fun Card(recipeName: MutableState<String>){
                 fieldLabel = stringResource(id = R.string.recipe_name),
                 text = recipeName.value,
                 onValueChange = {
-                    if (it.length <= 30) {
+                    if (it.length <= 17) {
                         recipeName.value = it
                     } else {
-                        recipeName.value = it.substring(0, 30)
+                        recipeName.value = it.substring(0, 17)
                     }
                 }
             )
