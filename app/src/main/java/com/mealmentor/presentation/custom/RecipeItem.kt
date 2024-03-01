@@ -66,7 +66,7 @@ fun RecipeItem(
             )
             Row(
                 modifier = Modifier
-                    .height(67.dp)
+                    .height(70.dp)
                     .fillMaxWidth()
                     .background(colorScheme.onSurface)
                     .align(Alignment.BottomCenter),
