@@ -119,7 +119,8 @@ fun SubRow(isSheetExpanded: MutableState<Boolean>) {
                 },
                 name = "username",
                 title = "Item $page",
-                likes = "123"
+                likes = "123",
+                isPreview = false
             )
         }
         CustomPagerIndicator(bannerPagerState.targetPage, bannerList.size)
@@ -138,7 +139,8 @@ fun LazyListScope.subColumn(
             name = "username",
             title = "Item $it",
             likes = "123",
-            modifier = modifier
+            modifier = modifier,
+            isPreview = false
         )
         Spacer(modifier = Modifier.height(16.dp))
     }

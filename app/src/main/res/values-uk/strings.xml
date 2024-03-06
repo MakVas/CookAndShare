@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Meal Mentor</string>
     <string name="email">Електронна пошта</string>
     <string name="password">Пароль</string>
     <string name="forgot_password">Забули пароль?</string>
@@ -36,4 +35,6 @@
     <string name="publish_recipe">Опублікувати рецепт</string>
     <string name="categories">Категорії</string>
     <string name="preview">Попередній перегляд</string>
+    <string name="your_categories">Введіть свої категорії</string>
+    <string name="popular_categories">Популярні категорії</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.mealmentor.presentation.main.screens.add_recipe
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -25,6 +27,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -36,9 +39,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.mealmentor.R
 import com.mealmentor.presentation.custom.CustomTextField
+import com.mealmentor.presentation.custom.DialogTextField
 import com.mealmentor.presentation.custom.RecipeItem
 import com.mealmentor.presentation.custom.RecipeTextField
 import com.mealmentor.ui.theme.ButtonText
@@ -47,6 +53,23 @@ import com.mealmentor.ui.theme.ButtonText
 fun AddRecipeScreen() {
     val recipeName = remember { mutableStateOf("") }
     var cookingMethod by remember { mutableStateOf("") }
+    val categories = remember { mutableStateOf("") }
+    val openCategoriesDialog = remember { mutableStateOf(false) }
+    val ingredients = remember { mutableStateOf("") }
+    val openIngredientsDialog = remember { mutableStateOf(false) }
+
+    if(openCategoriesDialog.value)
+        CategoriesDialog(
+            setShowDialog = { openCategoriesDialog.value = it },
+            onValueChange = categories
+        )
+
+    if(openIngredientsDialog.value)
+        IngredientsDialog(
+            setShowDialog = { openIngredientsDialog.value = it },
+            onValueChange = ingredients
+        )
+
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -61,18 +84,19 @@ fun AddRecipeScreen() {
             },
             name = "username",
             title = recipeName.value,
-            likes = "123"
+            likes = "123",
+            isPreview = true
         )
 
         Spacer(modifier = Modifier.padding(top = 16.dp))
 
-        Card(recipeName)
+        DoubleButton(recipeName, openCategoriesDialog)
 
         Spacer(modifier = Modifier.padding(top = 16.dp))
 
         ElevatedButton(
             onClick = {
-
+                openIngredientsDialog.value = true
             },
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.elevatedButtonColors(
@@ -148,7 +172,7 @@ fun AddRecipeScreen() {
 }
 
 @Composable
-fun Card(recipeName: MutableState<String>){
+fun DoubleButton(recipeName: MutableState<String>, openDialog: MutableState<Boolean>){
 
     ElevatedCard(
         shape = RoundedCornerShape(16.dp),
@@ -178,7 +202,7 @@ fun Card(recipeName: MutableState<String>){
 
             Button(
                 onClick = {
-
+                    openDialog.value = true
                 },
                 shape = RectangleShape,
                 colors = ButtonDefaults.elevatedButtonColors(
@@ -210,6 +234,162 @@ fun Card(recipeName: MutableState<String>){
                         imageVector = Icons.Default.KeyboardArrowRight,
                         contentDescription = "categories"
                     )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun CategoriesDialog(setShowDialog: (Boolean) -> Unit, onValueChange: MutableState<String>) {
+
+    Dialog(onDismissRequest = { setShowDialog(false) }) {
+        Surface(
+            shape = RoundedCornerShape(16.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.categories),
+                    style = typography.headlineSmall,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                )
+
+                Spacer(modifier = Modifier.padding(top = 16.dp))
+
+                DialogTextField(
+                    isShadow = true,
+                    onClick = {},
+                    fieldLabel = stringResource(id = R.string.your_categories),
+                    text = onValueChange.value,
+                    buttonText = stringResource(id = R.string.add),
+                    onValueChange = { onValueChange.value = it }
+                )
+
+                Spacer(modifier = Modifier.padding(top = 16.dp))
+
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(5) {
+                        Text(
+                            text = "category",
+                            style = typography.bodyMedium,
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.padding(top = 16.dp))
+
+                Text(
+                    text = stringResource(id = R.string.popular_categories),
+                    style = typography.titleMedium,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Start,
+                )
+
+                Spacer(modifier = Modifier.padding(top = 8.dp))
+
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(5) {
+                        Button(
+                            shape = RoundedCornerShape(8.dp),
+                            onClick = {  },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = colorScheme.tertiary,
+                                contentColor = colorScheme.primary
+                            )
+                        ) {
+                            Text(
+                                text = "category",
+                                style = typography.bodyMedium
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun IngredientsDialog(setShowDialog: (Boolean) -> Unit, onValueChange: MutableState<String>) {
+
+    Dialog(onDismissRequest = { setShowDialog(false) }) {
+        Surface(
+            shape = RoundedCornerShape(16.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.ingredients),
+                    style = typography.headlineSmall,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                )
+
+                Spacer(modifier = Modifier.padding(top = 16.dp))
+
+                DialogTextField(
+                    isShadow = true,
+                    onClick = {},
+                    fieldLabel = stringResource(id = R.string.your_categories),
+                    text = onValueChange.value,
+                    buttonText = stringResource(id = R.string.add),
+                    onValueChange = { onValueChange.value = it }
+                )
+
+                Spacer(modifier = Modifier.padding(top = 16.dp))
+
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(5) {
+                        Text(
+                            text = "category",
+                            style = typography.bodyMedium,
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.padding(top = 16.dp))
+
+                Text(
+                    text = stringResource(id = R.string.popular_categories),
+                    style = typography.titleMedium,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Start,
+                )
+
+                Spacer(modifier = Modifier.padding(top = 8.dp))
+
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(5) {
+                        Button(
+                            shape = RoundedCornerShape(8.dp),
+                            onClick = {  },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = colorScheme.tertiary,
+                                contentColor = colorScheme.primary
+                            )
+                        ) {
+                            Text(
+                                text = "category",
+                                style = typography.bodyMedium
+                            )
+                        }
+                    }
                 }
             }
         }

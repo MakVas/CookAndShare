@@ -18,9 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -41,6 +39,7 @@ fun RecipeItem(
     name: String,
     title: String,
     likes: String,
+    isPreview: Boolean,
     modifier: Modifier = Modifier
 ) {
     ElevatedButton(
@@ -88,48 +87,32 @@ fun RecipeItem(
                         style = typography.labelLarge,
                     )
                 }
-                Column(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .padding(end = 16.dp, bottom = 10.dp, top = 10.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    IconButton(
+                if (!isPreview) {
+                    Column(
                         modifier = Modifier
-                            .size(30.dp),
-                        onClick = { Log.d("RecipeItem", "Like Btn Clicked") },
+                            .fillMaxHeight()
+                            .padding(end = 16.dp, bottom = 10.dp, top = 10.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.SpaceBetween,
                     ) {
-                        Icon(
-                            modifier = Modifier.size(30.dp),
-                            imageVector = Icons.Default.FavoriteBorder,
-                            contentDescription = "Like Btn"
+                        IconButton(
+                            modifier = Modifier
+                                .size(30.dp),
+                            onClick = { Log.d("RecipeItem", "Like Btn Clicked") },
+                        ) {
+                            Icon(
+                                modifier = Modifier.size(30.dp),
+                                imageVector = Icons.Default.FavoriteBorder,
+                                contentDescription = "Like Btn"
+                            )
+                        }
+                        Text(
+                            text = likes,
+                            style = typography.labelMedium,
                         )
                     }
-                    Text(
-                        text = likes,
-                        style = typography.labelMedium,
-                    )
                 }
             }
         }
-    }
-}
-
-@Composable
-fun RecipeItemWithShimmer() {
-    ElevatedCard(
-        modifier = Modifier
-            .height(220.dp)
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(1.dp)
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .shimmerEffect()
-        )
     }
 }
