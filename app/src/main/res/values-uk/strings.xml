@@ -37,4 +37,7 @@
     <string name="preview">Попередній перегляд</string>
     <string name="your_categories">Введіть свої категорії</string>
     <string name="popular_categories">Популярні категорії</string>
+    <string name="ingredient_name">Ingredient name</string>
+    <string name="weight">Weight</string>
+    <string name="add_ingredient">Add ingredient</string>
 </resources>
