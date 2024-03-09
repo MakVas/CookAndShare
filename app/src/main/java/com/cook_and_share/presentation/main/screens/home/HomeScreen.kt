@@ -15,9 +15,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.DrawerState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -33,18 +37,35 @@ import androidx.compose.ui.unit.dp
 import com.cook_and_share.R
 import com.cook_and_share.presentation.custom.CustomPagerIndicator
 import com.cook_and_share.presentation.custom.RecipeItem
+import com.cook_and_share.presentation.main.TopBar
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(isSheetExpanded: MutableState<Boolean>) {
+fun HomeScreen(
+    isSheetExpanded: MutableState<Boolean>,
+    scope: CoroutineScope,
+    drawerState: DrawerState,
+    scrollBehavior: TopAppBarScrollBehavior
+) {
 
-    Scaffold { values ->
+    Scaffold (
+        topBar = {
+            TopBar(
+                text = R.string.app_name,
+                scope = scope,
+                drawerState = drawerState,
+                scrollBehavior = scrollBehavior
+            )
+        }
+    ){ values ->
         Box(
             modifier = Modifier
                 .padding(values)
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
+                .background(colorScheme.background)
         ) {
             NestedScrolling(isSheetExpanded)
         }
@@ -52,7 +73,7 @@ fun HomeScreen(isSheetExpanded: MutableState<Boolean>) {
 }
 
 @Composable
-fun NestedScrolling(isSheetExpanded: MutableState<Boolean>) {
+private fun NestedScrolling(isSheetExpanded: MutableState<Boolean>) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize(),
@@ -88,7 +109,7 @@ fun NestedScrolling(isSheetExpanded: MutableState<Boolean>) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun SubRow(isSheetExpanded: MutableState<Boolean>) {
+private fun SubRow(isSheetExpanded: MutableState<Boolean>) {
     val bannerList = (0..5).toList()
     val bannerPagerState = rememberPagerState { bannerList.size }
     var bannerAutomaticallyScrollPage by rememberSaveable { mutableIntStateOf(0) }
@@ -117,8 +138,9 @@ fun SubRow(isSheetExpanded: MutableState<Boolean>) {
                 onClick = {
                    isSheetExpanded.value = true
                 },
+                image = if (page % 2 == 0) R.drawable.image1 else R.drawable.image2,
                 name = "username",
-                title = "Item $page",
+                title = "Рецепт $page",
                 likes = "123",
                 isPreview = false
             )
@@ -127,7 +149,7 @@ fun SubRow(isSheetExpanded: MutableState<Boolean>) {
     }
 }
 
-fun LazyListScope.subColumn(
+private fun LazyListScope.subColumn(
     isSheetExpanded: MutableState<Boolean>,
     modifier: Modifier = Modifier
 ) {
@@ -136,8 +158,9 @@ fun LazyListScope.subColumn(
             onClick = {
                 isSheetExpanded.value = true
             },
+            image = if (it % 2 == 0) R.drawable.image1 else R.drawable.image2,
             name = "username",
-            title = "Item $it",
+            title = "Рецепт $it",
             likes = "123",
             modifier = modifier,
             isPreview = false

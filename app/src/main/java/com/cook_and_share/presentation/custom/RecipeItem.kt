@@ -30,12 +30,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale.Companion.Crop
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.cook_and_share.R
 import com.cook_and_share.ui.theme.RecipeTitle
 
 @Composable
 fun RecipeItem(
     onClick: () -> Unit,
+    image: Int,
     name: String,
     title: String,
     likes: String,
@@ -59,7 +59,7 @@ fun RecipeItem(
             Image(
                 modifier = Modifier
                     .fillMaxSize(),
-                painter = painterResource(id = R.drawable.top_project_logo),
+                painter = painterResource(id = image),
                 contentDescription = "recipe image",
                 contentScale = Crop,
             )

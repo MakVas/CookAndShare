@@ -62,7 +62,7 @@ fun SplashScreen(
     ) {
         Image(
             modifier = Modifier.alpha(alpha.value),
-            painter = painterResource(id = R.drawable.top_project_logo),
+            painter = painterResource(id = R.drawable.google),
             contentDescription = "Meal Mentor Logo"
         )
     }

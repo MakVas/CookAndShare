@@ -55,10 +55,11 @@ fun SignUpScreen(
 
     val signUpFlow = viewModel?.signupFlow?.collectAsState()
 
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 50.dp),
+            .padding(top = 50.dp, start = 16.dp, end = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -73,123 +74,121 @@ fun SignUpScreen(
             color = MaterialTheme.colorScheme.onPrimary,
             style = SmallTitle
         )
-    }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
 
-
-        CustomTextField(
-            isShadow = true,
-            fieldLabel = stringResource(id = R.string.username),
-            icon = Icons.Default.AccountCircle,
-            text = usernameText
-        ) {
-            usernameText = it
-        }
-
-        Spacer(modifier = Modifier.padding(vertical = 8.dp))
-
-        CustomTextField(
-            isShadow = true,
-            fieldLabel = stringResource(id = R.string.email),
-            icon = Icons.Default.Email,
-            text = emailText
-        ) {
-            emailText = it
-        }
-
-        Spacer(modifier = Modifier.padding(vertical = 8.dp))
-
-        PasswordField(
-            fieldLabel = stringResource(id = R.string.password),
-            text = passwordText,
-            onValueChange = {
-                passwordText = it
-                passwordLength = it.length < 6
-            }
-        )
-
-        Spacer(modifier = Modifier.padding(vertical = 8.dp))
-
-        PasswordField(
-            fieldLabel = stringResource(id = R.string.confirm_password),
-            text = password2Text,
-            onValueChange = {
-                password2Text = it
-                passwordLength = it.length < 6
-            }
-        )
-
-        Spacer(modifier = Modifier.padding(vertical = 8.dp))
-
-        ElevatedButton(
-            onClick = {
-                viewModel?.signup(emailText, passwordText, usernameText)
-            },
-            shape = ButtonDefaults.elevatedShape,
-            colors = ButtonDefaults.elevatedButtonColors(
-                containerColor = MaterialTheme.colorScheme.tertiary,
-                contentColor = MaterialTheme.colorScheme.onTertiary
-            ),
-            elevation = ButtonDefaults.elevatedButtonElevation(
-                defaultElevation = 3.dp,
-                pressedElevation = 0.dp
-            ),
+        Column(
             modifier = Modifier
-                .padding(horizontal = 80.dp)
-                .height(65.dp)
-                .fillMaxWidth()
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = stringResource(id = R.string.sign_up),
-                style = ButtonText
+            CustomTextField(
+                isShadow = true,
+                fieldLabel = stringResource(id = R.string.username),
+                icon = Icons.Default.AccountCircle,
+                text = usernameText
+            ) {
+                usernameText = it
+            }
+
+            Spacer(modifier = Modifier.padding(vertical = 8.dp))
+
+            CustomTextField(
+                isShadow = true,
+                fieldLabel = stringResource(id = R.string.email),
+                icon = Icons.Default.Email,
+                text = emailText
+            ) {
+                emailText = it
+            }
+
+            Spacer(modifier = Modifier.padding(vertical = 8.dp))
+
+            PasswordField(
+                fieldLabel = stringResource(id = R.string.password),
+                text = passwordText,
+                onValueChange = {
+                    passwordText = it
+                    passwordLength = it.length < 6
+                }
             )
-        }
 
-        Spacer(modifier = Modifier.padding(vertical = 5.dp))
+            Spacer(modifier = Modifier.padding(vertical = 8.dp))
 
-        Row(
-            horizontalArrangement = Arrangement.Center
-        ) {
-
-            Text(
-                text = stringResource(id = R.string.have_account),
-                color = MaterialTheme.colorScheme.onPrimary,
-                style = SmallTitle
+            PasswordField(
+                fieldLabel = stringResource(id = R.string.confirm_password),
+                text = password2Text,
+                onValueChange = {
+                    password2Text = it
+                    passwordLength = it.length < 6
+                }
             )
 
-            Text(
-                text = stringResource(id = R.string.login),
-                color = MaterialTheme.colorScheme.onPrimary,
-                style = SmallTitleBold,
+            Spacer(modifier = Modifier.padding(vertical = 8.dp))
+
+            ElevatedButton(
+                onClick = {
+                    viewModel?.signup(emailText, passwordText, usernameText)
+                },
+                shape = ButtonDefaults.elevatedShape,
+                colors = ButtonDefaults.elevatedButtonColors(
+                    containerColor = MaterialTheme.colorScheme.tertiary,
+                    contentColor = MaterialTheme.colorScheme.onTertiary
+                ),
+                elevation = ButtonDefaults.elevatedButtonElevation(
+                    defaultElevation = 3.dp,
+                    pressedElevation = 0.dp
+                ),
                 modifier = Modifier
-                    .padding(start = 5.dp)
-                    .clickable {
-                        navController.navigate(route = Screens.LoginScreen.route) {
-                            launchSingleTop = true
+                    .padding(horizontal = 80.dp)
+                    .height(65.dp)
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    text = stringResource(id = R.string.sign_up),
+                    style = ButtonText
+                )
+            }
+
+            Spacer(modifier = Modifier.padding(vertical = 5.dp))
+
+            Row(
+                horizontalArrangement = Arrangement.Center
+            ) {
+
+                Text(
+                    text = stringResource(id = R.string.have_account),
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    style = SmallTitle
+                )
+
+                Text(
+                    text = stringResource(id = R.string.login),
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    style = SmallTitleBold,
+                    modifier = Modifier
+                        .padding(start = 5.dp)
+                        .clickable {
+                            navController.navigate(route = Screens.LoginScreen.route) {
+                                launchSingleTop = true
+                            }
                         }
+                )
+            }
+            signUpFlow?.value?.let {
+                when (it) {
+                    is Resource.Error -> {
+                        val context = LocalContext.current
+                        Toast.makeText(context, it.exception.message, Toast.LENGTH_LONG).show()
                     }
-            )
-        }
-        signUpFlow?.value?.let {
-            when (it) {
-                is Resource.Error -> {
-                    val context = LocalContext.current
-                    Toast.makeText(context, it.exception.message, Toast.LENGTH_LONG).show()
-                }
 
-                Resource.Loading -> {
-                }
+                    Resource.Loading -> {
+                    }
 
-                is Resource.Success -> {
-                    LaunchedEffect(Unit) {
-                        navController.navigate(route = Screens.Main.route) {
-                            popUpTo(Screens.LoginScreen.route) { inclusive = true }
+                    is Resource.Success -> {
+                        LaunchedEffect(Unit) {
+                            navController.navigate(route = Screens.Main.route) {
+                                popUpTo(Screens.LoginScreen.route) { inclusive = true }
+                            }
                         }
                     }
                 }

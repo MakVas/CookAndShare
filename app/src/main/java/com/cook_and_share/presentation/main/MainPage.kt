@@ -100,9 +100,6 @@ fun MainPage(
         )
         Scaffold(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-            topBar = {
-                TopBar(currentText.intValue, scope, drawerState, scrollBehavior)
-            },
             bottomBar = {
                 NavigationBar(navController)
             }
@@ -115,19 +112,37 @@ fun MainPage(
             ) {
                 composable(Screens.HomeScreen.route) {
                     currentText.intValue = R.string.app_name
-                    HomeScreen(isSheetExpanded = isSheetExpanded)
+                    HomeScreen(
+                        isSheetExpanded = isSheetExpanded,
+                        scope = scope,
+                        drawerState = drawerState,
+                        scrollBehavior = scrollBehavior
+                    )
                 }
                 composable(Screens.AddRecipeScreen.route) {
                     currentText.intValue = R.string.preview
-                    AddRecipeScreen()
+                    AddRecipeScreen(
+                        scope = scope,
+                        drawerState = drawerState,
+                        scrollBehavior = scrollBehavior
+                    )
                 }
                 composable(Screens.SearchRecipeScreen.route) {
                     currentText.intValue = R.string.search
-                    SearchScreen()
+                    SearchScreen(
+                        scope = scope,
+                        drawerState = drawerState,
+                        scrollBehavior = scrollBehavior
+                    )
                 }
                 composable(Screens.ProfileScreen.route) {
                     currentText.intValue = R.string.profile
-                    ProfileScreen(profileViewModel)
+                    ProfileScreen(
+                        viewModel = profileViewModel,
+                        scope = scope,
+                        drawerState = drawerState,
+                        scrollBehavior = scrollBehavior
+                    )
                 }
             }
         }
@@ -136,7 +151,7 @@ fun MainPage(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopBar(
+fun TopBar(
     text: Int,
     scope: CoroutineScope,
     drawerState: DrawerState,
@@ -172,7 +187,6 @@ private fun TopBar(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun NavigationBar(navController: NavController) {
     NavigationBar(
@@ -347,7 +361,7 @@ fun BottomSheet(
             }
         ) {
             Image(
-                painter = painterResource(id = R.drawable.top_project_logo),
+                painter = painterResource(id = R.drawable.google),
                 contentDescription = "Logo",
                 modifier = Modifier
                     .fillMaxWidth()
