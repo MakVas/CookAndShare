@@ -361,7 +361,7 @@ fun BottomSheet(
             }
         ) {
             Image(
-                painter = painterResource(id = R.drawable.google),
+                painter = painterResource(id = R.drawable.image1),
                 contentDescription = "Logo",
                 modifier = Modifier
                     .fillMaxWidth()

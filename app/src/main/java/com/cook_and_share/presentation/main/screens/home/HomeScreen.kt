@@ -17,8 +17,8 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -77,7 +77,6 @@ private fun NestedScrolling(isSheetExpanded: MutableState<Boolean>) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize(),
-        //contentPadding = PaddingValues(16.dp)
     ) {
         item {
             Spacer(modifier = Modifier.height(16.dp))
@@ -85,7 +84,7 @@ private fun NestedScrolling(isSheetExpanded: MutableState<Boolean>) {
             Text(
                 modifier = Modifier.padding(start = 16.dp),
                 text = stringResource(id = R.string.top_of_the_day),
-                style = MaterialTheme.typography.titleLarge
+                style = typography.headlineSmall
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -95,7 +94,7 @@ private fun NestedScrolling(isSheetExpanded: MutableState<Boolean>) {
             Text(
                 modifier = Modifier.padding(start = 16.dp),
                 text = stringResource(id = R.string.subscribed_recipes),
-                style = MaterialTheme.typography.titleLarge
+                style = typography.headlineSmall
             )
 
             Spacer(modifier = Modifier.height(16.dp))

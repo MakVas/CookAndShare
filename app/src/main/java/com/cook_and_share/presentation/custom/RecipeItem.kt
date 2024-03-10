@@ -30,7 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale.Companion.Crop
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.cook_and_share.ui.theme.RecipeTitle
+import com.cook_and_share.ui.theme.Typography
 
 @Composable
 fun RecipeItem(
@@ -79,12 +79,13 @@ fun RecipeItem(
                 ) {
                     Text(
                         text = title,
-                        style = RecipeTitle
+                        modifier = Modifier.padding(top = 6.dp),
+                        style = Typography.titleSmall
                     )
 
                     Text(
                         text = name,
-                        style = typography.labelLarge,
+                        style = Typography.labelMedium,
                     )
                 }
                 if (!isPreview) {

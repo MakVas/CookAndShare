@@ -47,7 +47,6 @@ import com.cook_and_share.presentation.custom.CustomTextField
 import com.cook_and_share.presentation.custom.RecipeItem
 import com.cook_and_share.presentation.custom.RecipeTextField
 import com.cook_and_share.presentation.main.TopBar
-import com.cook_and_share.ui.theme.ButtonText
 import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -176,7 +175,7 @@ private fun NestedScrolling(){
         ) {
             Text(
                 text = stringResource(id = R.string.publish_recipe),
-                style = ButtonText
+               // style = ButtonText
             )
         }
         Spacer(modifier = Modifier.padding(top = 16.dp))

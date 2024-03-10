@@ -36,10 +36,7 @@ import com.cook_and_share.R
 import com.cook_and_share.data.Resource
 import com.cook_and_share.presentation.custom.CustomTextField
 import com.cook_and_share.presentation.custom.PasswordField
-import com.cook_and_share.ui.theme.ButtonText
-import com.cook_and_share.ui.theme.MainTitle
-import com.cook_and_share.ui.theme.SmallTitle
-import com.cook_and_share.ui.theme.SmallTitleBold
+import com.cook_and_share.ui.theme.Typography
 import com.cook_and_share.util.Screens
 
 // LoginPage це функція, яка містить розмітку сторінки входу в додаток
@@ -71,13 +68,12 @@ fun LoginScreen(
                 text = stringResource(id = R.string.app_name),
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onPrimary,
-                style = MainTitle
+                style = Typography.displayLarge
             )
             Text(
                 text = stringResource(id = R.string.login_to_acc),
                 textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onPrimary,
-                style = SmallTitle
+                color = MaterialTheme.colorScheme.onPrimary
             )
         }
 
@@ -106,14 +102,13 @@ fun LoginScreen(
                 text = stringResource(id = R.string.forgot_password),
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onPrimary,
-                style = SmallTitleBold,
+                style = Typography.titleMedium,
                 modifier = Modifier
-                    .padding(start = 5.dp)
+                    .padding(vertical = 6.dp)
                     .clickable {
                         //navigateToForgotPasswordPage()
                     }
             )
-
             ElevatedButton(
                 onClick = {
                     viewModel?.login(emailText, passwordText)
@@ -134,23 +129,23 @@ fun LoginScreen(
             ) {
                 Text(
                     text = stringResource(id = R.string.login),
-                    style = ButtonText
+                    style = Typography.labelLarge
                 )
             }
             Row(
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
 
                 Text(
                     text = stringResource(id = R.string.dont_have_account),
                     color = MaterialTheme.colorScheme.onPrimary,
-                    style = SmallTitle
                 )
 
                 Text(
                     text = stringResource(id = R.string.sign_up),
                     color = MaterialTheme.colorScheme.onPrimary,
-                    style = SmallTitleBold,
+                    style = Typography.titleMedium,
                     modifier = Modifier
                         .padding(start = 5.dp)
                         .clickable {
@@ -193,7 +188,7 @@ fun LoginScreen(
                 )
                 Text(
                     text = stringResource(id = R.string.login_with_google),
-                    style = ButtonText,
+                    style = Typography.labelLarge,
                     modifier = Modifier.padding(start = 16.dp)
                 )
             }
