@@ -6,15 +6,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalDrawerSheet
@@ -27,9 +24,6 @@ import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -44,7 +38,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -88,18 +81,15 @@ fun MainPage(
 
     val currentText = remember { mutableIntStateOf(R.string.app_name) }
 
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-
     val sheetState = rememberModalBottomSheetState()
     val isSheetExpanded = rememberSaveable { mutableStateOf(false) }
 
-    DrawerBar(viewModel, localNavController, scope, drawerState) {
+    DrawerBar(currentText, viewModel, localNavController, scope, drawerState) {
         BottomSheet(
             sheetState = sheetState,
             isSheetExpanded = isSheetExpanded
         )
         Scaffold(
-            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             bottomBar = {
                 NavigationBar(navController)
             }
@@ -115,76 +105,31 @@ fun MainPage(
                     HomeScreen(
                         isSheetExpanded = isSheetExpanded,
                         scope = scope,
-                        drawerState = drawerState,
-                        scrollBehavior = scrollBehavior
+                        drawerState = drawerState
                     )
                 }
                 composable(Screens.AddRecipeScreen.route) {
                     currentText.intValue = R.string.preview
                     AddRecipeScreen(
                         scope = scope,
-                        drawerState = drawerState,
-                        scrollBehavior = scrollBehavior
+                        drawerState = drawerState
                     )
                 }
                 composable(Screens.SearchRecipeScreen.route) {
                     currentText.intValue = R.string.search
-                    SearchScreen(
-                        scope = scope,
-                        drawerState = drawerState,
-                        scrollBehavior = scrollBehavior
-                    )
+                    SearchScreen()
                 }
                 composable(Screens.ProfileScreen.route) {
                     currentText.intValue = R.string.profile
                     ProfileScreen(
                         viewModel = profileViewModel,
                         scope = scope,
-                        drawerState = drawerState,
-                        scrollBehavior = scrollBehavior
+                        drawerState = drawerState
                     )
                 }
             }
         }
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun TopBar(
-    text: Int,
-    scope: CoroutineScope,
-    drawerState: DrawerState,
-    scrollBehavior: TopAppBarScrollBehavior
-) {
-    TopAppBar(
-        modifier = Modifier.shadow(elevation = 3.dp),
-        scrollBehavior = scrollBehavior,
-        colors = TopAppBarDefaults.topAppBarColors(
-            titleContentColor = MaterialTheme.colorScheme.onPrimary
-        ),
-        title = {
-            Text(
-                text = stringResource(id = text),
-                fontWeight = FontWeight.Bold
-            )
-        },
-        navigationIcon = {
-            IconButton(
-                onClick = {
-                    scope.launch {
-                        drawerState.open()
-                    }
-                },
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Menu,
-                    contentDescription = "Menu",
-                    tint = MaterialTheme.colorScheme.onPrimary
-                )
-            }
-        },
-    )
 }
 
 @Composable
@@ -248,6 +193,7 @@ private fun NavigationBar(navController: NavController) {
 
 @Composable
 private fun DrawerBar(
+    currentText: MutableState<Int>,
     viewModel: AuthViewModel?,
     navController: NavHostController,
     scope: CoroutineScope,
@@ -257,8 +203,11 @@ private fun DrawerBar(
     var selectedItemIndex by rememberSaveable {
         mutableIntStateOf(0)
     }
+    val isSearchScreenActive = currentText.value == R.string.search
+    val gestureEnabled = !isSearchScreenActive
 
     ModalNavigationDrawer(
+        gesturesEnabled = gestureEnabled,
         drawerContent = {
             ModalDrawerSheet(
                 drawerShape = RectangleShape,
@@ -349,7 +298,7 @@ private fun DrawerBar(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomSheet(
+private fun BottomSheet(
     sheetState: SheetState,
     isSheetExpanded: MutableState<Boolean>
 ){

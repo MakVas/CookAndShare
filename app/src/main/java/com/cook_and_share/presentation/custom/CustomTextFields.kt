@@ -38,20 +38,12 @@ import com.cook_and_share.R
 // Функція, що створює кастомне текстове поле для введення електронної пошти
 @Composable
 fun CustomTextField(
-    isShadow: Boolean,
+    modifier: Modifier = Modifier,
     icon: ImageVector,
     fieldLabel: String,
     text: String,
-    onValueChange: ((String) -> Unit)
+    onValueChange: ((String) -> Unit),
 ) {
-    val modifier = if (isShadow) {
-        Modifier
-            .fillMaxWidth()
-            .height(65.dp)
-            .shadow(1.dp, RoundedCornerShape(16.dp), clip = true)
-    } else {
-        Modifier.fillMaxWidth()
-    }
     TextField(
         value = text,
         onValueChange = onValueChange,
@@ -237,6 +229,7 @@ fun DialogTextField(
 }
 @Composable
 fun RecipeTextField(
+    modifier: Modifier = Modifier,
     fieldLabel: String,
     text: String,
     onValueChange: ((String) -> Unit)
@@ -245,10 +238,7 @@ fun RecipeTextField(
         value = text,
         onValueChange = onValueChange,
         shape = RoundedCornerShape(16.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(300.dp)
-            .shadow(1.dp, RoundedCornerShape(16.dp), clip = true),
+        modifier = modifier,
         label = {
             Text(fieldLabel)
         },

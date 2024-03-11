@@ -21,7 +21,7 @@ import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -32,12 +32,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.cook_and_share.R
 import com.cook_and_share.presentation.custom.CustomPagerIndicator
 import com.cook_and_share.presentation.custom.RecipeItem
-import com.cook_and_share.presentation.main.TopBar
+import com.cook_and_share.presentation.custom.TopBar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -47,11 +48,11 @@ import kotlinx.coroutines.launch
 fun HomeScreen(
     isSheetExpanded: MutableState<Boolean>,
     scope: CoroutineScope,
-    drawerState: DrawerState,
-    scrollBehavior: TopAppBarScrollBehavior
+    drawerState: DrawerState
 ) {
-
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold (
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopBar(
                 text = R.string.app_name,

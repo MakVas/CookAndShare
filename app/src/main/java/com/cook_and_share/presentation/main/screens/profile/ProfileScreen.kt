@@ -19,13 +19,14 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.cook_and_share.R
-import com.cook_and_share.presentation.main.TopBar
+import com.cook_and_share.presentation.custom.TopBar
 import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,18 +34,20 @@ import kotlinx.coroutines.CoroutineScope
 fun ProfileScreen(
     viewModel: ProfileViewModel?,
     scope: CoroutineScope,
-    drawerState: DrawerState,
-    scrollBehavior: TopAppBarScrollBehavior
+    drawerState: DrawerState
 ) {
-    Scaffold (topBar = {
-        TopBar(
-            text = R.string.profile,
-            scope = scope,
-            drawerState = drawerState,
-            scrollBehavior = scrollBehavior
-        )
-    }
-    ){ values ->
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            TopBar(
+                text = R.string.profile,
+                scope = scope,
+                drawerState = drawerState,
+                scrollBehavior = scrollBehavior
+            )
+        }
+    ) { values ->
         Box(
             modifier = Modifier
                 .padding(values)

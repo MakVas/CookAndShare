@@ -30,7 +30,7 @@ import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -40,31 +40,34 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.cook_and_share.R
 import com.cook_and_share.presentation.custom.CustomTextField
 import com.cook_and_share.presentation.custom.RecipeItem
 import com.cook_and_share.presentation.custom.RecipeTextField
-import com.cook_and_share.presentation.main.TopBar
+import com.cook_and_share.presentation.custom.TopBar
 import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddRecipeScreen(
     scope: CoroutineScope,
-    drawerState: DrawerState,
-    scrollBehavior: TopAppBarScrollBehavior
+    drawerState: DrawerState
 ) {
-    Scaffold (topBar = {
-        TopBar(
-            text = R.string.add,
-            scope = scope,
-            drawerState = drawerState,
-            scrollBehavior = scrollBehavior
-        )
-    }
-    ){ values ->
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            TopBar(
+                text = R.string.add,
+                scope = scope,
+                drawerState = drawerState,
+                scrollBehavior = scrollBehavior
+            )
+        }
+    ) { values ->
         Box(
             modifier = Modifier
                 .padding(values)
@@ -77,21 +80,21 @@ fun AddRecipeScreen(
 }
 
 @Composable
-private fun NestedScrolling(){
+private fun NestedScrolling() {
     val recipeName = remember { mutableStateOf("") }
     var cookingMethod by remember { mutableStateOf("") }
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp)
             .verticalScroll(rememberScrollState())
-    ){
+    ) {
         Spacer(modifier = Modifier.padding(top = 16.dp))
 
         RecipeItem(
             onClick = {
 
             },
+            modifier = Modifier.padding(horizontal = 16.dp),
             image = R.drawable.no_image,
             name = "username",
             title = recipeName.value,
@@ -120,12 +123,14 @@ private fun NestedScrolling(){
             ),
             modifier = Modifier
                 .height(60.dp)
+                .padding(horizontal = 16.dp)
                 .fillMaxWidth(),
             contentPadding = PaddingValues(horizontal = 12.dp),
         ) {
-            Box (
-                modifier = Modifier.fillMaxSize(),
-            ){
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
                 Icon(
                     modifier = Modifier.align(Alignment.CenterStart),
                     imageVector = Icons.Default.Restaurant,
@@ -149,6 +154,10 @@ private fun NestedScrolling(){
         Spacer(modifier = Modifier.padding(top = 16.dp))
 
         RecipeTextField(
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .fillMaxWidth()
+                .height(300.dp),
             fieldLabel = stringResource(id = R.string.cooking_method),
             text = cookingMethod,
             onValueChange = { cookingMethod = it }
@@ -171,11 +180,12 @@ private fun NestedScrolling(){
             ),
             modifier = Modifier
                 .height(65.dp)
+                .padding(horizontal = 16.dp)
                 .fillMaxWidth()
         ) {
             Text(
                 text = stringResource(id = R.string.publish_recipe),
-               // style = ButtonText
+                style = typography.labelLarge
             )
         }
         Spacer(modifier = Modifier.padding(top = 16.dp))
@@ -183,16 +193,18 @@ private fun NestedScrolling(){
 }
 
 @Composable
-private fun DoubleButton(recipeName: MutableState<String>){
+private fun DoubleButton(recipeName: MutableState<String>) {
 
     ElevatedCard(
+        modifier = Modifier.padding(horizontal = 16.dp),
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(1.dp),
         colors = CardDefaults.cardColors(containerColor = colorScheme.secondary)
     ) {
-        Column {
+        Column{
             CustomTextField(
-                isShadow = false,
+                modifier = Modifier
+                    .fillMaxWidth(),
                 icon = Icons.Default.DriveFileRenameOutline,
                 fieldLabel = stringResource(id = R.string.recipe_name),
                 text = recipeName.value,
@@ -224,9 +236,9 @@ private fun DoubleButton(recipeName: MutableState<String>){
                     .height(56.dp)
                     .fillMaxWidth()
             ) {
-                Box (
+                Box(
                     modifier = Modifier.fillMaxSize(),
-                ){
+                ) {
                     Icon(
                         modifier = Modifier.align(Alignment.CenterStart),
                         imageVector = Icons.Default.Tag,

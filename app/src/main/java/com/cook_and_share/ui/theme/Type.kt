@@ -29,7 +29,7 @@ val rubikFontFamily = FontFamily(
 val Typography = Typography(
         titleLarge = TextStyle(
                 fontFamily = rubikFontFamily,
-                fontWeight = FontWeight(600),
+                fontWeight = FontWeight(700),
                 fontSize = 22.sp,
                 lineHeight = 28.sp,
         ),
