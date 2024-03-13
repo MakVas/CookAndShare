@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import com.cook_and_share.R
 import com.cook_and_share.presentation.custom.CustomPagerIndicator
 import com.cook_and_share.presentation.custom.RecipeItem
+import com.cook_and_share.presentation.custom.TopAppBarMenuIcon
 import com.cook_and_share.presentation.custom.TopBar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -56,9 +57,8 @@ fun HomeScreen(
         topBar = {
             TopBar(
                 text = R.string.app_name,
-                scope = scope,
-                drawerState = drawerState,
-                scrollBehavior = scrollBehavior
+                scrollBehavior = scrollBehavior,
+                iconButton = { TopAppBarMenuIcon(scope = scope, drawerState = drawerState) }
             )
         }
     ){ values ->

@@ -42,4 +42,6 @@
     <string name="ingredient_name">Ingredient name</string>
     <string name="weight">Weight</string>
     <string name="add_ingredient">Add ingredient</string>
+    <string name="recipes">Recipes</string>
+    <string name="people">People</string>
 </resources>

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
@@ -31,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.cook_and_share.ui.theme.Typography
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -39,9 +41,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun TopBar(
     text: Int,
-    scope: CoroutineScope,
-    drawerState: DrawerState,
-    scrollBehavior: TopAppBarScrollBehavior
+    scrollBehavior: TopAppBarScrollBehavior,
+    iconButton: @Composable () -> Unit
 ) {
     TopAppBar(
         modifier = Modifier.shadow(elevation = 3.dp),
@@ -56,19 +57,7 @@ fun TopBar(
             )
         },
         navigationIcon = {
-            IconButton(
-                onClick = {
-                    scope.launch {
-                        drawerState.open()
-                    }
-                },
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Menu,
-                    contentDescription = "Menu",
-                    tint = colorScheme.onPrimary
-                )
-            }
+            iconButton()
         },
     )
 }
@@ -84,9 +73,7 @@ fun SearchTopBar(
         modifier = Modifier.fillMaxWidth(),
         shadowElevation = 3.dp
     ) {
-        Column (
-            modifier = Modifier.padding(start = 4.dp, top = 4.dp, end = 4.dp)
-        ){
+        Column {
             Row (
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -96,7 +83,7 @@ fun SearchTopBar(
                 CustomTextField(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(start = 12.dp)
+                        .padding(start = 12.dp, top = 4.dp)
                         .shadow(1.dp, RoundedCornerShape(16.dp), clip = true),
                     icon = Icons.Filled.Search,
                     fieldLabel = stringResource(id = text),
@@ -106,6 +93,7 @@ fun SearchTopBar(
                 }
 
                 IconButton(
+                    modifier = Modifier.padding(top = 4.dp,end = 4.dp),
                     onClick = { }
                 ) {
                     Icon(
@@ -138,5 +126,48 @@ fun SearchTopBar(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun TopAppBarMenuIcon(
+    scope: CoroutineScope,
+    drawerState: DrawerState
+){
+    IconButton(
+        onClick = {
+            scope.launch {
+                drawerState.open()
+            }
+        },
+    ) {
+        Icon(
+            imageVector = Icons.Default.Menu,
+            contentDescription = "Menu",
+            tint = colorScheme.onPrimary
+        )
+    }
+}
+
+@Composable
+fun TopAppBarBackIcon(
+    navController: NavHostController,
+    navigate: String,
+    popUpTo: String
+){
+    IconButton(
+        onClick = {
+            navController.navigate(navigate) {
+                popUpTo(popUpTo) {
+                    inclusive = true
+                }
+            }
+        }
+    ) {
+        Icon(
+            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+            contentDescription = "Back",
+            tint = colorScheme.onPrimary
+        )
     }
 }

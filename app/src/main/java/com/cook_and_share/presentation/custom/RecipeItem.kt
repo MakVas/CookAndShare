@@ -1,6 +1,5 @@
 package com.cook_and_share.presentation.custom
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -99,7 +98,7 @@ fun RecipeItem(
                         IconButton(
                             modifier = Modifier
                                 .size(30.dp),
-                            onClick = { Log.d("RecipeItem", "Like Btn Clicked") },
+                            onClick = { },
                         ) {
                             Icon(
                                 modifier = Modifier.size(30.dp),

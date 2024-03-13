@@ -26,6 +26,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.cook_and_share.R
+import com.cook_and_share.presentation.custom.TopAppBarMenuIcon
 import com.cook_and_share.presentation.custom.TopBar
 import kotlinx.coroutines.CoroutineScope
 
@@ -42,9 +43,8 @@ fun ProfileScreen(
         topBar = {
             TopBar(
                 text = R.string.profile,
-                scope = scope,
-                drawerState = drawerState,
-                scrollBehavior = scrollBehavior
+                scrollBehavior = scrollBehavior,
+                iconButton = { TopAppBarMenuIcon(scope = scope, drawerState = drawerState) }
             )
         }
     ) { values ->

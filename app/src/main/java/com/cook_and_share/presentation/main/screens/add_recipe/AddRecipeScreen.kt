@@ -43,16 +43,20 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.cook_and_share.R
 import com.cook_and_share.presentation.custom.CustomTextField
 import com.cook_and_share.presentation.custom.RecipeItem
 import com.cook_and_share.presentation.custom.RecipeTextField
+import com.cook_and_share.presentation.custom.TopAppBarMenuIcon
 import com.cook_and_share.presentation.custom.TopBar
+import com.cook_and_share.util.Screens
 import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddRecipeScreen(
+    navController: NavHostController,
     scope: CoroutineScope,
     drawerState: DrawerState
 ) {
@@ -62,9 +66,8 @@ fun AddRecipeScreen(
         topBar = {
             TopBar(
                 text = R.string.add,
-                scope = scope,
-                drawerState = drawerState,
-                scrollBehavior = scrollBehavior
+                scrollBehavior = scrollBehavior,
+                iconButton = { TopAppBarMenuIcon(scope = scope, drawerState = drawerState) }
             )
         }
     ) { values ->
@@ -74,13 +77,13 @@ fun AddRecipeScreen(
                 .fillMaxSize()
                 .background(colorScheme.background)
         ) {
-            NestedScrolling()
+            NestedScrolling(navController)
         }
     }
 }
 
 @Composable
-private fun NestedScrolling() {
+private fun NestedScrolling(navController: NavHostController) {
     val recipeName = remember { mutableStateOf("") }
     var cookingMethod by remember { mutableStateOf("") }
     Column(
@@ -104,13 +107,17 @@ private fun NestedScrolling() {
 
         Spacer(modifier = Modifier.padding(top = 16.dp))
 
-        DoubleButton(recipeName)
+        DoubleButton(navController, recipeName)
 
         Spacer(modifier = Modifier.padding(top = 16.dp))
 
         ElevatedButton(
             onClick = {
-                //
+                navController.navigate(Screens.IngredientsScreen.route){
+                    popUpTo(Screens.AddRecipeScreen.route) {
+                        inclusive = false
+                    }
+                }
             },
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.elevatedButtonColors(
@@ -167,7 +174,6 @@ private fun NestedScrolling() {
 
         ElevatedButton(
             onClick = {
-
             },
             shape = ButtonDefaults.elevatedShape,
             colors = ButtonDefaults.elevatedButtonColors(
@@ -193,7 +199,10 @@ private fun NestedScrolling() {
 }
 
 @Composable
-private fun DoubleButton(recipeName: MutableState<String>) {
+private fun DoubleButton(
+    navController: NavHostController,
+    recipeName: MutableState<String>
+) {
 
     ElevatedCard(
         modifier = Modifier.padding(horizontal = 16.dp),
@@ -225,6 +234,11 @@ private fun DoubleButton(recipeName: MutableState<String>) {
 
             Button(
                 onClick = {
+                    navController.navigate(Screens.CategoriesScreen.route){
+                        popUpTo(Screens.AddRecipeScreen.route) {
+                            inclusive = false
+                        }
+                    }
                 },
                 shape = RectangleShape,
                 colors = ButtonDefaults.elevatedButtonColors(

@@ -26,7 +26,7 @@ fun getDrawerItems(): List<DrawerItem> {
     return listOf(
         DrawerItem(
             title = stringResource(id = R.string.home),
-            route = Screens.HomeScreen.route,
+            route = Screens.Main.route,
             selectedIcon = Icons.Default.Home,
             unselectedIcon = Icons.Outlined.Home
         ),
@@ -41,7 +41,7 @@ fun getDrawerItems(): List<DrawerItem> {
             route = Screens.Info.route,
             selectedIcon = Icons.Default.Info,
             unselectedIcon = Icons.Outlined.Info,
-            //badgeCount = 23
+            badgeCount = 23
         ),
     )
 
