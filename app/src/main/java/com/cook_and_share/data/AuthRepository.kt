@@ -1,5 +1,6 @@
 package com.cook_and_share.data
 
+import com.cook_and_share.util.Resource
 import com.google.firebase.auth.FirebaseUser
 
 interface AuthRepository {

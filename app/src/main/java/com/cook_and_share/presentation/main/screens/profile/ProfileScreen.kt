@@ -26,6 +26,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.cook_and_share.R
+import com.cook_and_share.model.User
 import com.cook_and_share.presentation.custom.TopAppBarMenuIcon
 import com.cook_and_share.presentation.custom.TopBar
 import kotlinx.coroutines.CoroutineScope
@@ -74,37 +75,45 @@ private fun NestedScrolling(viewModel: ProfileViewModel?) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        ElevatedCard(
+        ProfileContent(
             modifier = Modifier
                 .height(220.dp)
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.secondary,
-                contentColor = MaterialTheme.colorScheme.onSecondary
-            ),
-            elevation = CardDefaults.cardElevation(1.dp)
+            getUserData = getUserData
+        )
+    }
+}
+
+@Composable
+private fun ProfileContent(modifier: Modifier, getUserData: User?) {
+    ElevatedCard(
+        modifier = modifier,
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.secondary,
+            contentColor = MaterialTheme.colorScheme.onSecondary
+        ),
+        elevation = CardDefaults.cardElevation(1.dp)
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = getUserData?.name ?: "No Name",
-                    style = MaterialTheme.typography.titleLarge,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .padding(top = 16.dp)
-                )
-                Text(
-                    text = getUserData?.email ?: "No Email",
-                    style = MaterialTheme.typography.titleLarge,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .padding(top = 8.dp)
-                )
-            }
+            Text(
+                text = getUserData?.name ?: "No Name",
+                style = MaterialTheme.typography.titleLarge,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(top = 16.dp)
+            )
+            Text(
+                text = getUserData?.email ?: "No Email",
+                style = MaterialTheme.typography.titleLarge,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(top = 8.dp)
+            )
         }
     }
 }

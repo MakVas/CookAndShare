@@ -1,4 +1,4 @@
-package com.cook_and_share.data
+package com.cook_and_share.util
 
 sealed class Resource<out R> {
     data class Success<out R>(val data: R) : Resource<R>()

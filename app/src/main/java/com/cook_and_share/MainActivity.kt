@@ -122,6 +122,7 @@ private fun DrawerBar(
     val isSearchScreenActive = currentText.value == R.string.search ||
             currentText.value == R.string.ingredients ||
             currentText.value == R.string.categories
+
     val gestureEnabled = !isSearchScreenActive
 
     ModalNavigationDrawer(

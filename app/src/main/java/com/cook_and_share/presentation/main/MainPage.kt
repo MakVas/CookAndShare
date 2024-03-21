@@ -1,8 +1,5 @@
 package com.cook_and_share.presentation.main
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Badge
@@ -11,12 +8,10 @@ import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -27,7 +22,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -38,9 +32,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.cook_and_share.R
+import com.cook_and_share.presentation.custom.BottomSheet
 import com.cook_and_share.presentation.custom.getBottomNavigationItems
 import com.cook_and_share.util.Screens
 import com.cook_and_share.presentation.main.screens.add_recipe.AddRecipeScreen
+import com.cook_and_share.presentation.main.screens.add_recipe.AddRecipeViewModel
 import com.cook_and_share.presentation.main.screens.add_recipe.categories.CategoriesScreen
 import com.cook_and_share.presentation.main.screens.add_recipe.ingredients.IngredientsScreen
 import com.cook_and_share.presentation.main.screens.home.HomeScreen
@@ -57,6 +53,7 @@ fun MainPage(
     scope: CoroutineScope
 ) {
     val profileViewModel = hiltViewModel<ProfileViewModel>()
+    val addRecipeViewModel = hiltViewModel<AddRecipeViewModel>()
 
     val navController = rememberNavController()
 
@@ -91,6 +88,7 @@ fun MainPage(
                 composable(Screens.AddRecipeScreen.route) {
                     currentText.value = R.string.preview
                     AddRecipeScreen(
+                        viewModel = addRecipeViewModel,
                         navController = navController,
                         scope = scope,
                         drawerState = drawerState
@@ -139,7 +137,15 @@ private fun NavigationBar(navController: NavController) {
 
         getBottomNavigationItems().forEachIndexed { _, item ->
             NavigationBarItem(
-                selected = currentDestination?.hierarchy?.any { it.route == item.route } == true,
+                selected = currentDestination?.hierarchy?.any {
+                    if (
+                        it.route == Screens.AddRecipeScreen.route ||
+                        it.route == Screens.IngredientsScreen.route ||
+                        it.route == Screens.CategoriesScreen.route
+                    ) {
+                        Screens.AddRecipeScreen.route == item.route
+                    } else it.route == item.route
+                } == true,
                 onClick = {
                     //Here can be a navController
                     navController.navigate(item.route) {
@@ -182,30 +188,6 @@ private fun NavigationBar(navController: NavController) {
                         )
                     }
                 }
-            )
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun BottomSheet(
-    sheetState: SheetState,
-    isSheetExpanded: MutableState<Boolean>
-){
-    if(isSheetExpanded.value) {
-        ModalBottomSheet(
-            sheetState = sheetState,
-            onDismissRequest = {
-                isSheetExpanded.value = false
-            }
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.image1),
-                contentDescription = "Logo",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
             )
         }
     }

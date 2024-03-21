@@ -34,7 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.cook_and_share.R
-import com.cook_and_share.data.Resource
+import com.cook_and_share.util.Resource
 import com.cook_and_share.presentation.custom.CustomTextField
 import com.cook_and_share.presentation.custom.PasswordField
 import com.cook_and_share.ui.theme.Typography

@@ -1,5 +1,6 @@
 package com.cook_and_share.presentation.main.screens.add_recipe
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,6 +34,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,10 +43,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.cook_and_share.R
+import com.cook_and_share.util.Resource
 import com.cook_and_share.presentation.custom.CustomTextField
 import com.cook_and_share.presentation.custom.RecipeItem
 import com.cook_and_share.presentation.custom.RecipeTextField
@@ -56,6 +60,7 @@ import kotlinx.coroutines.CoroutineScope
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddRecipeScreen(
+    viewModel: AddRecipeViewModel?,
     navController: NavHostController,
     scope: CoroutineScope,
     drawerState: DrawerState
@@ -77,13 +82,18 @@ fun AddRecipeScreen(
                 .fillMaxSize()
                 .background(colorScheme.background)
         ) {
-            NestedScrolling(navController)
+            NestedScrolling(viewModel, navController)
         }
     }
 }
 
 @Composable
-private fun NestedScrolling(navController: NavHostController) {
+private fun NestedScrolling(
+    viewModel: AddRecipeViewModel?,
+    navController: NavHostController
+) {
+    val createRecipeFlow = viewModel?.createRecipeFlow?.collectAsState()
+
     val recipeName = remember { mutableStateOf("") }
     var cookingMethod by remember { mutableStateOf("") }
     Column(
@@ -107,56 +117,21 @@ private fun NestedScrolling(navController: NavHostController) {
 
         Spacer(modifier = Modifier.padding(top = 16.dp))
 
-        DoubleButton(navController, recipeName)
+        DoubleButton(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            navController = navController,
+            recipeName = recipeName
+        )
 
         Spacer(modifier = Modifier.padding(top = 16.dp))
 
-        ElevatedButton(
-            onClick = {
-                navController.navigate(Screens.IngredientsScreen.route){
-                    popUpTo(Screens.AddRecipeScreen.route) {
-                        inclusive = false
-                    }
-                }
-            },
-            shape = RoundedCornerShape(16.dp),
-            colors = ButtonDefaults.elevatedButtonColors(
-                containerColor = colorScheme.secondary,
-                contentColor = colorScheme.onSecondary
-            ),
-            elevation = ButtonDefaults.elevatedButtonElevation(
-                defaultElevation = 1.dp,
-                pressedElevation = 0.dp
-            ),
+        IngredientsButton(
             modifier = Modifier
                 .height(60.dp)
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth(),
-            contentPadding = PaddingValues(horizontal = 12.dp),
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                Icon(
-                    modifier = Modifier.align(Alignment.CenterStart),
-                    imageVector = Icons.Default.Restaurant,
-                    contentDescription = "ingredients"
-                )
-                Text(
-                    modifier = Modifier
-                        .align(Alignment.CenterStart)
-                        .padding(start = 40.dp),
-                    text = stringResource(id = R.string.ingredients),
-                    style = typography.bodyLarge
-                )
-                Icon(
-                    modifier = Modifier.align(Alignment.CenterEnd),
-                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                    contentDescription = "ingredients"
-                )
-            }
-        }
+            navController =  navController
+        )
 
         Spacer(modifier = Modifier.padding(top = 16.dp))
 
@@ -172,40 +147,45 @@ private fun NestedScrolling(navController: NavHostController) {
 
         Spacer(modifier = Modifier.padding(top = 16.dp))
 
-        ElevatedButton(
-            onClick = {
-            },
-            shape = ButtonDefaults.elevatedShape,
-            colors = ButtonDefaults.elevatedButtonColors(
-                containerColor = colorScheme.tertiary,
-                contentColor = colorScheme.onTertiary
-            ),
-            elevation = ButtonDefaults.elevatedButtonElevation(
-                defaultElevation = 3.dp,
-                pressedElevation = 0.dp
-            ),
+        PublishRecipeButton(
             modifier = Modifier
                 .height(65.dp)
                 .padding(horizontal = 16.dp)
-                .fillMaxWidth()
-        ) {
-            Text(
-                text = stringResource(id = R.string.publish_recipe),
-                style = typography.labelLarge
-            )
-        }
+                .fillMaxWidth(),
+            viewModel = viewModel,
+            recipeName = recipeName,
+            cookingMethod = cookingMethod
+        )
+
         Spacer(modifier = Modifier.padding(top = 16.dp))
+
+        createRecipeFlow?.value?.let {
+            when (it) {
+                is Resource.Error -> {
+                    val context = LocalContext.current
+                    Toast.makeText(context, it.exception.message, Toast.LENGTH_LONG).show()
+                }
+
+                Resource.Loading -> {
+                }
+
+                is Resource.Success -> {
+                    
+                }
+            }
+        }
     }
 }
 
 @Composable
 private fun DoubleButton(
+    modifier: Modifier,
     navController: NavHostController,
     recipeName: MutableState<String>
 ) {
 
     ElevatedCard(
-        modifier = Modifier.padding(horizontal = 16.dp),
+        modifier = modifier,
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(1.dp),
         colors = CardDefaults.cardColors(containerColor = colorScheme.secondary)
@@ -232,46 +212,143 @@ private fun DoubleButton(
                 color = colorScheme.onSecondary
             )
 
-            Button(
-                onClick = {
-                    navController.navigate(Screens.CategoriesScreen.route){
-                        popUpTo(Screens.AddRecipeScreen.route) {
-                            inclusive = false
-                        }
-                    }
-                },
-                shape = RectangleShape,
-                colors = ButtonDefaults.elevatedButtonColors(
-                    containerColor = colorScheme.secondary,
-                    contentColor = colorScheme.onSecondary
-                ),
-                contentPadding = PaddingValues(horizontal = 12.dp),
+            CategoriesButton(
                 modifier = Modifier
                     .height(56.dp)
-                    .fillMaxWidth()
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                ) {
-                    Icon(
-                        modifier = Modifier.align(Alignment.CenterStart),
-                        imageVector = Icons.Default.Tag,
-                        contentDescription = "categories"
-                    )
-                    Text(
-                        modifier = Modifier
-                            .align(Alignment.CenterStart)
-                            .padding(start = 40.dp),
-                        text = stringResource(id = R.string.categories),
-                        style = typography.bodyLarge
-                    )
-                    Icon(
-                        modifier = Modifier.align(Alignment.CenterEnd),
-                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                        contentDescription = "categories"
-                    )
+                    .fillMaxWidth(),
+                navController = navController
+            )
+
+        }
+    }
+}
+
+@Composable
+private fun CategoriesButton(
+    modifier: Modifier,
+    navController: NavHostController
+){
+    Button(
+        onClick = {
+            navController.navigate(Screens.CategoriesScreen.route){
+                popUpTo(Screens.AddRecipeScreen.route) {
+                    inclusive = false
                 }
             }
+        },
+        shape = RectangleShape,
+        colors = ButtonDefaults.elevatedButtonColors(
+            containerColor = colorScheme.secondary,
+            contentColor = colorScheme.onSecondary
+        ),
+        contentPadding = PaddingValues(horizontal = 12.dp),
+        modifier = modifier
+    ) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+        ) {
+            Icon(
+                modifier = Modifier.align(Alignment.CenterStart),
+                imageVector = Icons.Default.Tag,
+                contentDescription = "categories"
+            )
+            Text(
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .padding(start = 40.dp),
+                text = stringResource(id = R.string.categories),
+                style = typography.bodyLarge
+            )
+            Icon(
+                modifier = Modifier.align(Alignment.CenterEnd),
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = "categories"
+            )
         }
+    }
+}
+
+@Composable
+private fun IngredientsButton(
+    modifier: Modifier,
+    navController: NavHostController
+){
+    ElevatedButton(
+        onClick = {
+            navController.navigate(Screens.IngredientsScreen.route){
+                popUpTo(Screens.AddRecipeScreen.route) {
+                    inclusive = false
+                }
+            }
+        },
+        shape = RoundedCornerShape(16.dp),
+        colors = ButtonDefaults.elevatedButtonColors(
+            containerColor = colorScheme.secondary,
+            contentColor = colorScheme.onSecondary
+        ),
+        elevation = ButtonDefaults.elevatedButtonElevation(
+            defaultElevation = 1.dp,
+            pressedElevation = 0.dp
+        ),
+        modifier = modifier,
+        contentPadding = PaddingValues(horizontal = 12.dp),
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            Icon(
+                modifier = Modifier.align(Alignment.CenterStart),
+                imageVector = Icons.Default.Restaurant,
+                contentDescription = "ingredients"
+            )
+            Text(
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .padding(start = 40.dp),
+                text = stringResource(id = R.string.ingredients),
+                style = typography.bodyLarge
+            )
+            Icon(
+                modifier = Modifier.align(Alignment.CenterEnd),
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = "ingredients"
+            )
+        }
+    }
+}
+
+@Composable
+private fun PublishRecipeButton(
+    modifier: Modifier,
+    viewModel: AddRecipeViewModel?,
+    recipeName: MutableState<String>,
+    cookingMethod: String
+){
+    ElevatedButton(
+        onClick = {
+            viewModel?.createRecipe(
+                title = recipeName.value,
+                imageUrl = "",
+                tags = listOf(""),
+                ingredients = listOf(""),
+                recipe = cookingMethod
+            )
+        },
+        shape = ButtonDefaults.elevatedShape,
+        colors = ButtonDefaults.elevatedButtonColors(
+            containerColor = colorScheme.tertiary,
+            contentColor = colorScheme.onTertiary
+        ),
+        elevation = ButtonDefaults.elevatedButtonElevation(
+            defaultElevation = 3.dp,
+            pressedElevation = 0.dp
+        ),
+        modifier = modifier
+    ) {
+        Text(
+            text = stringResource(id = R.string.publish_recipe),
+            style = typography.labelLarge
+        )
     }
 }

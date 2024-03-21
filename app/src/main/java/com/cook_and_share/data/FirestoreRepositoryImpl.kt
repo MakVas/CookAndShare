@@ -6,6 +6,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.cook_and_share.model.Recipe
 import com.cook_and_share.model.User
 import com.cook_and_share.util.Constants
+import com.cook_and_share.util.Resource
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -49,9 +50,27 @@ class FirestoreRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun createRecipe(recipe: Recipe): Resource<Void> {
+    override suspend fun createRecipe(
+        title: String,
+        imageUrl: String,
+        tags: List<String>,
+        ingredients: List<String>,
+        recipe: String
+    ): Resource<Void> {
         return try {
-            val result = firestore.collection(Constants.COLLECTION_NAME_RECIPES).document().set(recipe).await()
+            val userID = currentUser!!.uid
+            val document = firestore.collection(Constants.COLLECTION_NAME_USERS).document(userID).get().await()
+            val author = document.getString("name")
+            val recipeUnit = Recipe(
+                userID = currentUser!!.uid,
+                author = author!!,
+                title = title,
+                imageUrl = imageUrl,
+                tags = tags,
+                ingredients = ingredients,
+                recipe = recipe
+            )
+            val result = firestore.collection(Constants.COLLECTION_NAME_RECIPES).document().set(recipeUnit).await()
             Resource.Success(result)
         }catch (e: Exception){
             e.printStackTrace()

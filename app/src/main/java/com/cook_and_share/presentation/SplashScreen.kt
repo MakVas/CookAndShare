@@ -76,7 +76,7 @@ fun SplashScreen(
         Image(
             modifier = Modifier.alpha(alpha.value),
             painter = painterResource(id = R.drawable.splash_screen_img),
-            contentDescription = "Meal Mentor Logo"
+            contentDescription = "Cook&Share Logo"
         )
     }
 }

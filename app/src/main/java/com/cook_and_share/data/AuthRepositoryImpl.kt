@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.cook_and_share.model.User
 import com.cook_and_share.util.Constants
+import com.cook_and_share.util.Resource
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
