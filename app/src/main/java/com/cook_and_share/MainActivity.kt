@@ -60,10 +60,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             CookAndShare {
                 Surface(color = MaterialTheme.colorScheme.background) {
-
-                    val viewModel = hiltViewModel<AuthViewModel>()
-                    val navController = rememberNavController()
-                    Navigation(viewModel, navController)
+                    Navigation()
                 }
             }
         }
@@ -71,10 +68,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Navigation(
-    viewModel: AuthViewModel,
-    navController: NavHostController
-) {
+fun Navigation() {
+    val navController = rememberNavController()
+    val viewModel = hiltViewModel<AuthViewModel>()
 
     val currentText = remember { mutableIntStateOf(R.string.app_name) }
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -107,6 +103,7 @@ fun Navigation(
         }
     }
 }
+
 @Composable
 private fun DrawerBar(
     currentText: MutableState<Int>,
