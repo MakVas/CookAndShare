@@ -2,7 +2,7 @@ package com.cook_and_share.presentation.main.screens.add_recipe
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cook_and_share.data.FirestoreRepository
+import com.cook_and_share.domain.repository.FirestoreRepository
 import com.cook_and_share.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

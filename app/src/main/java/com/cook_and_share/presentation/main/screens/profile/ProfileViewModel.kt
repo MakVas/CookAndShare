@@ -4,8 +4,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
-import com.cook_and_share.data.FirestoreRepository
-import com.cook_and_share.model.User
+import com.cook_and_share.domain.repository.FirestoreRepository
+import com.cook_and_share.domain.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

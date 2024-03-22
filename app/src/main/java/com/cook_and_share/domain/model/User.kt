@@ -1,4 +1,4 @@
-package com.cook_and_share.model
+package com.cook_and_share.domain.model
 
 data class User (
     var name: String = "",

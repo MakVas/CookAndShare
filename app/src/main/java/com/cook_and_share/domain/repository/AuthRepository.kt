@@ -1,4 +1,4 @@
-package com.cook_and_share.data
+package com.cook_and_share.domain.repository
 
 import com.cook_and_share.util.Resource
 import com.google.firebase.auth.FirebaseUser
