@@ -1,8 +1,5 @@
 package com.cook_and_share.presentation
 
-import android.view.animation.OvershootInterpolator
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -12,10 +9,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -34,16 +29,7 @@ fun SplashScreen(
 ) {
     val authValue = viewModel?.currentUser != null
 
-    val alpha = remember {
-        Animatable(0f)
-    }
     LaunchedEffect(key1 = true) {
-        alpha.animateTo(
-            targetValue = 1f,
-            animationSpec = tween(durationMillis = 1500, easing = {
-                OvershootInterpolator(2f).getInterpolation(it)
-            })
-        )
         delay(2000)
         if(authValue) {
             navController.navigate(Screens.Main.route){
@@ -60,11 +46,19 @@ fun SplashScreen(
         }
     }
 
-    Column(
+    SplashScreenImage(
         modifier = Modifier
             .padding(vertical = 50.dp)
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+            .background(MaterialTheme.colorScheme.background)
+    )
+
+}
+
+@Composable
+private fun SplashScreenImage(modifier: Modifier) {
+    Column(
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -74,7 +68,6 @@ fun SplashScreen(
             style = Typography.displayLarge
         )
         Image(
-            modifier = Modifier.alpha(alpha.value),
             painter = painterResource(id = R.drawable.splash_screen_img),
             contentDescription = "Cook&Share Logo"
         )

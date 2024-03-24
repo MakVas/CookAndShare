@@ -88,31 +88,42 @@ fun RecipeItem(
                     )
                 }
                 if (!isPreview) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .padding(end = 16.dp, bottom = 10.dp, top = 10.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.SpaceBetween,
-                    ) {
-                        IconButton(
-                            modifier = Modifier
-                                .size(30.dp),
-                            onClick = { },
-                        ) {
-                            Icon(
-                                modifier = Modifier.size(30.dp),
-                                imageVector = Icons.Default.FavoriteBorder,
-                                contentDescription = "Like Btn"
-                            )
-                        }
-                        Text(
-                            text = likes,
-                            style = typography.labelMedium,
-                        )
-                    }
+                   LikeButton(
+                       likes = likes,
+                       modifier = Modifier
+                           .fillMaxHeight()
+                           .padding(end = 16.dp, bottom = 10.dp, top = 10.dp)
+                       )
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun LikeButton(
+    likes: String,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween,
+    ) {
+        IconButton(
+            modifier = Modifier
+                .size(30.dp),
+            onClick = { },
+        ) {
+            Icon(
+                modifier = Modifier.size(30.dp),
+                imageVector = Icons.Default.FavoriteBorder,
+                contentDescription = "Like Btn"
+            )
+        }
+        Text(
+            text = likes,
+            style = typography.labelMedium,
+        )
     }
 }

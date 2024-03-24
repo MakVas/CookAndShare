@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -35,6 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.cook_and_share.R
+import com.cook_and_share.presentation.custom.AuthTitle
 import com.cook_and_share.util.Resource
 import com.cook_and_share.presentation.custom.CustomTextField
 import com.cook_and_share.presentation.custom.PasswordField
@@ -60,30 +62,18 @@ fun LoginScreen(
         verticalArrangement = Arrangement.SpaceBetween
     ) {
 
-        Column(
+        AuthTitle(
+            subTitle = R.string.login_to_acc,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 50.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = stringResource(id = R.string.app_name),
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onPrimary,
-                style = Typography.displayLarge
-            )
-            Text(
-                text = stringResource(id = R.string.login_to_acc),
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onPrimary
-            )
-        }
+                .padding(top = 50.dp)
+        )
 
         Column(
             Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
             CustomTextField(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -96,6 +86,8 @@ fun LoginScreen(
                 emailText = it
             }
 
+            Spacer(modifier = Modifier.padding(vertical = 8.dp))
+
             PasswordField(
                 fieldLabel = stringResource(id = R.string.password),
                 text = passwordText,
@@ -103,117 +95,155 @@ fun LoginScreen(
                     passwordText = it
                 }
             )
+
+            Spacer(modifier = Modifier.padding(vertical = 8.dp))
+
             Text(
                 text = stringResource(id = R.string.forgot_password),
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onPrimary,
                 style = Typography.titleMedium,
                 modifier = Modifier
-                    .padding(vertical = 6.dp)
                     .clickable {
-                        //navigateToForgotPasswordPage()
+                        //TODO: Implement Forgot Password
                     }
             )
-            ElevatedButton(
-                onClick = {
-                    viewModel?.login(emailText, passwordText)
-                },
-                shape = ButtonDefaults.elevatedShape,
-                colors = ButtonDefaults.elevatedButtonColors(
-                    containerColor = MaterialTheme.colorScheme.tertiary,
-                    contentColor = MaterialTheme.colorScheme.onTertiary
-                ),
-                elevation = ButtonDefaults.elevatedButtonElevation(
-                    defaultElevation = 3.dp,
-                    pressedElevation = 0.dp
-                ),
+
+            Spacer(modifier = Modifier.padding(vertical = 8.dp))
+
+            LogInButton(
                 modifier = Modifier
                     .padding(horizontal = 80.dp)
                     .height(65.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    text = stringResource(id = R.string.login),
-                    style = Typography.labelLarge
-                )
-            }
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
+                    .fillMaxWidth(),
+                viewModel = viewModel,
+                emailText = emailText,
+                passwordText = passwordText
+            )
 
-                Text(
-                    text = stringResource(id = R.string.dont_have_account),
-                    color = MaterialTheme.colorScheme.onPrimary,
-                )
+            Spacer(modifier = Modifier.padding(vertical = 5.dp))
 
-                Text(
-                    text = stringResource(id = R.string.sign_up),
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    style = Typography.titleMedium,
-                    modifier = Modifier
-                        .padding(start = 5.dp)
-                        .clickable {
-                            navController.navigate(route = Screens.SignUpScreen.route) {
-                                launchSingleTop = true
-                            }
-                        }
-                )
-            }
+            SignUpText(navController = navController)
         }
 
-        ElevatedButton(
-            onClick = {
-                //gfbgfbgfbgfbgfbfg
-            },
-            shape = ButtonDefaults.elevatedShape,
-            colors = ButtonDefaults.elevatedButtonColors(
-                containerColor = MaterialTheme.colorScheme.secondary,
-                contentColor = MaterialTheme.colorScheme.onSecondary
-            ),
-            elevation = ButtonDefaults.elevatedButtonElevation(
-                defaultElevation = 3.dp,
-                pressedElevation = 0.dp
-            ),
+        GoogleButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp)
-                .height(65.dp),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 10.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.google),
-                    contentDescription = "google_img",
-                    tint = MaterialTheme.colorScheme.onSecondary
-                )
-                Text(
-                    text = stringResource(id = R.string.login_with_google),
-                    style = Typography.labelLarge,
-                    modifier = Modifier.padding(start = 16.dp)
-                )
-            }
-        }
+                .height(65.dp)
+        )
+
         loginFlow?.value?.let {
             when (it) {
                 is Resource.Error -> {
                     val context = LocalContext.current
                     Toast.makeText(context, it.exception.message, Toast.LENGTH_LONG).show()
                 }
+
                 Resource.Loading -> {
                 }
+
                 is Resource.Success -> {
-                    LaunchedEffect(Unit){
+                    LaunchedEffect(Unit) {
                         navController.navigate(route = Screens.Main.route) {
                             popUpTo(Screens.LoginScreen.route) { inclusive = true }
                         }
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun LogInButton(
+    modifier: Modifier,
+    viewModel: AuthViewModel?,
+    emailText: String,
+    passwordText: String
+) {
+    ElevatedButton(
+        onClick = {
+            viewModel?.login(emailText, passwordText)
+        },
+        shape = ButtonDefaults.elevatedShape,
+        colors = ButtonDefaults.elevatedButtonColors(
+            containerColor = MaterialTheme.colorScheme.tertiary,
+            contentColor = MaterialTheme.colorScheme.onTertiary
+        ),
+        elevation = ButtonDefaults.elevatedButtonElevation(
+            defaultElevation = 3.dp,
+            pressedElevation = 0.dp
+        ),
+        modifier = modifier
+    ) {
+        Text(
+            text = stringResource(id = R.string.login),
+            style = Typography.labelLarge
+        )
+    }
+}
+
+@Composable
+private fun SignUpText(navController: NavHostController) {
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+
+        Text(
+            text = stringResource(id = R.string.dont_have_account),
+            color = MaterialTheme.colorScheme.onPrimary,
+        )
+
+        Text(
+            text = stringResource(id = R.string.sign_up),
+            color = MaterialTheme.colorScheme.onPrimary,
+            style = Typography.titleMedium,
+            modifier = Modifier
+                .padding(start = 5.dp)
+                .clickable {
+                    navController.navigate(route = Screens.SignUpScreen.route) {
+                        launchSingleTop = true
+                    }
+                }
+        )
+    }
+}
+
+@Composable
+private fun GoogleButton(modifier: Modifier) {
+    ElevatedButton(
+        onClick = {
+            //TODO: Implement Google Sign In
+        },
+        shape = ButtonDefaults.elevatedShape,
+        colors = ButtonDefaults.elevatedButtonColors(
+            containerColor = MaterialTheme.colorScheme.secondary,
+            contentColor = MaterialTheme.colorScheme.onSecondary
+        ),
+        elevation = ButtonDefaults.elevatedButtonElevation(
+            defaultElevation = 3.dp,
+            pressedElevation = 0.dp
+        ),
+        modifier = modifier,
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 10.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.google),
+                contentDescription = "google_img",
+                tint = MaterialTheme.colorScheme.onSecondary
+            )
+            Text(
+                text = stringResource(id = R.string.login_with_google),
+                style = Typography.labelLarge,
+                modifier = Modifier.padding(start = 16.dp)
+            )
         }
     }
 }

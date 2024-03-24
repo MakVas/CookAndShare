@@ -30,10 +30,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.cook_and_share.R
+import com.cook_and_share.presentation.custom.AuthTitle
 import com.cook_and_share.util.Resource
 import com.cook_and_share.presentation.custom.CustomTextField
 import com.cook_and_share.presentation.custom.PasswordField
@@ -61,17 +61,10 @@ fun SignUpScreen(
             .padding(top = 50.dp, start = 16.dp, end = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = stringResource(id = R.string.app_name),
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.onPrimary,
-            style = Typography.displayLarge
-        )
-        Text(
-            text = stringResource(id = R.string.sign_up_text),
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.onPrimary,
-           // style = SmallTitle
+
+        AuthTitle(
+            subTitle = R.string.sign_up_text,
+            modifier = Modifier
         )
 
         Column(
@@ -80,6 +73,7 @@ fun SignUpScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
             CustomTextField(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -130,54 +124,21 @@ fun SignUpScreen(
 
             Spacer(modifier = Modifier.padding(vertical = 8.dp))
 
-            ElevatedButton(
-                onClick = {
-                    viewModel?.signup(emailText, passwordText, usernameText)
-                },
-                shape = ButtonDefaults.elevatedShape,
-                colors = ButtonDefaults.elevatedButtonColors(
-                    containerColor = MaterialTheme.colorScheme.tertiary,
-                    contentColor = MaterialTheme.colorScheme.onTertiary
-                ),
-                elevation = ButtonDefaults.elevatedButtonElevation(
-                    defaultElevation = 3.dp,
-                    pressedElevation = 0.dp
-                ),
+            SignUpButton(
                 modifier = Modifier
                     .padding(horizontal = 80.dp)
                     .height(65.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    text = stringResource(id = R.string.sign_up),
-                    style = Typography.labelLarge
-                )
-            }
+                    .fillMaxWidth(),
+                viewModel = viewModel,
+                emailText = emailText,
+                passwordText = passwordText,
+                usernameText = usernameText
+            )
 
             Spacer(modifier = Modifier.padding(vertical = 5.dp))
 
-            Row(
-                horizontalArrangement = Arrangement.Center
-            ) {
+            LoginText(navController = navController)
 
-                Text(
-                    text = stringResource(id = R.string.have_account),
-                    color = MaterialTheme.colorScheme.onPrimary,
-                )
-
-                Text(
-                    text = stringResource(id = R.string.login),
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    style = Typography.titleMedium,
-                    modifier = Modifier
-                        .padding(start = 5.dp)
-                        .clickable {
-                            navController.navigate(route = Screens.LoginScreen.route) {
-                                launchSingleTop = true
-                            }
-                        }
-                )
-            }
             signUpFlow?.value?.let {
                 when (it) {
                     is Resource.Error -> {
@@ -198,5 +159,61 @@ fun SignUpScreen(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun SignUpButton(
+    modifier: Modifier,
+    viewModel: AuthViewModel?,
+    emailText: String,
+    passwordText: String,
+    usernameText: String
+) {
+    ElevatedButton(
+        onClick = {
+            viewModel?.signup(emailText, passwordText, usernameText)
+        },
+        shape = ButtonDefaults.elevatedShape,
+        colors = ButtonDefaults.elevatedButtonColors(
+            containerColor = MaterialTheme.colorScheme.tertiary,
+            contentColor = MaterialTheme.colorScheme.onTertiary
+        ),
+        elevation = ButtonDefaults.elevatedButtonElevation(
+            defaultElevation = 3.dp,
+            pressedElevation = 0.dp
+        ),
+        modifier = modifier
+    ) {
+        Text(
+            text = stringResource(id = R.string.sign_up),
+            style = Typography.labelLarge
+        )
+    }
+}
+
+@Composable
+private fun LoginText(navController: NavHostController) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+        Text(
+            text = stringResource(id = R.string.have_account),
+            color = MaterialTheme.colorScheme.onPrimary,
+        )
+
+        Text(
+            text = stringResource(id = R.string.login),
+            color = MaterialTheme.colorScheme.onPrimary,
+            style = Typography.titleMedium,
+            modifier = Modifier
+                .padding(start = 5.dp)
+                .clickable {
+                    navController.navigate(route = Screens.LoginScreen.route) {
+                        launchSingleTop = true
+                    }
+                }
+        )
     }
 }
