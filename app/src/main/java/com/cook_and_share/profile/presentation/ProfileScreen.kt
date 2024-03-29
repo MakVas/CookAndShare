@@ -1,4 +1,4 @@
-package com.cook_and_share.profile.presentation.profile
+package com.cook_and_share.profile.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable

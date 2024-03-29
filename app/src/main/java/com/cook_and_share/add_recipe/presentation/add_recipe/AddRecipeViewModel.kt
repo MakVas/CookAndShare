@@ -1,4 +1,4 @@
-package com.cook_and_share.add_recipe.presentation.screens.add_recipe
+package com.cook_and_share.add_recipe.presentation.add_recipe
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

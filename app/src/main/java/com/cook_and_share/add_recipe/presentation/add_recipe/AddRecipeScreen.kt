@@ -1,4 +1,4 @@
-package com.cook_and_share.add_recipe.presentation.screens.add_recipe
+package com.cook_and_share.add_recipe.presentation.add_recipe
 
 import android.widget.Toast
 import androidx.compose.foundation.background
