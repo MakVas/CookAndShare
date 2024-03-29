@@ -12,8 +12,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -25,18 +27,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.cook_and_share.R
 import com.cook_and_share.core.domain.model.User
-import com.cook_and_share.core.presentation.ui.components.TopAppBarMenuIcon
+import com.cook_and_share.core.presentation.ui.components.PrimaryButton
+import com.cook_and_share.core.presentation.ui.components.SecondaryButton
 import com.cook_and_share.core.presentation.ui.components.TopBar
-import kotlinx.coroutines.CoroutineScope
+import com.cook_and_share.core.presentation.util.Screens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
     viewModel: ProfileViewModel?,
-    scope: CoroutineScope,
-    drawerState: DrawerState
+    navController: NavHostController,
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
@@ -45,7 +48,6 @@ fun ProfileScreen(
             TopBar(
                 text = R.string.profile,
                 scrollBehavior = scrollBehavior,
-                iconButton = { TopAppBarMenuIcon(scope = scope, drawerState = drawerState) }
             )
         }
     ) { values ->
@@ -55,13 +57,19 @@ fun ProfileScreen(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
         ) {
-            NestedScrolling(viewModel)
+            NestedScrolling(
+                viewModel = viewModel,
+                navController = navController
+            )
         }
     }
 }
 
 @Composable
-private fun NestedScrolling(viewModel: ProfileViewModel?) {
+private fun NestedScrolling(
+    viewModel: ProfileViewModel?,
+    navController: NavHostController
+) {
 
     val getUserData = viewModel?.user?.value
 
@@ -81,6 +89,60 @@ private fun NestedScrolling(viewModel: ProfileViewModel?) {
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             getUserData = getUserData
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        PrimaryButton(
+            modifier = Modifier
+                .height(60.dp)
+                .padding(horizontal = 16.dp)
+                .fillMaxWidth(),
+            label = R.string.settings,
+            icon = Icons.Outlined.Settings,
+            onClick = {
+                navController.navigate(Screens.Settings.route) {
+                    popUpTo(Screens.Settings.route) {
+                        inclusive = false
+                    }
+                }
+            }
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        PrimaryButton(
+            modifier = Modifier
+                .height(60.dp)
+                .padding(horizontal = 16.dp)
+                .fillMaxWidth(),
+            label = R.string.info,
+            icon = Icons.Outlined.Info,
+            onClick = {
+                navController.navigate(Screens.Info.route) {
+                    popUpTo(Screens.Info.route) {
+                        inclusive = false
+                    }
+                }
+            }
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        SecondaryButton(
+            modifier = Modifier
+                .height(65.dp)
+                .padding(horizontal = 16.dp)
+                .fillMaxWidth(),
+            label = R.string.sign_out,
+            onClick = {
+                //TODO: viewModel?.logout()
+                navController.navigate(Screens.LoginScreen.route) {
+                    popUpTo(Screens.LoginScreen.route) {
+                        inclusive = true
+                    }
+                }
+            }
         )
     }
 }

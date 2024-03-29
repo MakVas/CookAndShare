@@ -12,8 +12,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val repository: FirestoreRepository
+    private val repository: FirestoreRepository,
 ): ViewModel(){
+
     private val currentUser: FirebaseUser?
         get() = repository.currentUser
 

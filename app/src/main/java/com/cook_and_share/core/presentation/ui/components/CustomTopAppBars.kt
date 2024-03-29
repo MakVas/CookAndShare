@@ -42,7 +42,7 @@ import kotlinx.coroutines.launch
 fun TopBar(
     text: Int,
     scrollBehavior: TopAppBarScrollBehavior,
-    iconButton: @Composable () -> Unit
+    iconButton: @Composable () -> Unit = {}
 ) {
     TopAppBar(
         modifier = Modifier.shadow(elevation = 3.dp),

@@ -15,7 +15,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
@@ -38,30 +37,25 @@ import androidx.compose.ui.unit.dp
 import com.cook_and_share.R
 import com.cook_and_share.core.presentation.ui.components.CustomPagerIndicator
 import com.cook_and_share.core.presentation.ui.components.RecipeItem
-import com.cook_and_share.core.presentation.ui.components.TopAppBarMenuIcon
 import com.cook_and_share.core.presentation.ui.components.TopBar
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    isSheetExpanded: MutableState<Boolean>,
-    scope: CoroutineScope,
-    drawerState: DrawerState
+    isSheetExpanded: MutableState<Boolean>
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-    Scaffold (
+    Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopBar(
                 text = R.string.app_name,
-                scrollBehavior = scrollBehavior,
-                iconButton = { TopAppBarMenuIcon(scope = scope, drawerState = drawerState) }
+                scrollBehavior = scrollBehavior
             )
         }
-    ){ values ->
+    ) { values ->
         Box(
             modifier = Modifier
                 .padding(values)
@@ -136,7 +130,7 @@ private fun SubRow(isSheetExpanded: MutableState<Boolean>) {
         ) { page ->
             RecipeItem(
                 onClick = {
-                   isSheetExpanded.value = true
+                    isSheetExpanded.value = true
                 },
                 image = if (page % 2 == 0) R.drawable.image1 else R.drawable.image2,
                 name = "username",

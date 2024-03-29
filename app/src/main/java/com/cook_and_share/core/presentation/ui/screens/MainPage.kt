@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
-import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -27,6 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -36,21 +36,19 @@ import com.cook_and_share.core.presentation.ui.components.BottomSheet
 import com.cook_and_share.core.presentation.ui.components.getBottomNavigationItems
 import com.cook_and_share.core.presentation.util.Screens
 import com.cook_and_share.add_recipe.presentation.add_recipe.AddRecipeScreen
-import com.cook_and_share.add_recipe.presentation.add_recipe.AddRecipeViewModel
+import com.cook_and_share.add_recipe.presentation.AddRecipeViewModel
 import com.cook_and_share.add_recipe.presentation.screens.add_recipe.categories.CategoriesScreen
 import com.cook_and_share.add_recipe.presentation.screens.add_recipe.ingredients.IngredientsScreen
 import com.cook_and_share.home.presentation.HomeScreen
 import com.cook_and_share.profile.presentation.ProfileScreen
 import com.cook_and_share.search.presentation.SearchScreen
 import com.cook_and_share.profile.presentation.ProfileViewModel
-import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainPage(
     currentText: MutableState<Int>,
-    drawerState: DrawerState,
-    scope: CoroutineScope
+    mainNavController: NavHostController
 ) {
     val profileViewModel = hiltViewModel<ProfileViewModel>()
     val addRecipeViewModel = hiltViewModel<AddRecipeViewModel>()
@@ -62,68 +60,62 @@ fun MainPage(
 
     val test = remember { mutableStateOf("") }
 
-        BottomSheet(
-            sheetState = sheetState,
-            isSheetExpanded = isSheetExpanded
-        )
-        Scaffold(
-            bottomBar = {
-                NavigationBar(navController)
+    BottomSheet(
+        sheetState = sheetState,
+        isSheetExpanded = isSheetExpanded
+    )
+    Scaffold(
+        bottomBar = {
+            NavigationBar(navController)
+        }
+    ) { values ->
+        NavHost(
+            navController = navController,
+            startDestination = Screens.HomeScreen.route,
+            modifier = Modifier
+                .padding(values)
+        ) {
+            composable(Screens.HomeScreen.route) {
+                currentText.value = R.string.app_name
+                HomeScreen(
+                    isSheetExpanded = isSheetExpanded,
+                )
             }
-        ) { values ->
-            NavHost(
-                navController = navController,
-                startDestination = Screens.HomeScreen.route,
-                modifier = Modifier
-                    .padding(values)
-            ) {
-                composable(Screens.HomeScreen.route) {
-                    currentText.value = R.string.app_name
-                    HomeScreen(
-                        isSheetExpanded = isSheetExpanded,
-                        scope = scope,
-                        drawerState = drawerState
-                    )
-                }
-                composable(Screens.AddRecipeScreen.route) {
-                    currentText.value = R.string.preview
-                    AddRecipeScreen(
-                        viewModel = addRecipeViewModel,
-                        navController = navController,
-                        scope = scope,
-                        drawerState = drawerState
-                    )
-                }
-                composable(Screens.SearchRecipeScreen.route) {
-                    currentText.value = R.string.search
-                    SearchScreen(
-                        isSheetExpanded = isSheetExpanded
-                    )
-                }
-                composable(Screens.ProfileScreen.route) {
-                    currentText.value = R.string.profile
-                    ProfileScreen(
-                        viewModel = profileViewModel,
-                        scope = scope,
-                        drawerState = drawerState
-                    )
-                }
-                composable(Screens.CategoriesScreen.route){
-                    currentText.value = R.string.categories
-                    CategoriesScreen(
-                        navController = navController,
-                        onValueChange = test
-                    )
-                }
-                composable(Screens.IngredientsScreen.route){
-                    currentText.value = R.string.ingredients
-                    IngredientsScreen(
-                        navController = navController
-                    )
-                }
+            composable(Screens.AddRecipeScreen.route) {
+                currentText.value = R.string.preview
+                AddRecipeScreen(
+                    viewModel = addRecipeViewModel,
+                    navController = navController,
+                )
+            }
+            composable(Screens.SearchRecipeScreen.route) {
+                currentText.value = R.string.search
+                SearchScreen(
+                    isSheetExpanded = isSheetExpanded
+                )
+            }
+            composable(Screens.ProfileScreen.route) {
+                currentText.value = R.string.profile
+                ProfileScreen(
+                    viewModel = profileViewModel,
+                    navController = mainNavController
+                )
+            }
+            composable(Screens.CategoriesScreen.route) {
+                currentText.value = R.string.categories
+                CategoriesScreen(
+                    navController = navController,
+                    onValueChange = test
+                )
+            }
+            composable(Screens.IngredientsScreen.route) {
+                currentText.value = R.string.ingredients
+                IngredientsScreen(
+                    navController = navController
+                )
             }
         }
-
+    }
 }
 
 @Composable
@@ -147,7 +139,6 @@ private fun NavigationBar(navController: NavController) {
                     } else it.route == item.route
                 } == true,
                 onClick = {
-                    //Here can be a navController
                     navController.navigate(item.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
                             saveState = true
@@ -168,10 +159,10 @@ private fun NavigationBar(navController: NavController) {
                     BadgedBox(
                         badge = {
                             if (item.badgeCount != null) {
-                                Badge (
+                                Badge(
                                     containerColor = MaterialTheme.colorScheme.inversePrimary,
                                     contentColor = MaterialTheme.colorScheme.primary
-                                ){
+                                ) {
                                     Text(text = item.badgeCount.toString())
                                 }
                             } else if (item.hasNews) {
