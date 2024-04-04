@@ -6,19 +6,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.cook_and_share.R
+import com.cook_and_share.core.presentation.ui.components.SecondaryButton
 import com.cook_and_share.core.presentation.ui.components.TopAppBarBackIcon
 import com.cook_and_share.core.presentation.ui.components.TopBar
 
@@ -56,16 +56,25 @@ private fun NestedScrolling() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp)
     ) {
 
         Spacer(modifier = Modifier.padding(top = 16.dp))
 
-        Text(
-            text = "IDK JUST TEXT",
-            style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center,
+        SecondaryButton(
+            modifier = Modifier
+                .height(65.dp)
+                .padding(horizontal = 16.dp)
+                .fillMaxWidth(),
+            label = R.string.sign_out,
+            onClick = {
+                //TODO: viewModel.logout()
+
+//                navController.navigate(Screens.SignUpScreen.route) {
+//                    popUpTo(Screens.SignUpScreen.route) {
+//                        inclusive = true
+//                    }
+//                }
+            }
         )
     }
 }

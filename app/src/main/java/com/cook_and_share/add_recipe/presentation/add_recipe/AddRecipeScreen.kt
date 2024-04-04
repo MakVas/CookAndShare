@@ -218,7 +218,7 @@ private fun DoubleButton(
             )
 
             HorizontalDivider(
-                modifier = Modifier.padding(horizontal = 16.dp),
+                modifier = Modifier.padding(horizontal = 56.dp),
                 thickness = 1.dp,
                 color = colorScheme.onSecondary
             )

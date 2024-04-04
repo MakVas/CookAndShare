@@ -3,15 +3,14 @@ package com.cook_and_share.core.presentation.ui.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.FilterList
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -30,19 +29,19 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.cook_and_share.core.presentation.ui.theme.Typography
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
     text: Int,
     scrollBehavior: TopAppBarScrollBehavior,
-    iconButton: @Composable () -> Unit = {}
+    iconButton: @Composable () -> Unit = {},
+    actions: @Composable (RowScope.() -> Unit) = {}
 ) {
     TopAppBar(
         modifier = Modifier.shadow(elevation = 3.dp),
@@ -59,6 +58,7 @@ fun TopBar(
         navigationIcon = {
             iconButton()
         },
+        actions = actions
     )
 }
 
@@ -130,20 +130,16 @@ fun SearchTopBar(
 }
 
 @Composable
-fun TopAppBarMenuIcon(
-    scope: CoroutineScope,
-    drawerState: DrawerState
+fun TopAppBarAction(
+    icon: ImageVector,
+    onClick: () -> Unit
 ){
     IconButton(
-        onClick = {
-            scope.launch {
-                drawerState.open()
-            }
-        },
+        onClick = onClick
     ) {
         Icon(
-            imageVector = Icons.Default.Menu,
-            contentDescription = "Menu",
+            imageVector = icon,
+            contentDescription = "Icon",
             tint = colorScheme.onPrimary
         )
     }

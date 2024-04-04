@@ -42,4 +42,5 @@
     <string name="add_ingredient">Додати інгредієнт</string>
     <string name="recipes">Рецепти</string>
     <string name="people">Люди</string>
+    <string name="liked">Вподобання</string>
 </resources>

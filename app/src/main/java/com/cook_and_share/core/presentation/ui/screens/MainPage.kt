@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -12,13 +11,11 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
@@ -32,7 +29,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.cook_and_share.R
-import com.cook_and_share.core.presentation.ui.components.BottomSheet
 import com.cook_and_share.core.presentation.ui.components.getBottomNavigationItems
 import com.cook_and_share.core.presentation.util.Screens
 import com.cook_and_share.add_recipe.presentation.add_recipe.AddRecipeScreen
@@ -44,7 +40,6 @@ import com.cook_and_share.profile.presentation.profile.ProfileScreen
 import com.cook_and_share.search.presentation.SearchScreen
 import com.cook_and_share.profile.presentation.profile.ProfileViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainPage(
     currentText: MutableState<Int>,
@@ -55,15 +50,8 @@ fun MainPage(
 
     val navController = rememberNavController()
 
-    val sheetState = rememberModalBottomSheetState()
-    val isSheetExpanded = rememberSaveable { mutableStateOf(false) }
-
     val test = remember { mutableStateOf("") }
 
-    BottomSheet(
-        sheetState = sheetState,
-        isSheetExpanded = isSheetExpanded
-    )
     Scaffold(
         bottomBar = {
             NavigationBar(navController)
@@ -77,9 +65,7 @@ fun MainPage(
         ) {
             composable(Screens.HomeScreen.route) {
                 currentText.value = R.string.app_name
-                HomeScreen(
-                    isSheetExpanded = isSheetExpanded,
-                )
+                HomeScreen()
             }
             composable(Screens.AddRecipeScreen.route) {
                 currentText.value = R.string.preview
@@ -90,9 +76,7 @@ fun MainPage(
             }
             composable(Screens.SearchRecipeScreen.route) {
                 currentText.value = R.string.search
-                SearchScreen(
-                    isSheetExpanded = isSheetExpanded
-                )
+                SearchScreen()
             }
             composable(Screens.ProfileScreen.route) {
                 currentText.value = R.string.profile

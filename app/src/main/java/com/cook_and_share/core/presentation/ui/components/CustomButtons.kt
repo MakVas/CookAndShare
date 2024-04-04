@@ -40,28 +40,11 @@ fun PrimaryButton(
         modifier = modifier,
         contentPadding = PaddingValues(horizontal = 12.dp),
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            Icon(
-                modifier = Modifier.align(Alignment.CenterStart),
-                imageVector = icon,
-                contentDescription = "ingredients"
-            )
-            Text(
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .padding(start = 40.dp),
-                text = stringResource(id = label),
-                style = MaterialTheme.typography.bodyLarge
-            )
-            Icon(
-                modifier = Modifier.align(Alignment.CenterEnd),
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = "ingredients"
-            )
-        }
+        BottomSheetButton(
+            modifier = Modifier.fillMaxSize(),
+            label = label,
+            icon = icon
+        )
     }
 }
 
@@ -87,6 +70,36 @@ fun SecondaryButton(
         Text(
             text = stringResource(id = label),
             style = MaterialTheme.typography.labelLarge
+        )
+    }
+}
+
+@Composable
+fun BottomSheetButton(
+    modifier: Modifier,
+    label: Int,
+    icon: ImageVector,
+){
+    Box(
+        modifier = modifier
+    ) {
+        Icon(
+            modifier = Modifier
+                .align(Alignment.CenterStart),
+            imageVector = icon,
+            contentDescription = "icon"
+        )
+        Text(
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+                .padding(start = 40.dp),
+            text = stringResource(id = label),
+            style = MaterialTheme.typography.bodyLarge
+        )
+        Icon(
+            modifier = Modifier.align(Alignment.CenterEnd),
+            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+            contentDescription = "arrow"
         )
     }
 }

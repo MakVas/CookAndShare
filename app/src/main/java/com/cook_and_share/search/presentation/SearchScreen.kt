@@ -8,27 +8,40 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.cook_and_share.R
+import com.cook_and_share.core.presentation.ui.components.RecipeBottomSheet
 import com.cook_and_share.core.presentation.ui.components.SearchItem
 import com.cook_and_share.core.presentation.ui.components.SearchTopBar
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
-    isSheetExpanded: MutableState<Boolean>,
+
 ) {
     val searchQuery = remember { mutableStateOf("") }
     val tabIndex = remember { mutableIntStateOf(0) }
     val tabs = listOf(stringResource(id = R.string.recipes), stringResource(id = R.string.people))
+
+    val sheetState = rememberModalBottomSheetState()
+    val isSheetExpanded = rememberSaveable { mutableStateOf(false) }
+
+    RecipeBottomSheet(
+        sheetState = sheetState,
+        isSheetExpanded = isSheetExpanded
+    )
 
     Scaffold(
         topBar = {

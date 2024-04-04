@@ -21,11 +21,13 @@ import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -36,6 +38,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.cook_and_share.R
 import com.cook_and_share.core.presentation.ui.components.CustomPagerIndicator
+import com.cook_and_share.core.presentation.ui.components.RecipeBottomSheet
 import com.cook_and_share.core.presentation.ui.components.RecipeItem
 import com.cook_and_share.core.presentation.ui.components.TopBar
 import kotlinx.coroutines.delay
@@ -44,9 +47,17 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    isSheetExpanded: MutableState<Boolean>
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
+    val sheetState = rememberModalBottomSheetState()
+    val isSheetExpanded = rememberSaveable { mutableStateOf(false) }
+
+    RecipeBottomSheet(
+        sheetState = sheetState,
+        isSheetExpanded = isSheetExpanded
+    )
+
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
