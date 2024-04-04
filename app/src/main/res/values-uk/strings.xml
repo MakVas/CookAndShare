@@ -35,7 +35,7 @@
     <string name="publish_recipe">Опублікувати рецепт</string>
     <string name="categories">Категорії</string>
     <string name="preview">Попередній перегляд</string>
-    <string name="your_categories">Введіть свої категорії</string>
+    <string name="search_categories">Введіть категорію</string>
     <string name="popular_categories">Популярні категорії</string>
     <string name="ingredient_name">Назва інгредієнту</string>
     <string name="weight">Вага</string>

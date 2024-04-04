@@ -1,4 +1,4 @@
-package com.cook_and_share.info.presentation
+package com.cook_and_share.profile.presentation.info
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -17,19 +17,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.cook_and_share.R
+import com.cook_and_share.core.presentation.ui.components.TopAppBarBackIcon
 import com.cook_and_share.core.presentation.ui.components.TopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InfoScreen() {
+fun InfoScreen(navController: NavHostController) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopBar(
                 text = R.string.info,
-                scrollBehavior = scrollBehavior
+                scrollBehavior = scrollBehavior,
+                iconButton = {
+                    TopAppBarBackIcon(
+                        navController = navController
+                    )
+                }
             )
         }
     ) { values ->

@@ -151,17 +151,11 @@ fun TopAppBarMenuIcon(
 
 @Composable
 fun TopAppBarBackIcon(
-    navController: NavHostController,
-    navigate: String,
-    popUpTo: String
+    navController: NavHostController
 ){
     IconButton(
         onClick = {
-            navController.navigate(navigate) {
-                popUpTo(popUpTo) {
-                    inclusive = true
-                }
-            }
+            navController.popBackStack()
         }
     ) {
         Icon(

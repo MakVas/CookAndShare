@@ -1,4 +1,4 @@
-package com.cook_and_share.profile.presentation
+package com.cook_and_share.profile.presentation.profile
 
 import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
@@ -38,7 +38,7 @@ import com.cook_and_share.core.presentation.util.Screens
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
-    viewModel: ProfileViewModel?,
+    viewModel: ProfileViewModel,
     navController: NavHostController,
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -67,11 +67,11 @@ fun ProfileScreen(
 
 @Composable
 private fun NestedScrolling(
-    viewModel: ProfileViewModel?,
+    viewModel: ProfileViewModel,
     navController: NavHostController
 ) {
 
-    val getUserData = viewModel?.user?.value
+    val getUserData = viewModel.user.value
 
     Column(
         modifier = Modifier
@@ -136,19 +136,20 @@ private fun NestedScrolling(
                 .fillMaxWidth(),
             label = R.string.sign_out,
             onClick = {
-                //TODO: viewModel?.logout()
-                navController.navigate(Screens.LoginScreen.route) {
-                    popUpTo(Screens.LoginScreen.route) {
-                        inclusive = true
-                    }
-                }
+               //TODO: viewModel.logout()
+
+//                navController.navigate(Screens.SignUpScreen.route) {
+//                    popUpTo(Screens.SignUpScreen.route) {
+//                        inclusive = true
+//                    }
+//                }
             }
         )
     }
 }
 
 @Composable
-private fun ProfileContent(modifier: Modifier, getUserData: User?) {
+private fun ProfileContent(modifier: Modifier, getUserData: User) {
     ElevatedCard(
         modifier = modifier,
         shape = RoundedCornerShape(16.dp),
@@ -163,14 +164,14 @@ private fun ProfileContent(modifier: Modifier, getUserData: User?) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = getUserData?.name ?: "No Name",
+                text = getUserData.name,
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .padding(top = 16.dp)
             )
             Text(
-                text = getUserData?.email ?: "No Email",
+                text = getUserData.email,
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center,
                 modifier = Modifier

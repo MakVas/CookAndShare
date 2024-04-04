@@ -167,21 +167,13 @@ fun PasswordField(
 }
 @Composable
 fun ButtonTextField(
-    isShadow: Boolean,
     onClick: () -> Unit,
     fieldLabel: String,
     text: String,
     buttonText: String,
+    modifier: Modifier = Modifier,
     onValueChange: ((String) -> Unit)
 ) {
-    val modifier = if (isShadow) {
-        Modifier
-            .fillMaxWidth()
-            .height(65.dp)
-            .shadow(1.dp, RoundedCornerShape(16.dp), clip = true)
-    } else {
-        Modifier.fillMaxWidth()
-    }
     TextField(
         value = text,
         onValueChange = onValueChange,

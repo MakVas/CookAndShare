@@ -37,7 +37,7 @@
     <string name="publish_recipe">Publish recipe</string>
     <string name="categories">Categories</string>
     <string name="preview">Preview</string>
-    <string name="your_categories">Enter your categories</string>
+    <string name="search_categories">Enter category</string>
     <string name="popular_categories">Popular categories</string>
     <string name="ingredient_name">Ingredient name</string>
     <string name="weight">Weight</string>

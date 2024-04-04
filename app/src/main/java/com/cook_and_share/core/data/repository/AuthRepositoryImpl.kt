@@ -41,12 +41,11 @@ class AuthRepositoryImpl @Inject constructor(
             val user = User(name = name, email = email, userID = userID)
             firestore.collection(Constants.COLLECTION_NAME_USERS).document(userID).set(user).await()
             Resource.Success(result.user!!)
-        }catch (e: Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
             Resource.Error(e)
         }
     }
-
     override fun logout() {
         auth.signOut()
     }

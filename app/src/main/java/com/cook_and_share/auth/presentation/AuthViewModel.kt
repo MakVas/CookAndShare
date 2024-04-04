@@ -36,7 +36,11 @@ class AuthViewModel @Inject constructor(
         val result = repository.signup(name, email, password)
         _signupFlow.value = result
     }
-
+    fun logout() {
+        repository.logout()
+        _loginFlow.value = null
+        _signupFlow.value = null
+    }
     init{
         if(repository.currentUser != null){
             _loginFlow.value = Resource.Success(repository.currentUser!!)

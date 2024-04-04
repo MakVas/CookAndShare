@@ -52,7 +52,6 @@ fun SplashScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     )
-
 }
 
 @Composable

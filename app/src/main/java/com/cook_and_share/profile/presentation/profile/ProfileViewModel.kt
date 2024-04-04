@@ -1,4 +1,4 @@
-package com.cook_and_share.profile.presentation
+package com.cook_and_share.profile.presentation.profile
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -20,12 +20,12 @@ class ProfileViewModel @Inject constructor(
 
     val user = mutableStateOf(User())
 
+    private fun getUserInfo() = viewModelScope.launch {
+        user.value = repository.getUserInfo()
+    }
     init{
         if(currentUser != null){
             getUserInfo()
         }
-    }
-    private fun getUserInfo() = viewModelScope.launch {
-        user.value = repository.getUserInfo()
     }
 }

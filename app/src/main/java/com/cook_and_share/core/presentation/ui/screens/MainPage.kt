@@ -37,12 +37,12 @@ import com.cook_and_share.core.presentation.ui.components.getBottomNavigationIte
 import com.cook_and_share.core.presentation.util.Screens
 import com.cook_and_share.add_recipe.presentation.add_recipe.AddRecipeScreen
 import com.cook_and_share.add_recipe.presentation.AddRecipeViewModel
-import com.cook_and_share.add_recipe.presentation.screens.add_recipe.categories.CategoriesScreen
-import com.cook_and_share.add_recipe.presentation.screens.add_recipe.ingredients.IngredientsScreen
+import com.cook_and_share.add_recipe.presentation.categories.CategoriesScreen
+import com.cook_and_share.add_recipe.presentation.ingredients.IngredientsScreen
 import com.cook_and_share.home.presentation.HomeScreen
-import com.cook_and_share.profile.presentation.ProfileScreen
+import com.cook_and_share.profile.presentation.profile.ProfileScreen
 import com.cook_and_share.search.presentation.SearchScreen
-import com.cook_and_share.profile.presentation.ProfileViewModel
+import com.cook_and_share.profile.presentation.profile.ProfileViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

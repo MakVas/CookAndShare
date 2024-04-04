@@ -19,8 +19,8 @@ import com.cook_and_share.core.presentation.util.Screens
 import com.cook_and_share.core.presentation.ui.screens.MainPage
 import com.cook_and_share.auth.presentation.LoginScreen
 import com.cook_and_share.auth.presentation.SignUpScreen
-import com.cook_and_share.info.presentation.InfoScreen
-import com.cook_and_share.settings.presentation.SettingsScreen
+import com.cook_and_share.profile.presentation.info.InfoScreen
+import com.cook_and_share.profile.presentation.settings.SettingsScreen
 import com.cook_and_share.core.presentation.ui.theme.CookAndShare
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -65,11 +65,11 @@ fun Navigation() {
         }
 
         composable(Screens.Settings.route) {
-            SettingsScreen()
+            SettingsScreen(navController = navController)
         }
 
         composable(Screens.Info.route) {
-            InfoScreen()
+            InfoScreen(navController = navController)
         }
     }
 }

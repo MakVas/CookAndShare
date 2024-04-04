@@ -1,4 +1,4 @@
-package com.cook_and_share.add_recipe.presentation.screens.add_recipe.ingredients
+package com.cook_and_share.add_recipe.presentation.ingredients
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -21,8 +21,6 @@ import androidx.navigation.NavHostController
 import com.cook_and_share.R
 import com.cook_and_share.core.presentation.ui.components.TopAppBarBackIcon
 import com.cook_and_share.core.presentation.ui.components.TopBar
-import com.cook_and_share.core.presentation.util.Screens
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IngredientsScreen(
@@ -37,9 +35,7 @@ fun IngredientsScreen(
                 scrollBehavior = scrollBehavior,
                 iconButton = {
                     TopAppBarBackIcon(
-                        navController = navController,
-                        navigate = Screens.AddRecipeScreen.route,
-                        popUpTo = Screens.IngredientsScreen.route
+                        navController = navController
                     )
                 }
             )
