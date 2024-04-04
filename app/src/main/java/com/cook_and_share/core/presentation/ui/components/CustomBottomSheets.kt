@@ -63,14 +63,15 @@ fun SettingsBottomSheet(
                 isSheetExpanded.value = false
             }
         ) {
-            BottomSheetButton(
+            TertiaryButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable { onSettingsClick() }
-                    .height(50.dp)
+                    .height(60.dp)
                     .padding(horizontal = 16.dp),
                 label = R.string.settings,
-                icon = Icons.Outlined.Settings
+                icon = Icons.Outlined.Settings,
+                isArrow = true
             )
 
             HorizontalDivider(
@@ -79,14 +80,15 @@ fun SettingsBottomSheet(
                 color = MaterialTheme.colorScheme.onSecondary
             )
 
-            BottomSheetButton(
+            TertiaryButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable { onLikedClick() }
-                    .height(50.dp)
+                    .height(60.dp)
                     .padding(horizontal = 16.dp),
                 label = R.string.liked,
-                icon = Icons.Default.FavoriteBorder
+                icon = Icons.Default.FavoriteBorder,
+                isArrow = true
             )
 
             HorizontalDivider(
@@ -95,14 +97,15 @@ fun SettingsBottomSheet(
                 color = MaterialTheme.colorScheme.onSecondary
             )
 
-            BottomSheetButton(
+            TertiaryButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable { onInfoClick() }
-                    .height(50.dp)
+                    .height(60.dp)
                     .padding(horizontal = 16.dp),
                 label = R.string.info,
-                icon = Icons.Outlined.Info
+                icon = Icons.Outlined.Info,
+                isArrow = true
             )
 
             Spacer(modifier = Modifier.height(100.dp))

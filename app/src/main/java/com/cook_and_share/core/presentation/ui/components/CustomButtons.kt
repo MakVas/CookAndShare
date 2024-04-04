@@ -40,10 +40,11 @@ fun PrimaryButton(
         modifier = modifier,
         contentPadding = PaddingValues(horizontal = 12.dp),
     ) {
-        BottomSheetButton(
+        TertiaryButton(
             modifier = Modifier.fillMaxSize(),
             label = label,
-            icon = icon
+            icon = icon,
+            isArrow = true
         )
     }
 }
@@ -75,10 +76,11 @@ fun SecondaryButton(
 }
 
 @Composable
-fun BottomSheetButton(
+fun TertiaryButton(
     modifier: Modifier,
     label: Int,
     icon: ImageVector,
+    isArrow: Boolean = false
 ){
     Box(
         modifier = modifier
@@ -96,10 +98,12 @@ fun BottomSheetButton(
             text = stringResource(id = label),
             style = MaterialTheme.typography.bodyLarge
         )
-        Icon(
-            modifier = Modifier.align(Alignment.CenterEnd),
-            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-            contentDescription = "arrow"
-        )
+        if (isArrow) {
+            Icon(
+                modifier = Modifier.align(Alignment.CenterEnd),
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = "arrow"
+            )
+        }
     }
 }
