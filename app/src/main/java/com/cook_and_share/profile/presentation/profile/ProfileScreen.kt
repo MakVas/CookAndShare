@@ -60,7 +60,11 @@ fun ProfileScreen(
         },
         onLikedClick = {
             isSheetExpanded.value = false
-            //TODO: Make liked recipes screen
+            navController.navigate(Screens.Liked.route) {
+                popUpTo(Screens.Liked.route) {
+                    inclusive = false
+                }
+            }
         },
         onInfoClick = {
             isSheetExpanded.value = false

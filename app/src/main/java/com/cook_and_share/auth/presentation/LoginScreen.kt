@@ -105,7 +105,9 @@ fun LoginScreen(
                 style = Typography.titleMedium,
                 modifier = Modifier
                     .clickable {
-                        //TODO: Implement Forgot Password
+                        navController.navigate(route = Screens.ForgotPassScreen.route) {
+                            launchSingleTop = true
+                        }
                     }
             )
 
@@ -146,7 +148,9 @@ fun LoginScreen(
                 is Resource.Success -> {
                     LaunchedEffect(Unit) {
                         navController.navigate(route = Screens.Main.route) {
-                            popUpTo(Screens.LoginScreen.route) { inclusive = true }
+                            popUpTo(Screens.LoginScreen.route) {
+                                inclusive = true
+                            }
                         }
                     }
                 }

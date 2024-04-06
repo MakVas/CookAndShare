@@ -6,6 +6,7 @@ sealed class Screens(val route: String) {
     data object SplashScreen : Screens("splash_screen")
     data object LoginScreen : Screens("login_screen")
     data object SignUpScreen : Screens("sign_up_screen")
+    data object ForgotPassScreen: Screens("forgot_pass_screen")
     data object Main : Screens("main")
 
     //Main navigation
@@ -16,8 +17,9 @@ sealed class Screens(val route: String) {
     data object CategoriesScreen : Screens("categories_screen")
     data object IngredientsScreen : Screens("ingredients_screen")
 
-    //Drawer navigation
+    //Profile bottom sheet navigation
     data object Settings : Screens("settings")
     data object Info : Screens("info")
+    data object Liked : Screens("liked")
 
 }

@@ -12,8 +12,8 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -42,9 +42,10 @@ import com.cook_and_share.profile.presentation.profile.ProfileViewModel
 
 @Composable
 fun MainPage(
-    currentText: MutableState<Int>,
     mainNavController: NavHostController
 ) {
+    val currentText = remember { mutableIntStateOf(R.string.app_name) }
+
     val profileViewModel = hiltViewModel<ProfileViewModel>()
     val addRecipeViewModel = hiltViewModel<AddRecipeViewModel>()
 
@@ -64,36 +65,36 @@ fun MainPage(
                 .padding(values)
         ) {
             composable(Screens.HomeScreen.route) {
-                currentText.value = R.string.app_name
+                currentText.intValue = R.string.app_name
                 HomeScreen()
             }
             composable(Screens.AddRecipeScreen.route) {
-                currentText.value = R.string.preview
+                currentText.intValue = R.string.preview
                 AddRecipeScreen(
                     viewModel = addRecipeViewModel,
                     navController = navController,
                 )
             }
             composable(Screens.SearchRecipeScreen.route) {
-                currentText.value = R.string.search
+                currentText.intValue = R.string.search
                 SearchScreen()
             }
             composable(Screens.ProfileScreen.route) {
-                currentText.value = R.string.profile
+                currentText.intValue = R.string.profile
                 ProfileScreen(
                     viewModel = profileViewModel,
                     navController = mainNavController
                 )
             }
             composable(Screens.CategoriesScreen.route) {
-                currentText.value = R.string.categories
+                currentText.intValue = R.string.categories
                 CategoriesScreen(
                     navController = navController,
                     onValueChange = test
                 )
             }
             composable(Screens.IngredientsScreen.route) {
-                currentText.value = R.string.ingredients
+                currentText.intValue = R.string.ingredients
                 IngredientsScreen(
                     navController = navController
                 )
