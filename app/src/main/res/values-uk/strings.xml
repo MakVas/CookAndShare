@@ -24,8 +24,6 @@
     <string name="username_error">Введіть ім\'я користувача</string>
     <string name="email_error">Введіть електронну пошту</string>
     <string name="password_error">Введіть пароль</string>
-    <string name="password2_error">Підтвердіть пароль</string>
-    <string name="password_length_error">Пароль повинен містити не менше 6 символів</string>
     <string name="password_match_error">Паролі не збігаються</string>
     <string name="login_failed">Помилка авторизації</string>
     <string name="sign_up_failed">Помилка реєстрації</string>
@@ -43,4 +41,9 @@
     <string name="recipes">Рецепти</string>
     <string name="people">Люди</string>
     <string name="liked">Вподобання</string>
+    <string name="email_letter_sent">Email letter sent</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="generic_error">Generic Error</string>
+    <string name="try_again">Try Again</string>
+    <string name="repeat_password">Repeat password</string>
 </resources>

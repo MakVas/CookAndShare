@@ -26,8 +26,6 @@
     <string name="username_error">Enter username</string>
     <string name="email_error">Enter email</string>
     <string name="password_error">Enter password</string>
-    <string name="password2_error">Confirm password</string>
-    <string name="password_length_error">Password must be at least 6 symbols</string>
     <string name="password_match_error">Password not match</string>
     <string name="login_failed">Login failed</string>
     <string name="sign_up_failed">Register failed</string>
@@ -45,4 +43,9 @@
     <string name="recipes">Recipes</string>
     <string name="people">People</string>
     <string name="liked">Liked</string>
+    <string name="email_letter_sent">Email letter sent</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="generic_error">Generic Error</string>
+    <string name="try_again">Try Again</string>
+    <string name="repeat_password">Repeat password</string>
 </resources>
