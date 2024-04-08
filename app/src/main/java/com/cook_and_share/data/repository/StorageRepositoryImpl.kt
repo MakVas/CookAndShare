@@ -29,13 +29,24 @@ class StorageRepositoryImpl @Inject constructor(
             .whereEqualTo(USER_ID_FIELD, auth.currentUserId)
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override val recipes: Flow<List<Recipe>>
+    override val myRecipes: Flow<List<Recipe>>
         get() =
             auth.currentUser.flatMapLatest { user ->
                 firestore
                     .collection(COLLECTION_NAME_RECIPES)
                     .whereEqualTo(USER_ID_FIELD, user.id)
                    // .orderBy(CREATED_AT_FIELD, Query.Direction.DESCENDING)
+                    .dataObjects()
+            }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override val recipes: Flow<List<Recipe>>
+        get() =
+            auth.currentUser.flatMapLatest {
+                firestore
+                    .collection(COLLECTION_NAME_RECIPES)
+                    //.whereEqualTo(USER_ID_FIELD, user.id)
+                    // .orderBy(CREATED_AT_FIELD, Query.Direction.DESCENDING)
                     .dataObjects()
             }
 

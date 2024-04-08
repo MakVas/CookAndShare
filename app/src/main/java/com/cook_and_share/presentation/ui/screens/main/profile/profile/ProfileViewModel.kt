@@ -17,7 +17,7 @@ class ProfileViewModel @Inject constructor(
     val userId = authRepository.currentUserId
     val userEmail = authRepository.currentUserEmail
 
-    val recipes = storageRepository.recipes
+    val recipes = storageRepository.myRecipes
     fun onRecipeLikeClick(recipe: Recipe) {
         launchCatching {
             storageRepository.update(recipe.copy(likes = recipe.likes + 1))
