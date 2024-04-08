@@ -29,17 +29,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale.Companion.Crop
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.cook_and_share.R
+import com.cook_and_share.domain.model.Recipe
 import com.cook_and_share.presentation.ui.theme.Typography
 
 @Composable
 fun RecipeItem(
+    modifier: Modifier = Modifier,
+    onRecipeLikeClick: (Recipe) -> Unit = {},
+    recipe: Recipe,
     onClick: () -> Unit,
-    image: Int,
-    name: String,
-    title: String,
-    likes: String,
-    isPreview: Boolean,
-    modifier: Modifier = Modifier
+    isPreview: Boolean
 ) {
     ElevatedButton(
         onClick = onClick,
@@ -58,7 +58,7 @@ fun RecipeItem(
             Image(
                 modifier = Modifier
                     .fillMaxSize(),
-                painter = painterResource(id = image),
+                painter = painterResource(id = R.drawable.image2),
                 contentDescription = "recipe image",
                 contentScale = Crop,
             )
@@ -77,19 +77,20 @@ fun RecipeItem(
                     verticalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Text(
-                        text = title,
+                        text = recipe.title,
                         modifier = Modifier.padding(top = 6.dp),
                         style = Typography.titleSmall
                     )
 
                     Text(
-                        text = name,
+                        text = recipe.author,
                         style = Typography.labelMedium,
                     )
                 }
                 if (!isPreview) {
                    LikeButton(
-                       likes = likes,
+                       onRecipeLikeClick = { onRecipeLikeClick(recipe) },
+                       likes = recipe.likes.toString(),
                        modifier = Modifier
                            .fillMaxHeight()
                            .padding(end = 16.dp, bottom = 10.dp, top = 10.dp)
@@ -102,6 +103,7 @@ fun RecipeItem(
 
 @Composable
 private fun LikeButton(
+    onRecipeLikeClick: () -> Unit,
     likes: String,
     modifier: Modifier = Modifier
 ) {
@@ -113,7 +115,7 @@ private fun LikeButton(
         IconButton(
             modifier = Modifier
                 .size(30.dp),
-            onClick = { },
+            onClick = { onRecipeLikeClick() },
         ) {
             Icon(
                 modifier = Modifier.size(30.dp),

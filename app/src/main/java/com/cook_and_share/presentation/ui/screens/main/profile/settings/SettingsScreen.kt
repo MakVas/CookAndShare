@@ -16,15 +16,31 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.cook_and_share.R
 import com.cook_and_share.presentation.ui.components.SecondaryButton
 import com.cook_and_share.presentation.ui.components.TopAppBarBackIcon
 import com.cook_and_share.presentation.ui.components.TopBar
 
+@Composable
+fun SettingsScreen(
+    restartApp: (String) -> Unit,
+    viewModel: SettingsViewModel = hiltViewModel(),
+    navController: NavHostController
+) {
+    SettingsScreenContent(
+        onSignOutClick = { viewModel.onSignOutClick(restartApp) },
+        navController = navController
+    )
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(navController: NavHostController) {
+private fun SettingsScreenContent(
+    onSignOutClick: () -> Unit,
+    navController: NavHostController
+) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -46,13 +62,15 @@ fun SettingsScreen(navController: NavHostController) {
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
         ) {
-            NestedScrolling(navController = navController)
+            NestedScrolling(onSignOutClick = onSignOutClick)
         }
     }
 }
 
 @Composable
-private fun NestedScrolling(navController: NavHostController) {
+private fun NestedScrolling(
+    onSignOutClick: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -66,15 +84,7 @@ private fun NestedScrolling(navController: NavHostController) {
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth(),
             label = R.string.sign_out,
-            onClick = {
-                //TODO: viewModel.logout()
-
-//                navController.navigate(Screens.LoginScreen.route) {
-//                    popUpTo(Screens.LoginScreen.route) {
-//                        inclusive = true
-//                    }
-//                }
-            }
+            onClick = { onSignOutClick() }
         )
     }
 }

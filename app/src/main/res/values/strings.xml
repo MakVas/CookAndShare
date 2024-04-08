@@ -25,7 +25,7 @@
     <string name="info">Information</string>
     <string name="username_error">Enter username</string>
     <string name="email_error">Enter email</string>
-    <string name="password_error">Enter password</string>
+    <string name="password_error">Your password should have at least six digits and include one digit, one lower case letter and one upper case letter</string>
     <string name="password_match_error">Password not match</string>
     <string name="login_failed">Login failed</string>
     <string name="sign_up_failed">Register failed</string>

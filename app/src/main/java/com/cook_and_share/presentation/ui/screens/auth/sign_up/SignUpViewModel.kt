@@ -55,7 +55,7 @@ class SignUpViewModel @Inject constructor(
         }
 
         launchCatching {
-            authRepository.linkAccount(email, password)
+            authRepository.createAccount(email, password)
             openAndPopUp(Screens.Main.route, Screens.SignUpScreen.route)
         }
     }

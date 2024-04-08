@@ -1,21 +1,58 @@
 package com.cook_and_share.presentation.ui.screens.main.add_recipe
 
-//@HiltViewModel
-//class AddRecipeViewModel @Inject constructor(
-//    private val repository: FirestoreRepository
-//): ViewModel(){
-//
-//    private val _createRecipeFlow = MutableStateFlow<Resource<Void>?>(null)
-//    val createRecipeFlow: StateFlow<Resource<Void>?> = _createRecipeFlow
-//    fun createRecipe(
-//        title: String,
-//        imageUrl: String,
-//        tags: List<String>,
-//        ingredients: List<String>,
-//        recipe: String
-//    ) = viewModelScope.launch {
-//        _createRecipeFlow.value = Resource.Loading
-//        val result = repository.createRecipe(title, imageUrl, tags, ingredients, recipe)
-//        _createRecipeFlow.value = result
-//    }
-//}
+import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
+import com.cook_and_share.domain.model.Recipe
+import com.cook_and_share.domain.repository.LogRepository
+import com.cook_and_share.domain.repository.StorageRepository
+import com.cook_and_share.presentation.ui.screens.CookAndShareViewModel
+import com.cook_and_share.presentation.util.Constants.RECIPE_ID
+import com.cook_and_share.presentation.util.idFromParameter
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
+@HiltViewModel
+class AddRecipeViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    logRepository: LogRepository,
+    private val storageRepository: StorageRepository,
+): CookAndShareViewModel(logRepository){
+
+    val recipe = mutableStateOf(Recipe())
+    init {
+        val recipeId = savedStateHandle.get<String>(RECIPE_ID)
+        if (recipeId != null) {
+            launchCatching {
+                recipe.value = storageRepository.getRecipe(recipeId.idFromParameter()) ?: Recipe()
+            }
+        }
+    }
+
+    fun onTitleChange(newValue: String) {
+        recipe.value = recipe.value.copy(title = newValue)
+    }
+
+    fun onUrlChange(newValue: String) {
+        recipe.value = recipe.value.copy(imageUrl = newValue)
+    }
+
+    fun onTagsChange(newValue: List<String>) {
+        recipe.value = recipe.value.copy(tags = newValue)
+    }
+
+    fun onIngredientsChange(newValue: List<Map<String,Int>>) {
+        recipe.value = recipe.value.copy(ingredients = newValue)
+    }
+
+    fun onRecipeChange(newValue: String) {
+        recipe.value = recipe.value.copy(recipe = newValue)
+    }
+
+    fun onPublishClick(popUpScreen: () -> Unit) {
+        launchCatching {
+            val editedTask = recipe.value
+            storageRepository.save(editedTask)
+            popUpScreen()
+        }
+    }
+}

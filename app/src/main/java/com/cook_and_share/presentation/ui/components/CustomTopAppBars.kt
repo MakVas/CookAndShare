@@ -74,12 +74,16 @@ fun SearchTopBar(
     ) {
         Column {
             Row (
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ){
 
                 CustomTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
                     icon = Icons.Filled.Search,
                     fieldLabel = stringResource(id = text),
                     value = searchQuery.value,

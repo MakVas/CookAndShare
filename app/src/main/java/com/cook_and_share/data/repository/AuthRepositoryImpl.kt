@@ -1,9 +1,9 @@
 package com.cook_and_share.data.repository
 
-import androidx.compose.ui.util.trace
 import com.cook_and_share.domain.model.User
 import com.cook_and_share.domain.repository.AuthRepository
-import com.google.firebase.auth.EmailAuthProvider
+import com.cook_and_share.presentation.util.Constants.CREATE_ACCOUNT_TRACE
+import com.cook_and_share.presentation.util.trace
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -15,6 +15,9 @@ class AuthRepositoryImpl @Inject constructor(private val auth: FirebaseAuth) : A
     override val currentUserId: String
         get() = auth.currentUser?.uid.orEmpty()
 
+    override val currentUserEmail: String
+        get() = auth.currentUser?.email.orEmpty()
+
     override val hasUser: Boolean
         get() = auth.currentUser != null
 
@@ -22,7 +25,9 @@ class AuthRepositoryImpl @Inject constructor(private val auth: FirebaseAuth) : A
         get() = callbackFlow {
             val listener =
                 FirebaseAuth.AuthStateListener { auth ->
-                    this.trySend(auth.currentUser?.let { User(it.uid, it.isAnonymous) } ?: User())
+                    this.trySend(auth.currentUser?.let {
+                        User(it.uid)
+                    } ?: User())
                 }
             auth.addAuthStateListener(listener)
             awaitClose { auth.removeAuthStateListener(listener) }
@@ -31,36 +36,20 @@ class AuthRepositoryImpl @Inject constructor(private val auth: FirebaseAuth) : A
     override suspend fun authenticate(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password).await()
     }
-
     override suspend fun sendRecoveryEmail(email: String) {
         auth.sendPasswordResetEmail(email).await()
     }
 
-    override suspend fun createAnonymousAccount() {
-        auth.signInAnonymously().await()
-    }
-
-    override suspend fun linkAccount(email: String, password: String): Unit =
-        trace(LINK_ACCOUNT_TRACE) {
-            val credential = EmailAuthProvider.getCredential(email, password)
-            auth.currentUser!!.linkWithCredential(credential).await()
+    override suspend fun createAccount(email: String, password: String){
+        trace(CREATE_ACCOUNT_TRACE) {
+            auth.createUserWithEmailAndPassword(email, password).await()
         }
-
+    }
     override suspend fun deleteAccount() {
         auth.currentUser!!.delete().await()
     }
 
     override suspend fun signOut() {
-        if (auth.currentUser!!.isAnonymous) {
-            auth.currentUser!!.delete()
-        }
         auth.signOut()
-
-        // Sign the user back in anonymously.
-        createAnonymousAccount()
-    }
-
-    companion object {
-        private const val LINK_ACCOUNT_TRACE = "linkAccount"
     }
 }

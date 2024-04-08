@@ -111,7 +111,10 @@ fun NavGraphBuilder.cookAndShareGraph(appState: CookAndShareState) {
     }
 
     composable(Screens.Settings.route) {
-        SettingsScreen(navController = appState.navController)
+        SettingsScreen(
+            navController = appState.navController,
+            restartApp = { route -> appState.clearAndNavigate(route) }
+        )
     }
 
     composable(Screens.Info.route) {

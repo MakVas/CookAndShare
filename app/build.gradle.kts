@@ -5,6 +5,7 @@ plugins {
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("com.google.firebase.crashlytics")
+    id("com.google.firebase.firebase-perf")
 }
 
 android {
@@ -70,7 +71,9 @@ dependencies {
     implementation ("com.google.firebase:firebase-firestore-ktx")
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
     implementation ("com.google.firebase:firebase-crashlytics-ktx")
-    implementation("com.google.firebase:firebase-analytics")
+    implementation ("com.google.firebase:firebase-perf-ktx")
+    implementation ("com.google.firebase:firebase-config-ktx")
+    implementation ("com.google.firebase:firebase-analytics-ktx")
 
     //IDK
     implementation("androidx.compose.material:material-icons-extended")
