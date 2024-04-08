@@ -35,7 +35,7 @@ class StorageRepositoryImpl @Inject constructor(
                 firestore
                     .collection(COLLECTION_NAME_RECIPES)
                     .whereEqualTo(USER_ID_FIELD, user.id)
-                    .orderBy(CREATED_AT_FIELD, Query.Direction.DESCENDING)
+                   // .orderBy(CREATED_AT_FIELD, Query.Direction.DESCENDING)
                     .dataObjects()
             }
 

@@ -74,6 +74,7 @@ private fun NestedScrolling(onValueChange: MutableState<String>) {
             Spacer(modifier = Modifier.padding(top = 16.dp))
 
             CustomTextField(
+                modifier = Modifier.padding(horizontal = 16.dp),
                 icon = Icons.Default.Search,
                 fieldLabel = stringResource(id = R.string.search),
                 value = onValueChange.value,
