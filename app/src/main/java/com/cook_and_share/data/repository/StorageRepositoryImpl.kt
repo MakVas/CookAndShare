@@ -5,6 +5,7 @@ import com.cook_and_share.domain.repository.AuthRepository
 import com.cook_and_share.domain.repository.StorageRepository
 import com.cook_and_share.presentation.util.Constants.COLLECTION_NAME_RECIPES
 import com.cook_and_share.presentation.util.Constants.CREATED_AT_FIELD
+import com.cook_and_share.presentation.util.Constants.IS_DAILY_FIELD
 import com.cook_and_share.presentation.util.Constants.SAVE_RECIPE_TRACE
 import com.cook_and_share.presentation.util.Constants.UPDATE_RECIPE_TRACE
 import com.cook_and_share.presentation.util.Constants.USER_ID_FIELD
@@ -24,10 +25,6 @@ class StorageRepositoryImpl @Inject constructor(
     private val auth: AuthRepository
 ) : StorageRepository {
 
-    private val collection
-        get() = firestore.collection(COLLECTION_NAME_RECIPES)
-            .whereEqualTo(USER_ID_FIELD, auth.currentUserId)
-
     @OptIn(ExperimentalCoroutinesApi::class)
     override val myRecipes: Flow<List<Recipe>>
         get() =
@@ -35,7 +32,7 @@ class StorageRepositoryImpl @Inject constructor(
                 firestore
                     .collection(COLLECTION_NAME_RECIPES)
                     .whereEqualTo(USER_ID_FIELD, user.id)
-                   // .orderBy(CREATED_AT_FIELD, Query.Direction.DESCENDING)
+                    .orderBy(CREATED_AT_FIELD, Query.Direction.DESCENDING)
                     .dataObjects()
             }
 
@@ -46,9 +43,18 @@ class StorageRepositoryImpl @Inject constructor(
                 firestore
                     .collection(COLLECTION_NAME_RECIPES)
                     //.whereEqualTo(USER_ID_FIELD, user.id)
-                    // .orderBy(CREATED_AT_FIELD, Query.Direction.DESCENDING)
+                    .orderBy(CREATED_AT_FIELD, Query.Direction.DESCENDING)
                     .dataObjects()
             }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override val dailyRecipes: Flow<List<Recipe>>
+        get() = auth.currentUser.flatMapLatest {
+            firestore
+                .collection(COLLECTION_NAME_RECIPES)
+                .whereEqualTo(IS_DAILY_FIELD, true)
+                .dataObjects()
+        }
 
     override suspend fun getRecipe(recipeId: String): Recipe? =
         firestore.collection(COLLECTION_NAME_RECIPES).document(recipeId).get().await().toObject()

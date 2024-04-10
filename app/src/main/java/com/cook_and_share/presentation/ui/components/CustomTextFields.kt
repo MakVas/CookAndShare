@@ -3,7 +3,6 @@ package com.cook_and_share.presentation.ui.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.TextSelectionColors
@@ -11,10 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -78,7 +74,7 @@ fun CustomTextField(
         },
         colors = TextFieldDefaults.colors(
             focusedTextColor = colorScheme.onSecondary,
-            unfocusedTextColor= colorScheme.onSecondary,
+            unfocusedTextColor = colorScheme.onSecondary,
             focusedContainerColor = colorScheme.secondary,
             unfocusedContainerColor = colorScheme.secondary,
             disabledContainerColor = colorScheme.secondary,
@@ -161,7 +157,7 @@ fun PasswordField(
         },
         colors = TextFieldDefaults.colors(
             focusedTextColor = colorScheme.onSecondary,
-            unfocusedTextColor= colorScheme.onSecondary,
+            unfocusedTextColor = colorScheme.onSecondary,
             focusedContainerColor = colorScheme.secondary,
             unfocusedContainerColor = colorScheme.secondary,
             disabledContainerColor = colorScheme.secondary,
@@ -182,67 +178,14 @@ fun PasswordField(
         singleLine = true
     )
 }
-@Composable
-fun ButtonTextField(
-    onClick: () -> Unit,
-    fieldLabel: String,
-    text: String,
-    buttonText: String,
-    modifier: Modifier = Modifier,
-    onValueChange: ((String) -> Unit)
-) {
-    TextField(
-        value = text,
-        onValueChange = onValueChange,
-        shape = RoundedCornerShape(16.dp),
-        modifier = modifier,
-        label = {
-            Text(fieldLabel)
-        },
-        trailingIcon = {
-            Button(
-                shape = RoundedCornerShape(8.dp),
-                modifier = Modifier.padding(end = 12.dp),
-                onClick = { onClick() },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = colorScheme.tertiary,
-                    contentColor = colorScheme.secondary
-                )
-            ){
-                Text(
-                    text = buttonText,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-            }
-        },
-        colors = TextFieldDefaults.colors(
-            focusedTextColor = colorScheme.onSecondary,
-            unfocusedTextColor= colorScheme.onSecondary,
-            focusedContainerColor = colorScheme.secondary,
-            unfocusedContainerColor = colorScheme.secondary,
-            disabledContainerColor = colorScheme.secondary,
-            cursorColor = colorScheme.onSecondary,
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            focusedLabelColor = colorScheme.onSecondary,
-            unfocusedLabelColor = colorScheme.onSecondary,
-            selectionColors = TextSelectionColors(
-                handleColor = colorScheme.onSecondary,
-                backgroundColor = colorScheme.onSecondary
-            )
 
-        ),
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-        singleLine = true,
-    )
-}
 @Composable
 fun RecipeTextField(
     modifier: Modifier = Modifier,
     fieldLabel: String,
     text: String,
     onNewValue: (String) -> Unit,
-){
+) {
     TextField(
         value = text,
         onValueChange = onNewValue,
@@ -253,7 +196,7 @@ fun RecipeTextField(
         },
         colors = TextFieldDefaults.colors(
             focusedTextColor = colorScheme.onSecondary,
-            unfocusedTextColor= colorScheme.onSecondary,
+            unfocusedTextColor = colorScheme.onSecondary,
             focusedContainerColor = colorScheme.secondary,
             unfocusedContainerColor = colorScheme.secondary,
             disabledContainerColor = colorScheme.secondary,

@@ -73,12 +73,12 @@ fun SearchTopBar(
         shadowElevation = 3.dp
     ) {
         Column {
-            Row (
+            Row(
                 modifier = Modifier
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
-            ){
+            ) {
 
                 CustomTextField(
                     modifier = Modifier
@@ -92,7 +92,7 @@ fun SearchTopBar(
                 }
 
                 IconButton(
-                    modifier = Modifier.padding(top = 4.dp,end = 4.dp),
+                    modifier = Modifier.padding(top = 4.dp, end = 4.dp),
                     onClick = { }
                 ) {
                     Icon(
@@ -132,7 +132,7 @@ fun SearchTopBar(
 fun TopAppBarAction(
     icon: ImageVector,
     onClick: () -> Unit
-){
+) {
     IconButton(
         onClick = onClick
     ) {
@@ -147,7 +147,7 @@ fun TopAppBarAction(
 @Composable
 fun TopAppBarBackIcon(
     navController: NavHostController
-){
+) {
     IconButton(
         onClick = {
             navController.popBackStack()

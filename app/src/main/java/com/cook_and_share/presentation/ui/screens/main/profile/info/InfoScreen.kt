@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -25,7 +26,21 @@ import com.cook_and_share.presentation.ui.components.TopBar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InfoScreen(navController: NavHostController) {
+
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+
+    InfoScreenContent(
+        navController = navController,
+        scrollBehavior = scrollBehavior
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun InfoScreenContent(
+    navController: NavHostController,
+    scrollBehavior: TopAppBarScrollBehavior
+) {
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {

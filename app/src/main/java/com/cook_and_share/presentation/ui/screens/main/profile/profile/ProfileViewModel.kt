@@ -13,7 +13,8 @@ class ProfileViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val storageRepository: StorageRepository,
     logRepository: LogRepository
-): CookAndShareViewModel(logRepository){
+) : CookAndShareViewModel(logRepository) {
+
     val userId = authRepository.currentUserId
     val userEmail = authRepository.currentUserEmail
 

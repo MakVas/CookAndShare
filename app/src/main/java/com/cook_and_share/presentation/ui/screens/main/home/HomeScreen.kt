@@ -55,6 +55,8 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val recipes = viewModel.recipes.collectAsState(emptyList())
+    val dailyRecipes = viewModel.dailyRecipes.collectAsState(emptyList())
+
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     val sheetState = rememberModalBottomSheetState()
@@ -66,6 +68,7 @@ fun HomeScreen(
     )
     HomeScreenContent(
         recipes = recipes.value,
+        dailyRecipes = dailyRecipes.value,
         scrollBehavior = scrollBehavior,
         isSheetExpanded = isSheetExpanded,
         onRecipeLikeClick = viewModel::onRecipeLikeClick
@@ -76,6 +79,7 @@ fun HomeScreen(
 @Composable
 private fun HomeScreenContent(
     recipes: List<Recipe>,
+    dailyRecipes: List<Recipe>,
     scrollBehavior: TopAppBarScrollBehavior,
     isSheetExpanded: MutableState<Boolean>,
     onRecipeLikeClick: (Recipe) -> Unit
@@ -96,9 +100,10 @@ private fun HomeScreenContent(
                 .background(colorScheme.background)
         ) {
             NestedScrolling(
-                recipes,
-                isSheetExpanded,
-                onRecipeLikeClick
+                dailyRecipes = dailyRecipes,
+                recipes = recipes,
+                isSheetExpanded = isSheetExpanded,
+                onRecipeLikeClick = onRecipeLikeClick
             )
         }
     }
@@ -106,6 +111,7 @@ private fun HomeScreenContent(
 
 @Composable
 private fun NestedScrolling(
+    dailyRecipes: List<Recipe>,
     recipes: List<Recipe>,
     isSheetExpanded: MutableState<Boolean>,
     onRecipeLikeClick: (Recipe) -> Unit
@@ -127,7 +133,7 @@ private fun NestedScrolling(
 
             SubRow(
                 onRecipeLikeClick = onRecipeLikeClick,
-                recipes = recipes,
+                recipes = dailyRecipes,
                 isSheetExpanded = isSheetExpanded
             )
 
@@ -143,7 +149,7 @@ private fun NestedScrolling(
             onRecipeLikeClick = onRecipeLikeClick,
             recipes = recipes,
             isSheetExpanded = isSheetExpanded,
-            Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier.padding(horizontal = 16.dp)
         )
     }
 }
@@ -197,7 +203,7 @@ private fun LazyListScope.subColumn(
     isSheetExpanded: MutableState<Boolean>,
     modifier: Modifier = Modifier
 ) {
-    items(recipes, key = { it.id }) {recipeItem ->
+    items(recipes, key = { it.id }) { recipeItem ->
         RecipeItem(
             onRecipeLikeClick = onRecipeLikeClick,
             recipe = recipeItem,

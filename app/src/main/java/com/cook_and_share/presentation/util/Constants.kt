@@ -7,6 +7,7 @@ object Constants {
 
     // Query fields
     const val CREATED_AT_FIELD = "createdAt"
+    const val IS_DAILY_FIELD = "isDaily"
     const val USER_ID_FIELD = "userID"
     const val RECIPE_ID = "recipeID"
 

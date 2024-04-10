@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cook_and_share.R
@@ -30,7 +29,6 @@ import com.cook_and_share.presentation.ui.components.AuthTitle
 import com.cook_and_share.presentation.ui.components.EmailField
 import com.cook_and_share.presentation.ui.components.PasswordField
 import com.cook_and_share.presentation.ui.components.SecondaryButton
-import com.cook_and_share.presentation.ui.theme.CookAndShareTheme
 import com.cook_and_share.presentation.ui.theme.Typography
 
 // LoginPage це функція, яка містить розмітку сторінки входу в додаток
@@ -61,7 +59,7 @@ private fun LoginScreenContent(
     onSignInClick: () -> Unit,
     onForgotPasswordClick: () -> Unit,
     onSignUpClick: () -> Unit
-){
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -133,7 +131,7 @@ private fun LoginScreenContent(
 }
 
 @Composable
-private fun SignUpText(onClick: () -> Unit){
+private fun SignUpText(onClick: () -> Unit) {
     Row(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
@@ -156,10 +154,13 @@ private fun SignUpText(onClick: () -> Unit){
 }
 
 @Composable
-private fun GoogleButton(modifier: Modifier) {
+private fun GoogleButton(
+    modifier: Modifier,
+    onClick: () -> Unit = {}
+) {
     ElevatedButton(
         onClick = {
-            //TODO: Implement Google Sign In
+            onClick()
         },
         shape = ButtonDefaults.elevatedShape,
         colors = ButtonDefaults.elevatedButtonColors(
@@ -189,24 +190,5 @@ private fun GoogleButton(modifier: Modifier) {
                 modifier = Modifier.padding(start = 16.dp)
             )
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun LoginScreenPreview() {
-    val uiState = LoginUiState(
-        email = "email@test.com"
-    )
-
-    CookAndShareTheme {
-        LoginScreenContent(
-            uiState = uiState,
-            onEmailChange = { },
-            onPasswordChange = { },
-            onSignInClick = { },
-            onForgotPasswordClick = { },
-            onSignUpClick = { }
-        )
     }
 }

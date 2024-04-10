@@ -18,6 +18,7 @@ import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
@@ -39,6 +40,22 @@ fun CategoriesScreen(
     onValueChange: MutableState<String>
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+
+    CategoriesScreenContent(
+        navController = navController,
+        scrollBehavior = scrollBehavior,
+        onValueChange = onValueChange
+
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun CategoriesScreenContent(
+    navController: NavHostController,
+    scrollBehavior: TopAppBarScrollBehavior,
+    onValueChange: MutableState<String>
+) {
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
@@ -112,7 +129,12 @@ private fun Categories() {
             .padding(start = 16.dp, end = 8.dp)
     ) {
         repeat(50) {
-            CategoryItem(category = "Category$it")
+            CategoryItem(
+                category = "Category$it",
+                onClick = {
+                    //TODO: Implement onClick
+                }
+            )
         }
     }
 }

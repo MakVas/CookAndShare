@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface StorageRepository {
     val recipes: Flow<List<Recipe>>
+    val dailyRecipes: Flow<List<Recipe>>
     val myRecipes: Flow<List<Recipe>>
     suspend fun getRecipe(recipeId: String): Recipe?
     suspend fun save(recipe: Recipe): String

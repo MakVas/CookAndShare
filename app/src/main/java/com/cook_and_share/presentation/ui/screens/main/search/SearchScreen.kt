@@ -21,6 +21,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.cook_and_share.R
 import com.cook_and_share.presentation.ui.components.RecipeBottomSheet
 import com.cook_and_share.presentation.ui.components.SearchItem
@@ -29,7 +30,7 @@ import com.cook_and_share.presentation.ui.components.SearchTopBar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
-
+    viewModel: SearchViewModel = hiltViewModel()
 ) {
     val searchQuery = remember { mutableStateOf("") }
     val tabIndex = remember { mutableIntStateOf(0) }
@@ -42,7 +43,21 @@ fun SearchScreen(
         sheetState = sheetState,
         isSheetExpanded = isSheetExpanded
     )
+    SearchScreenContent(
+        searchQuery = searchQuery,
+        tabIndex = tabIndex,
+        tabs = tabs,
+        isSheetExpanded = isSheetExpanded
+    )
+}
 
+@Composable
+private fun SearchScreenContent(
+    searchQuery: MutableState<String>,
+    tabIndex: MutableState<Int>,
+    tabs: List<String>,
+    isSheetExpanded: MutableState<Boolean>
+) {
     Scaffold(
         topBar = {
             SearchTopBar(

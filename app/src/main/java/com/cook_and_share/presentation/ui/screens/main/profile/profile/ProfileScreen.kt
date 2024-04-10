@@ -55,41 +55,19 @@ fun ProfileScreen(
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     val sheetState = rememberModalBottomSheetState()
-    val isSheetExpanded = rememberSaveable { mutableStateOf(false) }
+    val isRecipeSheetExpanded = rememberSaveable { mutableStateOf(false) }
+    val isSettingsSheetExpanded = rememberSaveable { mutableStateOf(false) }
 
     RecipeBottomSheet(
         sheetState = sheetState,
-        isSheetExpanded = isSheetExpanded
+        isSheetExpanded = isRecipeSheetExpanded
     )
-    ProfileScreenContent(
-        name = viewModel.userId,
-        email = viewModel.userEmail,
-        navController = navController,
-        scrollBehavior = scrollBehavior,
-        isSheetExpanded = isSheetExpanded,
-        recipes = recipes.value,
-        onRecipeLikeClick = viewModel::onRecipeLikeClick
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun ProfileScreenContent(
-    name: String,
-    email: String,
-    navController: NavHostController,
-    scrollBehavior: TopAppBarScrollBehavior,
-    isSheetExpanded: MutableState<Boolean>,
-    recipes: List<Recipe>,
-    onRecipeLikeClick: (Recipe) -> Unit
-){
-    val sheetState = rememberModalBottomSheetState()
 
     SettingsBottomSheet(
         sheetState = sheetState,
-        isSheetExpanded = isSheetExpanded,
+        isSheetExpanded = isSettingsSheetExpanded,
         onSettingsClick = {
-            isSheetExpanded.value = false
+            isRecipeSheetExpanded.value = false
             navController.navigate(Screens.Settings.route) {
                 popUpTo(Screens.Settings.route) {
                     inclusive = false
@@ -97,7 +75,7 @@ private fun ProfileScreenContent(
             }
         },
         onLikedClick = {
-            isSheetExpanded.value = false
+            isSettingsSheetExpanded.value = false
             navController.navigate(Screens.Liked.route) {
                 popUpTo(Screens.Liked.route) {
                     inclusive = false
@@ -105,7 +83,7 @@ private fun ProfileScreenContent(
             }
         },
         onInfoClick = {
-            isSheetExpanded.value = false
+            isSettingsSheetExpanded.value = false
             navController.navigate(Screens.Info.route) {
                 popUpTo(Screens.Info.route) {
                     inclusive = false
@@ -114,6 +92,28 @@ private fun ProfileScreenContent(
         }
     )
 
+    ProfileScreenContent(
+        name = viewModel.userId,
+        email = viewModel.userEmail,
+        scrollBehavior = scrollBehavior,
+        recipes = recipes.value,
+        onRecipeLikeClick = viewModel::onRecipeLikeClick,
+        isSettingsSheetExpanded = isSettingsSheetExpanded,
+        isRecipeSheetExpanded = isRecipeSheetExpanded
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ProfileScreenContent(
+    name: String,
+    email: String,
+    scrollBehavior: TopAppBarScrollBehavior,
+    isSettingsSheetExpanded: MutableState<Boolean>,
+    isRecipeSheetExpanded: MutableState<Boolean>,
+    recipes: List<Recipe>,
+    onRecipeLikeClick: (Recipe) -> Unit
+) {
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
@@ -122,7 +122,7 @@ private fun ProfileScreenContent(
                 scrollBehavior = scrollBehavior,
                 actions = {
                     TopAppBarAction(icon = Icons.Default.Menu) {
-                        isSheetExpanded.value = true
+                        isSettingsSheetExpanded.value = true
                     }
                 }
             )
@@ -137,7 +137,7 @@ private fun ProfileScreenContent(
             NestedScrolling(
                 name = name,
                 email = email,
-                isSheetExpanded = isSheetExpanded,
+                isRecipeSheetExpanded = isRecipeSheetExpanded,
                 recipes = recipes,
                 onRecipeLikeClick = onRecipeLikeClick
             )
@@ -149,7 +149,7 @@ private fun ProfileScreenContent(
 private fun NestedScrolling(
     name: String,
     email: String,
-    isSheetExpanded: MutableState<Boolean>,
+    isRecipeSheetExpanded: MutableState<Boolean>,
     recipes: List<Recipe>,
     onRecipeLikeClick: (Recipe) -> Unit
 ) {
@@ -183,7 +183,7 @@ private fun NestedScrolling(
         subColumn(
             onRecipeLikeClick = onRecipeLikeClick,
             recipes = recipes,
-            isSheetExpanded = isSheetExpanded,
+            isRecipeSheetExpanded = isRecipeSheetExpanded,
             Modifier.padding(horizontal = 16.dp)
         )
     }
@@ -192,15 +192,15 @@ private fun NestedScrolling(
 private fun LazyListScope.subColumn(
     onRecipeLikeClick: (Recipe) -> Unit,
     recipes: List<Recipe>,
-    isSheetExpanded: MutableState<Boolean>,
+    isRecipeSheetExpanded: MutableState<Boolean>,
     modifier: Modifier = Modifier
 ) {
-    items(recipes, key = { it.id }) {recipeItem ->
+    items(recipes, key = { it.id }) { recipeItem ->
         RecipeItem(
             onRecipeLikeClick = onRecipeLikeClick,
             recipe = recipeItem,
             onClick = {
-                isSheetExpanded.value = true
+                isRecipeSheetExpanded.value = true
             },
             modifier = modifier,
             isPreview = false

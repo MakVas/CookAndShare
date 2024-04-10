@@ -88,13 +88,13 @@ fun RecipeItem(
                     )
                 }
                 if (!isPreview) {
-                   LikeButton(
-                       onRecipeLikeClick = { onRecipeLikeClick(recipe) },
-                       likes = recipe.likes.toString(),
-                       modifier = Modifier
-                           .fillMaxHeight()
-                           .padding(end = 16.dp, bottom = 10.dp, top = 10.dp)
-                       )
+                    LikeButton(
+                        onRecipeLikeClick = { onRecipeLikeClick(recipe) },
+                        likes = recipe.likes.toString(),
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .padding(end = 16.dp, bottom = 10.dp, top = 10.dp)
+                    )
                 }
             }
         }

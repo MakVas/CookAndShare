@@ -36,15 +36,17 @@ class AuthRepositoryImpl @Inject constructor(private val auth: FirebaseAuth) : A
     override suspend fun authenticate(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password).await()
     }
+
     override suspend fun sendRecoveryEmail(email: String) {
         auth.sendPasswordResetEmail(email).await()
     }
 
-    override suspend fun createAccount(email: String, password: String){
+    override suspend fun createAccount(email: String, password: String) {
         trace(CREATE_ACCOUNT_TRACE) {
             auth.createUserWithEmailAndPassword(email, password).await()
         }
     }
+
     override suspend fun deleteAccount() {
         auth.currentUser!!.delete().await()
     }

@@ -17,7 +17,7 @@ import javax.inject.Inject
 class SignUpViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     logRepository: LogRepository
-): CookAndShareViewModel(logRepository) {
+) : CookAndShareViewModel(logRepository) {
     var uiState = mutableStateOf(SignUpUiState())
         private set
 

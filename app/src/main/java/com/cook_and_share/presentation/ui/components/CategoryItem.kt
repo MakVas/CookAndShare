@@ -14,7 +14,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CategoryItem(category: String){
+fun CategoryItem(
+    category: String,
+    onClick: () -> Unit
+){
     Box(
         Modifier
             .padding(bottom = 8.dp, end = 8.dp)
@@ -22,7 +25,7 @@ fun CategoryItem(category: String){
             .clip(RoundedCornerShape(16.dp))
             .background(MaterialTheme.colorScheme.secondary)
             .clickable {
-                //TODO: Category click action
+                onClick()
             }
     ) {
         Text(

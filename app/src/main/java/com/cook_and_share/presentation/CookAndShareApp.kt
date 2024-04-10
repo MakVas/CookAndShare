@@ -36,12 +36,12 @@ import kotlinx.coroutines.CoroutineScope
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun CookAndShareApp(){
+fun CookAndShareApp() {
     CookAndShareTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
             val appState = rememberAppState()
 
-            Scaffold (
+            Scaffold(
                 snackbarHost = {
                     SnackbarHost(
                         hostState = appState.snackbarHostState,
@@ -55,7 +55,7 @@ fun CookAndShareApp(){
                         }
                     )
                 }
-            ){
+            ) {
                 NavHost(
                     navController = appState.navController,
                     startDestination = Screens.SplashScreen.route
@@ -76,8 +76,15 @@ fun rememberAppState(
     coroutineScope: CoroutineScope = rememberCoroutineScope()
 ) =
     remember(snackbarHostState, navController, snackbarManager, resources, coroutineScope) {
-        CookAndShareState(snackbarHostState, navController, snackbarManager, resources, coroutineScope)
+        CookAndShareState(
+            snackbarHostState,
+            navController,
+            snackbarManager,
+            resources,
+            coroutineScope
+        )
     }
+
 @Composable
 @ReadOnlyComposable
 fun resources(): Resources {
@@ -103,7 +110,7 @@ fun NavGraphBuilder.cookAndShareGraph(appState: CookAndShareState) {
     }
 
     composable(route = Screens.SplashScreen.route) {
-        SplashScreen(openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp)})
+        SplashScreen(openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) })
     }
 
     composable(Screens.Main.route) {

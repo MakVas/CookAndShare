@@ -11,7 +11,7 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     logRepository: LogRepository
-): CookAndShareViewModel(logRepository){
+) : CookAndShareViewModel(logRepository) {
     fun onSignOutClick(restartApp: (String) -> Unit) {
         launchCatching {
             authRepository.signOut()

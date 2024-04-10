@@ -43,9 +43,6 @@ fun MainPage(
 ) {
     val currentText = remember { mutableIntStateOf(R.string.app_name) }
 
-    //val profileViewModel = hiltViewModel<ProfileViewModel>()
-   // val addRecipeViewModel = hiltViewModel<AddRecipeViewModel>()
-
     val navController = rememberNavController()
 
     val test = remember { mutableStateOf("") }
@@ -68,7 +65,6 @@ fun MainPage(
             composable(Screens.AddRecipeScreen.route) {
                 currentText.intValue = R.string.preview
                 AddRecipeScreen(
-                   // viewModel = addRecipeViewModel,
                     navController = navController,
                 )
             }
@@ -79,7 +75,6 @@ fun MainPage(
             composable(Screens.ProfileScreen.route) {
                 currentText.intValue = R.string.profile
                 ProfileScreen(
-                   // viewModel = profileViewModel,
                     navController = mainNavController
                 )
             }

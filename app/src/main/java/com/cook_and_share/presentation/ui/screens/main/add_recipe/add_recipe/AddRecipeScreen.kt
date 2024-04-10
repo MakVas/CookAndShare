@@ -80,7 +80,7 @@ private fun AddRecipeScreenContent(
     onIngredientsChange: (List<Map<String, Int>>) -> Unit,
     onRecipeChange: (String) -> Unit,
     navController: NavHostController
-){
+) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -157,8 +157,8 @@ private fun NestedScrolling(
                 .fillMaxWidth(),
             label = R.string.ingredients,
             icon = Icons.Default.Restaurant,
-            onClick =  {
-                navController.navigate(Screens.IngredientsScreen.route){
+            onClick = {
+                navController.navigate(Screens.IngredientsScreen.route) {
                     popUpTo(Screens.AddRecipeScreen.route) {
                         inclusive = false
                     }
@@ -208,7 +208,7 @@ private fun DoubleButton(
         elevation = CardDefaults.cardElevation(1.dp),
         colors = CardDefaults.cardColors(containerColor = colorScheme.secondary)
     ) {
-        Column{
+        Column {
             CustomTextField(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -239,10 +239,10 @@ private fun DoubleButton(
 private fun CategoriesButton(
     modifier: Modifier,
     navController: NavHostController
-){
+) {
     Button(
         onClick = {
-            navController.navigate(Screens.CategoriesScreen.route){
+            navController.navigate(Screens.CategoriesScreen.route) {
                 popUpTo(Screens.AddRecipeScreen.route) {
                     inclusive = false
                 }

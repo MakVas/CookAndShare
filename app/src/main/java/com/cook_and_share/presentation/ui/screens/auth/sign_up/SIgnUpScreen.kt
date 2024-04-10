@@ -16,7 +16,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cook_and_share.R
@@ -24,7 +23,6 @@ import com.cook_and_share.presentation.ui.components.AuthTitle
 import com.cook_and_share.presentation.ui.components.EmailField
 import com.cook_and_share.presentation.ui.components.PasswordField
 import com.cook_and_share.presentation.ui.components.SecondaryButton
-import com.cook_and_share.presentation.ui.theme.CookAndShareTheme
 import com.cook_and_share.presentation.ui.theme.Typography
 
 // LoginPage це функція, яка містить розмітку сторінки входу в додаток
@@ -54,7 +52,7 @@ private fun SignUpScreenContent(
     onRepeatPasswordChange: (String) -> Unit,
     onSignUpClick: () -> Unit,
     onLoginClick: () -> Unit
-){
+) {
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -114,7 +112,7 @@ private fun SignUpScreenContent(
 }
 
 @Composable
-private fun LoginText(onClick: () -> Unit){
+private fun LoginText(onClick: () -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -131,25 +129,6 @@ private fun LoginText(onClick: () -> Unit){
             modifier = Modifier
                 .padding(start = 5.dp)
                 .clickable { onClick() }
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun SignUpScreenPreview() {
-    val uiState = SignUpUiState(
-        email = "email@test.com"
-    )
-
-    CookAndShareTheme {
-        SignUpScreenContent(
-            uiState = uiState,
-            onEmailChange = { },
-            onPasswordChange = { },
-            onRepeatPasswordChange = { },
-            onSignUpClick = { },
-            onLoginClick = { }
         )
     }
 }

@@ -16,9 +16,10 @@ class AddRecipeViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     logRepository: LogRepository,
     private val storageRepository: StorageRepository,
-): CookAndShareViewModel(logRepository){
+) : CookAndShareViewModel(logRepository) {
 
     val recipe = mutableStateOf(Recipe())
+
     init {
         val recipeId = savedStateHandle.get<String>(RECIPE_ID)
         if (recipeId != null) {
@@ -40,7 +41,7 @@ class AddRecipeViewModel @Inject constructor(
         recipe.value = recipe.value.copy(tags = newValue)
     }
 
-    fun onIngredientsChange(newValue: List<Map<String,Int>>) {
+    fun onIngredientsChange(newValue: List<Map<String, Int>>) {
         recipe.value = recipe.value.copy(ingredients = newValue)
     }
 
