@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cook_and_share.R
 import com.cook_and_share.presentation.ui.components.AuthTitle
+import com.cook_and_share.presentation.ui.components.CustomTextField
 import com.cook_and_share.presentation.ui.components.EmailField
 import com.cook_and_share.presentation.ui.components.PasswordField
 import com.cook_and_share.presentation.ui.components.SecondaryButton
@@ -35,6 +38,7 @@ fun SignUpScreen(
 
     SignUpScreenContent(
         uiState = uiState,
+        onUsernameChange = viewModel::onUsernameChange,
         onEmailChange = viewModel::onEmailChange,
         onPasswordChange = viewModel::onPasswordChange,
         onRepeatPasswordChange = viewModel::onRepeatPasswordChange,
@@ -47,11 +51,12 @@ fun SignUpScreen(
 private fun SignUpScreenContent(
     modifier: Modifier = Modifier,
     uiState: SignUpUiState,
+    onUsernameChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onRepeatPasswordChange: (String) -> Unit,
     onSignUpClick: () -> Unit,
-    onLoginClick: () -> Unit
+    onLoginClick: () -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -71,6 +76,15 @@ private fun SignUpScreenContent(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
+            CustomTextField(
+                icon = Icons.Default.Person,
+                fieldLabel = stringResource(id = R.string.username),
+                value = uiState.username,
+                onValueChange = onUsernameChange
+            )
+
+            Spacer(modifier = Modifier.padding(vertical = 8.dp))
 
             EmailField(
                 value = uiState.email,

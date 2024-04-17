@@ -4,6 +4,7 @@ import android.util.Patterns
 import java.util.regex.Pattern
 
 private const val MIN_PASS_LENGTH = 6
+private const val MIN_USERNAME_LENGTH = 4
 private const val PASS_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{4,}$"
 
 fun String.isValidEmail(): Boolean {
@@ -14,6 +15,10 @@ fun String.isValidPassword(): Boolean {
     return this.isNotBlank() &&
             this.length >= MIN_PASS_LENGTH &&
             Pattern.compile(PASS_PATTERN).matcher(this).matches()
+}
+
+fun String.isValidUsername(): Boolean{
+    return this.isNotBlank() && this.length >= MIN_USERNAME_LENGTH
 }
 
 fun String.passwordMatches(repeated: String): Boolean {

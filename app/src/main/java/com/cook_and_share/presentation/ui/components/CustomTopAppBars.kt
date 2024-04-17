@@ -10,6 +10,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Sort
+import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -75,15 +77,13 @@ fun SearchTopBar(
         Column {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
+                    .fillMaxWidth().padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
                 CustomTextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
+                    modifier = Modifier.weight(9f),
                     icon = Icons.Filled.Search,
                     fieldLabel = stringResource(id = text),
                     value = searchQuery.value,
@@ -92,11 +92,13 @@ fun SearchTopBar(
                 }
 
                 IconButton(
-                    modifier = Modifier.padding(top = 4.dp, end = 4.dp),
-                    onClick = { }
+                    modifier = Modifier.weight(1f),
+                    onClick = {
+                        //TODO: FILTER
+                    }
                 ) {
                     Icon(
-                        imageVector = Icons.Filled.FilterList,
+                        imageVector = Icons.Filled.Tune,
                         contentDescription = "filter"
                     )
                 }
