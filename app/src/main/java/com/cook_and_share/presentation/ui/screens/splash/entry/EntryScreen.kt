@@ -3,7 +3,6 @@ package com.cook_and_share.presentation.ui.screens.splash.entry
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -49,12 +48,12 @@ private fun EntryScreenContent(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(vertical = 24.dp),
+            .padding(top = 50.dp, bottom = 16.dp),
     ) {
         ImageContent(
             modifier = modifier
                 .fillMaxSize()
-                .weight(5.5f),
+                .weight(5f),
         )
         ButtonContent(
             modifier = modifier
@@ -69,7 +68,6 @@ private fun EntryScreenContent(
 private fun ImageContent(modifier: Modifier) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -93,7 +91,6 @@ private fun ButtonContent(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
@@ -123,7 +120,7 @@ private fun ButtonContent(
 @Composable
 private fun LoginText(onClick: () -> Unit) {
     Row(
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
 
         Text(
