@@ -18,19 +18,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.cook_and_share.R
 import com.cook_and_share.presentation.ui.components.TopAppBarBackIcon
 import com.cook_and_share.presentation.ui.components.TopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LikedScreen(navController: NavHostController) {
+fun LikedScreen(popUp: () -> Unit) {
 
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     LikedScreenContent(
-        navController = navController,
+        popUp = popUp,
         scrollBehavior = scrollBehavior
     )
 
@@ -39,7 +38,7 @@ fun LikedScreen(navController: NavHostController) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun LikedScreenContent(
-    navController: NavHostController,
+    popUp: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior
 ) {
     Scaffold(
@@ -49,9 +48,7 @@ private fun LikedScreenContent(
                 text = R.string.liked,
                 scrollBehavior = scrollBehavior,
                 iconButton = {
-                    TopAppBarBackIcon(
-                        navController = navController
-                    )
+                    TopAppBarBackIcon(popUp)
                 }
             )
         }

@@ -8,9 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -33,14 +31,14 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.cook_and_share.presentation.ui.theme.Typography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
-    text: Int,
+    text: Int = 0,
     scrollBehavior: TopAppBarScrollBehavior,
+    title: @Composable () -> Unit = {},
     iconButton: @Composable () -> Unit = {},
     actions: @Composable (RowScope.() -> Unit) = {}
 ) {
@@ -51,10 +49,14 @@ fun TopBar(
             titleContentColor = colorScheme.onPrimary
         ),
         title = {
-            Text(
-                text = stringResource(id = text),
-                style = Typography.titleLarge
-            )
+            if (text != 0) {
+                Text(
+                    text = stringResource(id = text),
+                    style = Typography.titleLarge
+                )
+            } else {
+                title()
+            }
         },
         navigationIcon = {
             iconButton()
@@ -77,7 +79,8 @@ fun SearchTopBar(
         Column {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth().padding(horizontal = 16.dp),
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -148,11 +151,11 @@ fun TopAppBarAction(
 
 @Composable
 fun TopAppBarBackIcon(
-    navController: NavHostController
+    popUp: () -> Unit
 ) {
     IconButton(
         onClick = {
-            navController.popBackStack()
+            popUp()
         }
     ) {
         Icon(

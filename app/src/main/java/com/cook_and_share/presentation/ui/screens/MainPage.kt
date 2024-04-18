@@ -81,14 +81,14 @@ fun MainPage(
             composable(Screens.CategoriesScreen.route) {
                 currentText.intValue = R.string.categories
                 CategoriesScreen(
-                    navController = navController,
+                    popUp = { navController.popBackStack() },
                     onValueChange = test
                 )
             }
             composable(Screens.IngredientsScreen.route) {
                 currentText.intValue = R.string.ingredients
                 IngredientsScreen(
-                    navController = navController
+                    popUp = { navController.popBackStack() },
                 )
             }
         }

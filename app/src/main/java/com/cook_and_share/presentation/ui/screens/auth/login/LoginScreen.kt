@@ -109,12 +109,12 @@ private fun LoginScreenContent(
 
         Spacer(modifier = Modifier.padding(vertical = 5.dp))
 
-        SignUpText(onSignUpClick)
+        GetStartedText(onSignUpClick)
     }
 }
 
 @Composable
-private fun SignUpText(onClick: () -> Unit) {
+private fun GetStartedText(onClick: () -> Unit) {
     Row(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,

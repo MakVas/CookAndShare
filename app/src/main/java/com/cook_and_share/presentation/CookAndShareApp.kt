@@ -105,6 +105,7 @@ fun NavGraphBuilder.cookAndShareGraph(appState: CookAndShareState) {
 
     composable(route = Screens.GetStarted.route) {
         GetStartedScreen(
+            popUp = { appState.popUp() },
             openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) }
         )
     }
@@ -135,16 +136,16 @@ fun NavGraphBuilder.cookAndShareGraph(appState: CookAndShareState) {
 
     composable(Screens.Settings.route) {
         SettingsScreen(
-            navController = appState.navController,
+            popUp = { appState.popUp() },
             restartApp = { route -> appState.clearAndNavigate(route) }
         )
     }
 
     composable(Screens.Info.route) {
-        InfoScreen(navController = appState.navController)
+        InfoScreen(popUp = { appState.popUp() })
     }
 
     composable(Screens.Liked.route) {
-        LikedScreen(navController = appState.navController)
+        LikedScreen(popUp = { appState.popUp() })
     }
 }

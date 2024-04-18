@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.cook_and_share.R
 import com.cook_and_share.presentation.ui.components.SecondaryButton
 import com.cook_and_share.presentation.ui.components.TopAppBarBackIcon
@@ -25,21 +24,21 @@ import com.cook_and_share.presentation.ui.components.TopBar
 
 @Composable
 fun SettingsScreen(
+    popUp: () -> Unit,
     restartApp: (String) -> Unit,
     viewModel: SettingsViewModel = hiltViewModel(),
-    navController: NavHostController
 ) {
     SettingsScreenContent(
+        popUp = popUp,
         onSignOutClick = { viewModel.onSignOutClick(restartApp) },
-        navController = navController
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SettingsScreenContent(
+    popUp: () -> Unit,
     onSignOutClick: () -> Unit,
-    navController: NavHostController
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     Scaffold(
@@ -49,9 +48,7 @@ private fun SettingsScreenContent(
                 text = R.string.settings,
                 scrollBehavior = scrollBehavior,
                 iconButton = {
-                    TopAppBarBackIcon(
-                        navController = navController
-                    )
+                    TopAppBarBackIcon(popUp)
                 }
             )
         }
