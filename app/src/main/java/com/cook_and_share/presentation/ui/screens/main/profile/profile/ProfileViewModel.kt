@@ -1,5 +1,7 @@
 package com.cook_and_share.presentation.ui.screens.main.profile.profile
 
+import androidx.compose.runtime.mutableStateOf
+import com.cook_and_share.domain.model.Profile
 import com.cook_and_share.domain.model.Recipe
 import com.cook_and_share.domain.repository.AuthRepository
 import com.cook_and_share.domain.repository.LogRepository
@@ -15,10 +17,15 @@ class ProfileViewModel @Inject constructor(
     logRepository: LogRepository
 ) : CookAndShareViewModel(logRepository) {
 
-    val userId = authRepository.currentUserId
-    val userEmail = authRepository.currentUserEmail
-
+    val profile = mutableStateOf(Profile())
     val recipes = storageRepository.myRecipes
+
+    init {
+        launchCatching {
+            profile.value = authRepository.getProfile(authRepository.currentUserId) ?: Profile()
+        }
+    }
+
     fun onRecipeLikeClick(recipe: Recipe) {
         launchCatching {
             storageRepository.update(recipe.copy(likes = recipe.likes + 1))

@@ -1,4 +1,4 @@
-package com.cook_and_share.presentation.ui.screens.splash
+package com.cook_and_share.presentation.ui.screens.splash.splash
 
 import androidx.compose.runtime.mutableStateOf
 import com.cook_and_share.domain.repository.AuthRepository
@@ -19,6 +19,6 @@ class SplashViewModel @Inject constructor(
     fun onAppStart(openAndPopUp: (String, String) -> Unit) {
         showError.value = false
         if (authRepository.hasUser) openAndPopUp(Screens.Main.route, Screens.SplashScreen.route)
-        else openAndPopUp(Screens.LoginScreen.route, Screens.SplashScreen.route)
+        else openAndPopUp(Screens.EntryScreen.route, Screens.SplashScreen.route)
     }
 }

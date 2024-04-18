@@ -1,4 +1,4 @@
-package com.cook_and_share.presentation.ui.screens.auth.sign_up
+package com.cook_and_share.presentation.ui.screens.auth.sign_up.sign_up
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

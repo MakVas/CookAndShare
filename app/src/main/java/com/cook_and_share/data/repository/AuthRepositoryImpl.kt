@@ -1,6 +1,5 @@
 package com.cook_and_share.data.repository
 
-import android.util.Log
 import com.cook_and_share.domain.model.Profile
 import com.cook_and_share.domain.model.User
 import com.cook_and_share.domain.repository.AuthRepository
@@ -53,27 +52,23 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun createAccount(email: String, password: String) {
         trace(CREATE_ACCOUNT_TRACE) {
-            Log.wtf("LOG", "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
             auth.createUserWithEmailAndPassword(email, password).await()
-            Log.wtf("LOG", "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
         }
     }
 
     override suspend fun getProfile(profileID: String): Profile? =
         firestore.collection(COLLECTION_NAME_USERS).document(profileID).get().await().toObject()
 
-    override suspend fun saveProfile(profile: Profile): String =
+    override suspend fun saveProfile(profile: Profile): Unit =
         trace(SAVE_PROFILE_TRACE) {
-            Log.wtf("LOG", "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
             val updatedProfile = profile.copy(userID = currentUserId)
-            firestore.collection(COLLECTION_NAME_USERS).add(updatedProfile).await().id
+            firestore.collection(COLLECTION_NAME_USERS).document(currentUserId).set(updatedProfile).await()
         }
 
     override suspend fun updateProfile(profile: Profile): Unit =
         trace(UPDATE_PROFILE_TRACE) {
             firestore.collection(COLLECTION_NAME_USERS).document(profile.userID).set(profile).await()
         }
-
 
     override suspend fun deleteAccount() {
         auth.currentUser!!.delete().await()

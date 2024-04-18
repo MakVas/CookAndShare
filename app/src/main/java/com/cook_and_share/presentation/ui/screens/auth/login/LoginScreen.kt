@@ -3,23 +3,18 @@ package com.cook_and_share.presentation.ui.screens.auth.login
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -52,7 +47,6 @@ fun LoginScreen(
 
 @Composable
 private fun LoginScreenContent(
-    modifier: Modifier = Modifier,
     uiState: LoginUiState,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
@@ -60,73 +54,62 @@ private fun LoginScreenContent(
     onForgotPasswordClick: () -> Unit,
     onSignUpClick: () -> Unit
 ) {
+
+    AuthTitle(
+        subTitle = R.string.login_to_acc,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 50.dp)
+    )
+
     Column(
-        modifier = modifier
+        Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.SpaceBetween
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        AuthTitle(
-            subTitle = R.string.login_to_acc,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 50.dp)
+        EmailField(
+            value = uiState.email,
+            onNewValue = onEmailChange
         )
 
-        Column(
-            Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        Spacer(modifier = Modifier.padding(vertical = 8.dp))
 
-            EmailField(
-                value = uiState.email,
-                onNewValue = onEmailChange
-            )
+        PasswordField(
+            value = uiState.password,
+            onValueChange = onPasswordChange,
+            label = stringResource(id = R.string.password)
+        )
 
-            Spacer(modifier = Modifier.padding(vertical = 8.dp))
+        Spacer(modifier = Modifier.padding(vertical = 8.dp))
 
-            PasswordField(
-                value = uiState.password,
-                onValueChange = onPasswordChange,
-                label = stringResource(id = R.string.password)
-            )
-
-            Spacer(modifier = Modifier.padding(vertical = 8.dp))
-
-            Text(
-                text = stringResource(id = R.string.forgot_password),
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onPrimary,
-                style = Typography.titleMedium,
-                modifier = Modifier
-                    .clickable {
-                        onForgotPasswordClick()
-                    }
-            )
-
-            Spacer(modifier = Modifier.padding(vertical = 8.dp))
-
-            SecondaryButton(
-                modifier = Modifier
-                    .padding(horizontal = 80.dp)
-                    .height(65.dp)
-                    .fillMaxWidth(),
-                label = R.string.login,
-                onClick = onSignInClick
-            )
-
-            Spacer(modifier = Modifier.padding(vertical = 5.dp))
-
-            SignUpText(onSignUpClick)
-        }
-
-        GoogleButton(
+        Text(
+            text = stringResource(id = R.string.forgot_password),
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.onPrimary,
+            style = Typography.titleMedium,
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp)
+                .clickable {
+                    onForgotPasswordClick()
+                }
+        )
+
+        Spacer(modifier = Modifier.padding(vertical = 8.dp))
+
+        SecondaryButton(
+            modifier = Modifier
+                .padding(horizontal = 80.dp)
                 .height(65.dp)
+                .fillMaxWidth(),
+            label = R.string.login,
+            onClick = onSignInClick
         )
+
+        Spacer(modifier = Modifier.padding(vertical = 5.dp))
+
+        SignUpText(onSignUpClick)
     }
 }
 
@@ -150,45 +133,5 @@ private fun SignUpText(onClick: () -> Unit) {
                 .padding(start = 5.dp)
                 .clickable { onClick() }
         )
-    }
-}
-
-@Composable
-private fun GoogleButton(
-    modifier: Modifier,
-    onClick: () -> Unit = {}
-) {
-    ElevatedButton(
-        onClick = {
-            onClick()
-        },
-        shape = ButtonDefaults.elevatedShape,
-        colors = ButtonDefaults.elevatedButtonColors(
-            containerColor = MaterialTheme.colorScheme.secondary,
-            contentColor = MaterialTheme.colorScheme.onSecondary
-        ),
-        elevation = ButtonDefaults.elevatedButtonElevation(
-            defaultElevation = 3.dp,
-            pressedElevation = 0.dp
-        ),
-        modifier = modifier,
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 10.dp)
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.google),
-                contentDescription = "google_img",
-                tint = MaterialTheme.colorScheme.onSecondary
-            )
-            Text(
-                text = stringResource(id = R.string.login_with_google),
-                style = Typography.labelLarge,
-                modifier = Modifier.padding(start = 16.dp)
-            )
-        }
     }
 }

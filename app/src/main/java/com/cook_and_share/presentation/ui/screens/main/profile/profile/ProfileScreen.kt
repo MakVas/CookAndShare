@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.cook_and_share.R
+import com.cook_and_share.domain.model.Profile
 import com.cook_and_share.domain.model.Recipe
 import com.cook_and_share.presentation.ui.components.RecipeBottomSheet
 import com.cook_and_share.presentation.ui.components.RecipeItem
@@ -51,6 +52,7 @@ fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel(),
     navController: NavHostController,
 ) {
+    val profile = viewModel.profile
     val recipes = viewModel.recipes.collectAsState(emptyList())
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
@@ -93,8 +95,7 @@ fun ProfileScreen(
     )
 
     ProfileScreenContent(
-        name = viewModel.userId,
-        email = viewModel.userEmail,
+        profile = profile.value,
         scrollBehavior = scrollBehavior,
         recipes = recipes.value,
         onRecipeLikeClick = viewModel::onRecipeLikeClick,
@@ -106,8 +107,7 @@ fun ProfileScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ProfileScreenContent(
-    name: String,
-    email: String,
+    profile: Profile,
     scrollBehavior: TopAppBarScrollBehavior,
     isSettingsSheetExpanded: MutableState<Boolean>,
     isRecipeSheetExpanded: MutableState<Boolean>,
@@ -135,8 +135,8 @@ private fun ProfileScreenContent(
                 .background(MaterialTheme.colorScheme.background)
         ) {
             NestedScrolling(
-                name = name,
-                email = email,
+                name = profile.username,
+                email = profile.email,
                 isRecipeSheetExpanded = isRecipeSheetExpanded,
                 recipes = recipes,
                 onRecipeLikeClick = onRecipeLikeClick

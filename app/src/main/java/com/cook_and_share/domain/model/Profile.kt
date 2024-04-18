@@ -1,7 +1,5 @@
 package com.cook_and_share.domain.model
 
-import com.google.firebase.firestore.DocumentId
-
 data class Profile(
     val userID: String = "",
     val username: String = "",

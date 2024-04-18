@@ -24,14 +24,16 @@ import androidx.navigation.compose.rememberNavController
 import com.cook_and_share.presentation.ui.components.snackbar.SnackbarManager
 import com.cook_and_share.presentation.ui.screens.auth.ForgotPassScreen
 import com.cook_and_share.presentation.ui.screens.auth.login.LoginScreen
-import com.cook_and_share.presentation.ui.screens.auth.sign_up.SignUpScreen
+import com.cook_and_share.presentation.ui.screens.auth.sign_up.sign_up.SignUpScreen
 import com.cook_and_share.presentation.ui.screens.MainPage
+import com.cook_and_share.presentation.ui.screens.auth.sign_up.get_started.GetStartedScreen
 import com.cook_and_share.presentation.ui.theme.CookAndShareTheme
 import com.cook_and_share.presentation.util.Screens
 import com.cook_and_share.presentation.ui.screens.main.profile.info.InfoScreen
 import com.cook_and_share.presentation.ui.screens.main.profile.liked.LikedScreen
 import com.cook_and_share.presentation.ui.screens.main.profile.settings.SettingsScreen
-import com.cook_and_share.presentation.ui.screens.splash.SplashScreen
+import com.cook_and_share.presentation.ui.screens.splash.entry.EntryScreen
+import com.cook_and_share.presentation.ui.screens.splash.splash.SplashScreen
 import kotlinx.coroutines.CoroutineScope
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -93,6 +95,20 @@ fun resources(): Resources {
 }
 
 fun NavGraphBuilder.cookAndShareGraph(appState: CookAndShareState) {
+
+    composable(route = Screens.EntryScreen.route) {
+        EntryScreen(
+            navigate = { route -> appState.navigate(route) },
+            openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) }
+        )
+    }
+
+    composable(route = Screens.GetStarted.route) {
+        GetStartedScreen(
+            openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) }
+        )
+    }
+
     composable(route = Screens.LoginScreen.route) {
         LoginScreen(
             openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) }

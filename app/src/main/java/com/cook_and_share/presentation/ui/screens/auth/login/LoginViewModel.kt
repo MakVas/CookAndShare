@@ -63,6 +63,6 @@ class LoginViewModel @Inject constructor(
     }
 
     fun onSignUpClick(openAndPopUp: (String, String) -> Unit) {
-        openAndPopUp(Screens.SignUpScreen.route, Screens.LoginScreen.route)
+        openAndPopUp(Screens.EntryScreen.route, Screens.LoginScreen.route)
     }
 }

@@ -1,11 +1,9 @@
-package com.cook_and_share.presentation.ui.screens.auth.sign_up
+package com.cook_and_share.presentation.ui.screens.auth.sign_up.sign_up
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import com.cook_and_share.R
 import com.cook_and_share.domain.model.Profile
-import com.cook_and_share.domain.model.Recipe
 import com.cook_and_share.domain.repository.AuthRepository
 import com.cook_and_share.domain.repository.LogRepository
 import com.cook_and_share.presentation.ui.components.snackbar.SnackbarManager
@@ -85,15 +83,13 @@ class SignUpViewModel @Inject constructor(
         }
 
         launchCatching {
-            Log.wtf("LOG123", "111111111111111111111111111111111111111111")
             authRepository.createAccount(email, password)
-            Log.wtf("LOG123", "2222222222222222222222222222222222222222222")
-//            profile.value = profile.value.copy(
-//                username = uiState.value.username,
-//                email = uiState.value.email
-//            )
-//            val updatedProfile = profile.value
-//            authRepository.saveProfile(updatedProfile)
+            profile.value = profile.value.copy(
+                username = uiState.value.username,
+                email = uiState.value.email
+            )
+            val updatedProfile = profile.value
+            authRepository.saveProfile(updatedProfile)
             openAndPopUp(Screens.Main.route, Screens.SignUpScreen.route)
         }
     }

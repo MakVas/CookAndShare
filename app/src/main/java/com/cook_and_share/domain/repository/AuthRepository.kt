@@ -13,7 +13,7 @@ interface AuthRepository {
     suspend fun sendRecoveryEmail(email: String)
     suspend fun createAccount(email: String, password: String)
     suspend fun getProfile(profileID: String): Profile?
-    suspend fun saveProfile(profile: Profile): String
+    suspend fun saveProfile(profile: Profile)
     suspend fun updateProfile(profile: Profile)
     suspend fun deleteAccount()
     suspend fun signOut()

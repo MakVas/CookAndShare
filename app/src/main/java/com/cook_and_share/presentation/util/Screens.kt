@@ -4,6 +4,8 @@ sealed class Screens(val route: String) {
 
     //Activity navigation
     data object SplashScreen : Screens("splash_screen")
+    data object EntryScreen : Screens("entry_screen")
+    data object GetStarted : Screens("get_started")
     data object LoginScreen : Screens("login_screen")
     data object SignUpScreen : Screens("sign_up_screen")
     data object ForgotPassScreen : Screens("forgot_pass_screen")
