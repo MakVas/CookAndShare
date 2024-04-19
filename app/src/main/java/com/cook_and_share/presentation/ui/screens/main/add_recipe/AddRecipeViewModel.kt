@@ -7,6 +7,7 @@ import com.cook_and_share.domain.repository.LogRepository
 import com.cook_and_share.domain.repository.StorageRepository
 import com.cook_and_share.presentation.ui.screens.CookAndShareViewModel
 import com.cook_and_share.presentation.util.Constants.RECIPE_ID
+import com.cook_and_share.presentation.util.Screens
 import com.cook_and_share.presentation.util.idFromParameter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -55,5 +56,16 @@ class AddRecipeViewModel @Inject constructor(
             storageRepository.save(editedTask)
             popUpScreen()
         }
+    }
+    fun onIngredientsClick(navigate: (String) -> Unit) {
+        navigate(Screens.IngredientsScreen.route)
+    }
+
+    fun onCategoryClick(navigate: (String) -> Unit) {
+        navigate(Screens.CategoriesScreen.route)
+    }
+
+    fun onRecipeClick(navigate: (String) -> Unit) {
+       //TODO: navigate(Screens.RecipeScreen.route)
     }
 }

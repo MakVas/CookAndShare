@@ -21,6 +21,8 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
@@ -36,9 +38,10 @@ import com.cook_and_share.presentation.ui.components.TopBar
 @Composable
 fun CategoriesScreen(
     popUp: () -> Unit,
-    onValueChange: MutableState<String>
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+
+    val onValueChange = remember { mutableStateOf("") }
 
     CategoriesScreenContent(
         popUp = popUp,

@@ -6,6 +6,7 @@ import com.cook_and_share.domain.repository.AuthRepository
 import com.cook_and_share.domain.repository.LogRepository
 import com.cook_and_share.presentation.ui.components.snackbar.SnackbarManager
 import com.cook_and_share.presentation.ui.screens.CookAndShareViewModel
+import com.cook_and_share.presentation.util.NavGraphs
 import com.cook_and_share.presentation.util.Screens
 import com.cook_and_share.presentation.util.isValidEmail
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -46,7 +47,7 @@ class LoginViewModel @Inject constructor(
 
         launchCatching {
             authRepository.authenticate(email, password)
-            openAndPopUp(Screens.Main.route, Screens.LoginScreen.route)
+            openAndPopUp(NavGraphs.Main.route, Screens.LoginScreen.route)
         }
     }
 

@@ -71,7 +71,7 @@ private fun ImageContent(modifier: Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = stringResource(id = R.string.app_name_caps),
+            text = stringResource(id = R.string.app_name),
             textAlign = TextAlign.Center,
             color = colorScheme.onPrimary,
             style = Typography.displayLarge

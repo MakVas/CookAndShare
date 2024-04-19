@@ -38,7 +38,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.cook_and_share.R
 import com.cook_and_share.domain.model.Recipe
 import com.cook_and_share.presentation.ui.components.CustomTextField
@@ -48,24 +47,26 @@ import com.cook_and_share.presentation.ui.components.RecipeTextField
 import com.cook_and_share.presentation.ui.components.SecondaryButton
 import com.cook_and_share.presentation.ui.components.TopBar
 import com.cook_and_share.presentation.ui.screens.main.add_recipe.AddRecipeViewModel
-import com.cook_and_share.presentation.util.Screens
 
 @Composable
 fun AddRecipeScreen(
     viewModel: AddRecipeViewModel = hiltViewModel(),
-    navController: NavHostController,
+    navigate: (String) -> Unit,
+    popUp: () -> Unit
 ) {
     val recipe by viewModel.recipe
 
     AddRecipeScreenContent(
         recipe = recipe,
-        onPublishClick = { viewModel.onPublishClick(navController::popBackStack) },
+        onPublishClick = { viewModel.onPublishClick(popUp) },
         onTitleChange = viewModel::onTitleChange,
         onUrlChange = viewModel::onUrlChange,
         onTagsChange = viewModel::onTagsChange,
         onIngredientsChange = viewModel::onIngredientsChange,
         onRecipeChange = viewModel::onRecipeChange,
-        navController = navController
+        onIngredientsClick = { viewModel.onIngredientsClick(navigate) },
+        onCategoryClick = { viewModel.onCategoryClick(navigate) },
+        onRecipeClick = { viewModel.onRecipeClick(navigate) }
     )
 }
 
@@ -79,7 +80,9 @@ private fun AddRecipeScreenContent(
     onTagsChange: (List<String>) -> Unit,
     onIngredientsChange: (List<Map<String, Int>>) -> Unit,
     onRecipeChange: (String) -> Unit,
-    navController: NavHostController
+    onIngredientsClick: () -> Unit,
+    onCategoryClick:() -> Unit,
+    onRecipeClick: () -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
@@ -105,7 +108,9 @@ private fun AddRecipeScreenContent(
                 onTagsChange = onTagsChange,
                 onIngredientsChange = onIngredientsChange,
                 onRecipeChange = onRecipeChange,
-                navController = navController
+                onIngredientsClick = onIngredientsClick,
+                onCategoryClick = onCategoryClick,
+                onRecipeClick = onRecipeClick
             )
         }
     }
@@ -119,8 +124,10 @@ private fun NestedScrolling(
     onUrlChange: (String) -> Unit,
     onTagsChange: (List<String>) -> Unit,
     onIngredientsChange: (List<Map<String, Int>>) -> Unit,
-    onRecipeChange: (String) -> Unit,
-    navController: NavHostController
+    onIngredientsClick: () -> Unit,
+    onCategoryClick:() -> Unit,
+    onRecipeClick: () -> Unit,
+    onRecipeChange: (String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -132,9 +139,7 @@ private fun NestedScrolling(
 
         RecipeItem(
             recipe = recipe,
-            onClick = {
-
-            },
+            onClick = onRecipeClick,
             modifier = Modifier.padding(horizontal = 16.dp),
             isPreview = true
         )
@@ -144,8 +149,8 @@ private fun NestedScrolling(
         DoubleButton(
             recipe = recipe,
             modifier = Modifier.padding(horizontal = 16.dp),
-            navController = navController,
-            onNewValue = onTitleChange
+            onNewValue = onTitleChange,
+            onClick = onCategoryClick
         )
 
         Spacer(modifier = Modifier.padding(top = 16.dp))
@@ -158,11 +163,7 @@ private fun NestedScrolling(
             label = R.string.ingredients,
             icon = Icons.Default.Restaurant,
             onClick = {
-                navController.navigate(Screens.IngredientsScreen.route) {
-                    popUpTo(Screens.AddRecipeScreen.route) {
-                        inclusive = false
-                    }
-                }
+                onIngredientsClick()
             }
         )
 
@@ -186,7 +187,7 @@ private fun NestedScrolling(
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth(),
             label = R.string.publish_recipe,
-            onClick = { onPublishClick() }
+            onClick = onPublishClick
         )
 
         Spacer(modifier = Modifier.padding(top = 16.dp))
@@ -198,8 +199,8 @@ private fun NestedScrolling(
 private fun DoubleButton(
     modifier: Modifier,
     recipe: Recipe,
-    navController: NavHostController,
-    onNewValue: (String) -> Unit
+    onNewValue: (String) -> Unit,
+    onClick: () -> Unit
 ) {
 
     ElevatedCard(
@@ -228,9 +229,8 @@ private fun DoubleButton(
                 modifier = Modifier
                     .height(56.dp)
                     .fillMaxWidth(),
-                navController = navController
+                onClick = onClick
             )
-
         }
     }
 }
@@ -238,15 +238,11 @@ private fun DoubleButton(
 @Composable
 private fun CategoriesButton(
     modifier: Modifier,
-    navController: NavHostController
+    onClick: () -> Unit
 ) {
     Button(
         onClick = {
-            navController.navigate(Screens.CategoriesScreen.route) {
-                popUpTo(Screens.AddRecipeScreen.route) {
-                    inclusive = false
-                }
-            }
+            onClick()
         },
         shape = RectangleShape,
         colors = ButtonDefaults.elevatedButtonColors(

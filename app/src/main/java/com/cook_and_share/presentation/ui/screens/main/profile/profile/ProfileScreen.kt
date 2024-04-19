@@ -35,7 +35,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.cook_and_share.R
 import com.cook_and_share.domain.model.Profile
 import com.cook_and_share.domain.model.Recipe
@@ -44,13 +43,12 @@ import com.cook_and_share.presentation.ui.components.RecipeItem
 import com.cook_and_share.presentation.ui.components.SettingsBottomSheet
 import com.cook_and_share.presentation.ui.components.TopAppBarAction
 import com.cook_and_share.presentation.ui.components.TopBar
-import com.cook_and_share.presentation.util.Screens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
-    viewModel: ProfileViewModel = hiltViewModel(),
-    navController: NavHostController,
+    navigate: (String) -> Unit,
+    viewModel: ProfileViewModel = hiltViewModel()
 ) {
     val profile = viewModel.profile
     val recipes = viewModel.recipes.collectAsState(emptyList())
@@ -70,27 +68,15 @@ fun ProfileScreen(
         isSheetExpanded = isSettingsSheetExpanded,
         onSettingsClick = {
             isRecipeSheetExpanded.value = false
-            navController.navigate(Screens.Settings.route) {
-                popUpTo(Screens.Settings.route) {
-                    inclusive = false
-                }
-            }
+            viewModel.onSettingsClick(navigate)
         },
         onLikedClick = {
             isSettingsSheetExpanded.value = false
-            navController.navigate(Screens.Liked.route) {
-                popUpTo(Screens.Liked.route) {
-                    inclusive = false
-                }
-            }
+            viewModel.onLikedClick(navigate)
         },
         onInfoClick = {
             isSettingsSheetExpanded.value = false
-            navController.navigate(Screens.Info.route) {
-                popUpTo(Screens.Info.route) {
-                    inclusive = false
-                }
-            }
+            viewModel.onInfoClick(navigate)
         }
     )
 

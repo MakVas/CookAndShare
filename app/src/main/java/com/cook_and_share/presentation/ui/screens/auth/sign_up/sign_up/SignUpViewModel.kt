@@ -9,6 +9,7 @@ import com.cook_and_share.domain.repository.LogRepository
 import com.cook_and_share.presentation.ui.components.snackbar.SnackbarManager
 import com.cook_and_share.presentation.ui.screens.CookAndShareViewModel
 import com.cook_and_share.presentation.util.Constants
+import com.cook_and_share.presentation.util.NavGraphs
 import com.cook_and_share.presentation.util.Screens
 import com.cook_and_share.presentation.util.idFromParameter
 import com.cook_and_share.presentation.util.isValidEmail
@@ -90,7 +91,7 @@ class SignUpViewModel @Inject constructor(
             )
             val updatedProfile = profile.value
             authRepository.saveProfile(updatedProfile)
-            openAndPopUp(Screens.Main.route, Screens.SignUpScreen.route)
+            openAndPopUp(NavGraphs.Main.route, Screens.SignUpScreen.route)
         }
     }
 
