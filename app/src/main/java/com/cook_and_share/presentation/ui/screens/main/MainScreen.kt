@@ -1,5 +1,8 @@
-package com.cook_and_share.presentation.ui.components
+package com.cook_and_share.presentation.ui.screens.main
 
+import android.annotation.SuppressLint
+import com.cook_and_share.presentation.CookAndShareState
+import com.cook_and_share.presentation.util.Main
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
@@ -8,22 +11,39 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.cook_and_share.presentation.util.Main
+import androidx.navigation.compose.rememberNavController
+import com.cook_and_share.presentation.ui.components.getBottomNavigationItems
+import com.cook_and_share.presentation.ui.screens.main.navigation.MainNavHost
+
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@Composable
+fun MainScreen(
+    appState: CookAndShareState
+) {
+    val navController = rememberNavController()
+
+    Scaffold(
+        bottomBar = {
+            NavigationBar(navController)
+        }
+    ) {
+        MainNavHost(appState)
+    }
+}
 
 @Composable
-fun BottomBar(
-    navController: NavHostController
-) {
+private fun NavigationBar(navController: NavController) {
     NavigationBar(
         modifier = Modifier.shadow(elevation = 3.dp),
         containerColor = MaterialTheme.colorScheme.secondary

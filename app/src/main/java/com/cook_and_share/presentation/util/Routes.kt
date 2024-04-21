@@ -1,32 +1,27 @@
 package com.cook_and_share.presentation.util
 
-sealed class NavGraphs(val route: String){
-    data object CookAndShare : NavGraphs("cook_and_share")
-    data object Main : NavGraphs("main")
-    data object Auth : NavGraphs("auth")
+sealed class GetStarted(val route: String) {
+    data object Allergies : GetStarted("allergies")
+    data object Dislikes : GetStarted("dislikes")
+    data object Preferences : GetStarted("preferences")
+    data object SignUpScreen : Login("sign_up_screen")
 }
-sealed class Screens(val route: String) {
-
-    //Activity navigation
-
-    data object SplashScreen : NavGraphs("splash_screen")
-    data object EntryScreen : Screens("entry_screen")
-    data object GetStarted : Screens("get_started")
-    data object LoginScreen : Screens("login_screen")
-    data object SignUpScreen : Screens("sign_up_screen")
-    data object ForgotPassScreen : Screens("forgot_pass_screen")
-
-    //Main navigation
-    data object HomeScreen : Screens("home_screen")
-    data object AddRecipeScreen : Screens("add_recipe_screen")
-    data object SearchRecipeScreen : Screens("search_recipe_screen")
-    data object ProfileScreen : Screens("profile_screen")
-    data object CategoriesScreen : Screens("categories_screen")
-    data object IngredientsScreen : Screens("ingredients_screen")
-
-    //Profile bottom sheet navigation
-    data object Settings : Screens("settings")
-    data object Info : Screens("info")
-    data object Liked : Screens("liked")
+sealed class Login(val route: String) {
+    data object LoginScreen : GetStarted("login_screen")
+    data object EntryScreen : Login("entry_screen")
+    data object ForgotPassScreen : Login("forgot_pass_screen")
+}
+sealed class Main(val route: String) {
+    data object HomeScreen : Main("home_screen")
+    data object AddRecipeScreen : Main("add_recipe_screen")
+    data object SearchRecipeScreen : Main("search_recipe_screen")
+    data object ProfileScreen : Main("profile_screen")
+    data object CategoriesScreen : Main("categories_screen")
+    data object IngredientsScreen : Main("ingredients_screen")
+}
+sealed class ProfileRoutes(val route: String) {
+    data object Settings : Main("settings")
+    data object Info : Main("info")
+    data object Liked : Main("liked")
 
 }

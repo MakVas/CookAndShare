@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import com.cook_and_share.R
-import com.cook_and_share.presentation.util.Screens
+import com.cook_and_share.presentation.util.Main
 
 data class BottomNavigationItem(
     val title: String,
@@ -29,28 +29,28 @@ fun getBottomNavigationItems(): List<BottomNavigationItem> {
     return listOf(
         BottomNavigationItem(
             title = stringResource(id = R.string.home),
-            route = Screens.HomeScreen.route,
+            route = Main.HomeScreen.route,
             selectedIcon = Icons.Default.Home,
             unselectedIcon = Icons.Outlined.Home,
             hasNews = false
         ),
         BottomNavigationItem(
             title = stringResource(id = R.string.add),
-            route = Screens.AddRecipeScreen.route,
+            route = Main.AddRecipeScreen.route,
             selectedIcon = Icons.Default.Add,
             unselectedIcon = Icons.Outlined.Add,
             hasNews = false
         ),
         BottomNavigationItem(
             title = stringResource(id = R.string.search),
-            route = Screens.SearchRecipeScreen.route,
+            route = Main.SearchRecipeScreen.route,
             selectedIcon = Icons.Default.Search,
             unselectedIcon = Icons.Outlined.Search,
             hasNews = false
         ),
         BottomNavigationItem(
             title = stringResource(id = R.string.profile),
-            route = Screens.ProfileScreen.route,
+            route = Main.ProfileScreen.route,
             selectedIcon = Icons.Default.AccountCircle,
             unselectedIcon = Icons.Outlined.AccountCircle,
             hasNews = false
