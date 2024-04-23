@@ -10,6 +10,7 @@ import com.cook_and_share.presentation.ui.screens.get_started.GetStartedScreen
 import com.cook_and_share.presentation.ui.screens.login.navigation.LoginNavHost
 import com.cook_and_share.presentation.ui.screens.main.MainScreen
 import com.cook_and_share.presentation.ui.screens.main.profile.info.InfoScreen
+import com.cook_and_share.presentation.ui.screens.main.profile.liked.LikedScreen
 import com.cook_and_share.presentation.ui.screens.main.profile.settings.SettingsScreen
 import com.cook_and_share.presentation.ui.screens.splash.SplashScreen
 import com.cook_and_share.presentation.util.ProfileRoutes
@@ -38,6 +39,10 @@ fun NavGraphBuilder.cookAndShareNavGraph(
         SplashScreen(
             openAndPopUp = { route, popUp -> navigateAndPopUp(rootNavController, route, popUp) }
         )
+    }
+
+    customComposable(ProfileRoutes.Liked.route) {
+        LikedScreen { popUp(rootNavController) }
     }
 
     customComposable(ProfileRoutes.Info.route) {
