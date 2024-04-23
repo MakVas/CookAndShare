@@ -10,11 +10,12 @@ import javax.inject.Inject
 @HiltViewModel
 class EntryViewModel @Inject constructor(
     logRepository: LogRepository
-): CookAndShareViewModel(logRepository){
+) : CookAndShareViewModel(logRepository) {
     fun onGetStartedClick(navigate: (String) -> Unit) {
         navigate(NavGraphs.GetStarted.route)
     }
+
     fun onLoginClick(openAndPopUp: (String, String) -> Unit) {
-        openAndPopUp(NavGraphs.Login.route, Login.EntryScreen.route)
+        openAndPopUp(Login.LoginScreen.route, Login.EntryScreen.route)
     }
 }

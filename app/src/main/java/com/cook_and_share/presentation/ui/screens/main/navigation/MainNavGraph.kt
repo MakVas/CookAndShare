@@ -1,8 +1,10 @@
 package com.cook_and_share.presentation.ui.screens.main.navigation
 
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import com.cook_and_share.presentation.CookAndShareState
+import com.cook_and_share.presentation.navigate
+import com.cook_and_share.presentation.popUp
 import com.cook_and_share.presentation.ui.screens.main.add_recipe.add_recipe.AddRecipeScreen
 import com.cook_and_share.presentation.ui.screens.main.add_recipe.categories.CategoriesScreen
 import com.cook_and_share.presentation.ui.screens.main.add_recipe.ingredients.IngredientsScreen
@@ -12,15 +14,16 @@ import com.cook_and_share.presentation.ui.screens.main.search.SearchScreen
 import com.cook_and_share.presentation.util.Main
 
 fun NavGraphBuilder.mainGraph(
-    appState: CookAndShareState
+    rootNavController: NavHostController,
+    navController: NavHostController
 ) {
     composable(Main.HomeScreen.route) {
         HomeScreen()
     }
     composable(Main.AddRecipeScreen.route) {
         AddRecipeScreen(
-            navigate = { route -> appState.navigate(route) },
-            popUp = { appState.popUp() },
+            navigate = { route -> navigate(navController, route) },
+            popUp = { popUp(navController) },
         )
     }
     composable(Main.SearchRecipeScreen.route) {
@@ -28,17 +31,17 @@ fun NavGraphBuilder.mainGraph(
     }
     composable(Main.ProfileScreen.route) {
         ProfileScreen(
-            navigate = { route -> appState.navigate(route) },
+            navigate = { route -> navigate(rootNavController, route) },
         )
     }
     composable(Main.CategoriesScreen.route) {
         CategoriesScreen(
-            popUp = { appState.popUp() }
+            popUp = { popUp(navController) }
         )
     }
     composable(Main.IngredientsScreen.route) {
         IngredientsScreen(
-            popUp = { appState.popUp() },
+            popUp = { popUp(navController) },
         )
     }
 }

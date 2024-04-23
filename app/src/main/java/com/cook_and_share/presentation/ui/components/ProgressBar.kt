@@ -12,11 +12,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ProgressBar(progress: Float){
+fun ProgressBar(progress: Float) {
     Box {
         HorizontalDivider(
             modifier = Modifier
-                .padding(start = 0.dp, end = 48.dp)
+                .padding(start = 30.dp, end = 46.dp)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(8.dp)),
             thickness = 8.dp,
@@ -24,8 +24,8 @@ fun ProgressBar(progress: Float){
         )
         HorizontalDivider(
             modifier = Modifier
-                .padding(start = 0.dp, end = 48.dp)
-                .fillMaxWidth(progress/100f)
+                .padding(start = 30.dp, end = 46.dp)
+                .fillMaxWidth(progress / 100f)
                 .clip(RoundedCornerShape(8.dp)),
             thickness = 8.dp,
             color = colorScheme.onSecondary

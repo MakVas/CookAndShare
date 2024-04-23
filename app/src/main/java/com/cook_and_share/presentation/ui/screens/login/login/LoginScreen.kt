@@ -30,6 +30,7 @@ import com.cook_and_share.presentation.ui.theme.Typography
 @Composable
 fun LoginScreen(
     openAndPopUp: (String, String) -> Unit,
+    navigate: (String) -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState
@@ -40,7 +41,7 @@ fun LoginScreen(
         onPasswordChange = viewModel::onPasswordChange,
         onSignInClick = { viewModel.onSignInClick(openAndPopUp) },
         onForgotPasswordClick = { viewModel.onForgotPasswordClick() },
-        onSignUpClick = { viewModel.onSignUpClick(openAndPopUp) }
+        onSignUpClick = { viewModel.onSignUpClick(navigate) }
     )
 
 }

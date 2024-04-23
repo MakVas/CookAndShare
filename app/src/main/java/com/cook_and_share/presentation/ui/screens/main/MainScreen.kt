@@ -1,7 +1,7 @@
 package com.cook_and_share.presentation.ui.screens.main
 
-import android.annotation.SuppressLint
-import com.cook_and_share.presentation.CookAndShareState
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import com.cook_and_share.presentation.util.Main
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Badge
@@ -12,6 +12,7 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,15 +22,15 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.cook_and_share.presentation.ui.components.getBottomNavigationItems
 import com.cook_and_share.presentation.ui.screens.main.navigation.MainNavHost
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainScreen(
-    appState: CookAndShareState
+    rootNavController: NavHostController
 ) {
     val navController = rememberNavController()
 
@@ -38,7 +39,13 @@ fun MainScreen(
             NavigationBar(navController)
         }
     ) {
-        MainNavHost(appState)
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+        ) {
+            MainNavHost(rootNavController, navController)
+        }
     }
 }
 
