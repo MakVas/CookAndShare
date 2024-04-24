@@ -12,7 +12,7 @@ data class Recipe(
     val imageUrl: String = "",
     val tags: List<String> = emptyList(),
     val ingredients: List<Map<String, Int>> = emptyList(),
-    val isDaily: Boolean = false,
+    val daily: Boolean = false,
     val recipe : String = "",
     val likes: Int = 0,
     val userID: String = ""

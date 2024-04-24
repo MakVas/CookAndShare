@@ -84,6 +84,7 @@ private fun HomeScreenContent(
     isSheetExpanded: MutableState<Boolean>,
     onRecipeLikeClick: (Recipe) -> Unit
 ) {
+
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
@@ -116,6 +117,7 @@ private fun NestedScrolling(
     isSheetExpanded: MutableState<Boolean>,
     onRecipeLikeClick: (Recipe) -> Unit
 ) {
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize(),

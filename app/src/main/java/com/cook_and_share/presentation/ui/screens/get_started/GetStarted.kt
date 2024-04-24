@@ -2,10 +2,12 @@ package com.cook_and_share.presentation.ui.screens.get_started
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -79,6 +81,7 @@ private fun GetStartedScreenContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
+                .background(MaterialTheme.colorScheme.background)
         ) {
             GetStartedNavHost(
                 navController = navController,

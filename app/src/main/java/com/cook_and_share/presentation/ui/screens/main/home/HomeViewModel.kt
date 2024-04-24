@@ -17,7 +17,8 @@ class HomeViewModel @Inject constructor(
     val dailyRecipes = storageRepository.dailyRecipes
     fun onRecipeLikeClick(recipe: Recipe) {
         launchCatching {
-            storageRepository.update(recipe.copy(likes = recipe.likes + 1))
+            val recipeLiked = recipe.copy(likes = recipe.likes + 1)
+            storageRepository.update(recipeLiked)
         }
     }
 }

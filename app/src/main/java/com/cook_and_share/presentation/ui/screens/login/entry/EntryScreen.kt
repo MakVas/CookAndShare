@@ -33,6 +33,7 @@ fun EntryScreen(
     EntryScreenContent(
         modifier = Modifier
             .fillMaxSize()
+            .padding(top = 50.dp, bottom = 16.dp)
             .background(colorScheme.background),
         onLogInClick = { viewModel.onLoginClick(openAndPopUp) },
         onGetStarted = { viewModel.onGetStartedClick(navigate) }
@@ -47,16 +48,14 @@ private fun EntryScreenContent(
 ) {
     Column(
         modifier = modifier
-            .fillMaxSize()
-            .padding(top = 50.dp, bottom = 16.dp),
     ) {
         ImageContent(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .weight(5f),
         )
         ButtonContent(
-            modifier = modifier
+            modifier = Modifier
                 .weight(1f),
             onLogInClick = onLogInClick,
             onGetStarted = onGetStarted
