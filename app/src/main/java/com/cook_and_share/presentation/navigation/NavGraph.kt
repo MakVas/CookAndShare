@@ -42,7 +42,7 @@ fun NavGraphBuilder.cookAndShareNavGraph(
     }
 
     customComposable(ProfileRoutes.Liked.route) {
-        LikedScreen { popUp(rootNavController) }
+        LikedScreen(popUp = { popUp(rootNavController)} )
     }
 
     customComposable(ProfileRoutes.Info.route) {
