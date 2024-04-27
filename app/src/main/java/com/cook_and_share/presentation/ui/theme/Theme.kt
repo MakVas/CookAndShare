@@ -23,7 +23,8 @@ private val DarkColorScheme = darkColorScheme(
     background = CustomDark1,
     inversePrimary = Color.White,
     surface = CustomDark1,
-    onSurface = CustomDark2Trans
+    onSurface = CustomDark2Trans,
+    surfaceTint = CustomRed
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -37,16 +38,8 @@ private val LightColorScheme = lightColorScheme(
     background = CustomYellow,
     inversePrimary = Color.Black,
     surface = CustomYellow,
-    onSurface = CustomLightYellowTrans
-    /* Other default colors to override
-background = Color(0xFFFFFBFE),
-surface = Color(0xFFFFFBFE),
-onPrimary = Color.White,
-onSecondary = Color.White,
-onTertiary = Color.White,
-onBackground = Color(0xFF1C1B1F),
-onSurface = Color(0xFF1C1B1F),
-*/
+    onSurface = CustomLightYellowTrans,
+    surfaceTint = CustomRed
 )
 
 @Composable

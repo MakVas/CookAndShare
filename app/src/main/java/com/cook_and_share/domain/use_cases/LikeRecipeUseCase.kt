@@ -10,6 +10,8 @@ class LikeRecipeUseCase @Inject constructor(
     private val authRepository: AuthRepository,
     private val storageRepository: StorageRepository
 ) {
+
+
     suspend fun onRecipeLikeClick(recipe: Recipe) {
         val profile = authRepository.getProfile(authRepository.currentUserId) ?: Profile()
         if (

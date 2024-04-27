@@ -8,6 +8,7 @@ val CustomMiddleYellow = Color(0xFFf9d054)
 val CustomLightYellow = Color(0xFFFED56E)
 val CustomLightYellowTrans = Color(0xD9FED56E)
 val CustomChocolate = Color(0xFF7D4545)
+val CustomRed = Color(0xFFCF1C1C)
 
 //Dark Color Scheme
 val CustomDark1 = Color(0xFF040D12)
