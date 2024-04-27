@@ -169,7 +169,7 @@ private fun NestedScrolling(
         subColumn(
             onRecipeLikeClick = onRecipeLikeClick,
             recipes = recipes,
-            isRecipeSheetExpanded = isRecipeSheetExpanded,
+            isSheetExpanded = isRecipeSheetExpanded,
             Modifier.padding(horizontal = 16.dp)
         )
     }
@@ -178,7 +178,7 @@ private fun NestedScrolling(
 private fun LazyListScope.subColumn(
     onRecipeLikeClick: (Recipe) -> Unit,
     recipes: List<Recipe>,
-    isRecipeSheetExpanded: MutableState<Boolean>,
+    isSheetExpanded: MutableState<Boolean>,
     modifier: Modifier = Modifier
 ) {
     items(recipes, key = { it.id }) { recipeItem ->
@@ -186,7 +186,7 @@ private fun LazyListScope.subColumn(
             onRecipeLikeClick = onRecipeLikeClick,
             recipe = recipeItem,
             onClick = {
-                isRecipeSheetExpanded.value = true
+                isSheetExpanded.value = true
             },
             modifier = modifier,
             isPreview = false

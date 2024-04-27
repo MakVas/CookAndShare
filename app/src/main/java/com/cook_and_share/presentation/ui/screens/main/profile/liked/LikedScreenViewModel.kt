@@ -5,6 +5,7 @@ import com.cook_and_share.domain.model.Recipe
 import com.cook_and_share.domain.repository.AuthRepository
 import com.cook_and_share.domain.repository.LogRepository
 import com.cook_and_share.domain.repository.StorageRepository
+import com.cook_and_share.domain.use_cases.LikeRecipeUseCase
 import com.cook_and_share.presentation.ui.screens.CookAndShareViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -14,7 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LikedScreenViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val storageRepository: StorageRepository,
+    storageRepository: StorageRepository,
+    private val likeRecipeUseCase: LikeRecipeUseCase,
     logRepository: LogRepository
 ) : CookAndShareViewModel(logRepository) {
 
@@ -26,20 +28,7 @@ class LikedScreenViewModel @Inject constructor(
     }
     fun onRecipeLikeClick(recipe: Recipe) {
         launchCatching {
-            val profile = authRepository.getProfile(authRepository.currentUserId) ?: Profile()
-            if (
-                profile.likedRecipes.contains(recipe.id).not()
-            ) {
-                val recipeLiked = recipe.copy(likes = recipe.likes + 1)
-                storageRepository.update(recipeLiked)
-                val profileLiked = profile.copy(likedRecipes = profile.likedRecipes + recipe.id)
-                authRepository.updateProfile(profileLiked)
-            } else {
-                val recipeLiked = recipe.copy(likes = recipe.likes - 1)
-                storageRepository.update(recipeLiked)
-                val profileLiked = profile.copy(likedRecipes = profile.likedRecipes - recipe.id)
-                authRepository.updateProfile(profileLiked)
-            }
+            likeRecipeUseCase.onRecipeLikeClick(recipe)
         }
     }
 }

@@ -56,6 +56,10 @@ class StorageRepositoryImpl @Inject constructor(
                 .dataObjects()
         }
 
+    override suspend fun searchRecipes(): Flow<List<Recipe>> =
+        firestore.collection(COLLECTION_NAME_RECIPES).dataObjects()
+
+
     override suspend fun getRecipe(recipeId: String): Recipe? =
         firestore.collection(COLLECTION_NAME_RECIPES).document(recipeId).get().await().toObject()
 

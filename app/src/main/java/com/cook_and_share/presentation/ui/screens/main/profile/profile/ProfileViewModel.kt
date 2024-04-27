@@ -6,6 +6,7 @@ import com.cook_and_share.domain.model.Recipe
 import com.cook_and_share.domain.repository.AuthRepository
 import com.cook_and_share.domain.repository.LogRepository
 import com.cook_and_share.domain.repository.StorageRepository
+import com.cook_and_share.domain.use_cases.LikeRecipeUseCase
 import com.cook_and_share.presentation.ui.screens.CookAndShareViewModel
 import com.cook_and_share.presentation.util.ProfileRoutes
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val storageRepository: StorageRepository,
+    private val likeRecipeUseCase: LikeRecipeUseCase,
+    storageRepository: StorageRepository,
     logRepository: LogRepository
 ) : CookAndShareViewModel(logRepository) {
 
@@ -29,7 +31,7 @@ class ProfileViewModel @Inject constructor(
 
     fun onRecipeLikeClick(recipe: Recipe) {
         launchCatching {
-            storageRepository.update(recipe.copy(likes = recipe.likes + 1))
+            likeRecipeUseCase.onRecipeLikeClick(recipe)
         }
     }
 
