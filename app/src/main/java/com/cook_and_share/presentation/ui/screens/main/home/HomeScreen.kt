@@ -47,6 +47,7 @@ import com.cook_and_share.presentation.ui.components.RecipeBottomSheet
 import com.cook_and_share.presentation.ui.components.RecipeItem
 import com.cook_and_share.presentation.ui.components.TopBar
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,6 +63,7 @@ fun HomeScreen(
     val sheetState = rememberModalBottomSheetState()
     val isSheetExpanded = rememberSaveable { mutableStateOf(false) }
 
+
     RecipeBottomSheet(
         sheetState = sheetState,
         isSheetExpanded = isSheetExpanded
@@ -71,6 +73,7 @@ fun HomeScreen(
         dailyRecipes = dailyRecipes.value,
         scrollBehavior = scrollBehavior,
         isSheetExpanded = isSheetExpanded,
+        isRecipeLiked = viewModel::isRecipeLiked,
         onRecipeLikeClick = viewModel::onRecipeLikeClick
     )
 }
@@ -78,6 +81,7 @@ fun HomeScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeScreenContent(
+    isRecipeLiked: (Recipe) -> Flow<Boolean>,
     recipes: List<Recipe>,
     dailyRecipes: List<Recipe>,
     scrollBehavior: TopAppBarScrollBehavior,
@@ -104,6 +108,7 @@ private fun HomeScreenContent(
                 dailyRecipes = dailyRecipes,
                 recipes = recipes,
                 isSheetExpanded = isSheetExpanded,
+                isRecipeLiked = isRecipeLiked,
                 onRecipeLikeClick = onRecipeLikeClick
             )
         }
@@ -114,6 +119,7 @@ private fun HomeScreenContent(
 private fun NestedScrolling(
     dailyRecipes: List<Recipe>,
     recipes: List<Recipe>,
+    isRecipeLiked: (Recipe) -> Flow<Boolean>,
     isSheetExpanded: MutableState<Boolean>,
     onRecipeLikeClick: (Recipe) -> Unit
 ) {
@@ -134,6 +140,7 @@ private fun NestedScrolling(
             Spacer(modifier = Modifier.height(16.dp))
 
             SubRow(
+                isRecipeLiked = isRecipeLiked,
                 onRecipeLikeClick = onRecipeLikeClick,
                 recipes = dailyRecipes,
                 isSheetExpanded = isSheetExpanded
@@ -150,6 +157,7 @@ private fun NestedScrolling(
         subColumn(
             onRecipeLikeClick = onRecipeLikeClick,
             recipes = recipes,
+            isRecipeLiked = isRecipeLiked,
             isSheetExpanded = isSheetExpanded,
             modifier = Modifier.padding(horizontal = 16.dp)
         )
@@ -159,6 +167,7 @@ private fun NestedScrolling(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun SubRow(
+    isRecipeLiked: (Recipe) -> Flow<Boolean>,
     onRecipeLikeClick: (Recipe) -> Unit,
     recipes: List<Recipe>,
     isSheetExpanded: MutableState<Boolean>
@@ -177,6 +186,7 @@ private fun SubRow(
             )
         }
     })
+
     Column(
         Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -186,7 +196,9 @@ private fun SubRow(
             contentPadding = PaddingValues(horizontal = 32.dp),
             pageSpacing = 16.dp,
         ) {
+            val isLiked = isRecipeLiked(recipes[it]).collectAsState(initial = false)
             RecipeItem(
+                isLiked = isLiked.value,
                 onRecipeLikeClick = onRecipeLikeClick,
                 recipe = recipes[it],
                 onClick = {
@@ -200,13 +212,16 @@ private fun SubRow(
 }
 
 private fun LazyListScope.subColumn(
+    isRecipeLiked: (Recipe) -> Flow<Boolean>,
     onRecipeLikeClick: (Recipe) -> Unit,
     recipes: List<Recipe>,
     isSheetExpanded: MutableState<Boolean>,
     modifier: Modifier = Modifier
 ) {
     items(recipes, key = { it.id }) { recipeItem ->
+        val isLiked = isRecipeLiked(recipeItem).collectAsState(initial = false)
         RecipeItem(
+            isLiked = isLiked.value,
             onRecipeLikeClick = onRecipeLikeClick,
             recipe = recipeItem,
             onClick = {

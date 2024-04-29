@@ -50,7 +50,7 @@ fun RecipeItem(
     onRecipeLikeClick: (Recipe) -> Unit = {},
     recipe: Recipe,
     onClick: () -> Unit,
-    isLiked: Boolean = true,
+    isLiked: Boolean = false,
     isPreview: Boolean
 ) {
     ElevatedButton(

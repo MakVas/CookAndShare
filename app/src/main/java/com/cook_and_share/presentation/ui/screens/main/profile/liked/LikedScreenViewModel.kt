@@ -22,6 +22,9 @@ class LikedScreenViewModel @Inject constructor(
 
     val recipes = storageRepository.recipes
 
+    fun isRecipeLiked(recipe: Recipe): Flow<Boolean> = flow {
+        emit(likeRecipeUseCase.isRecipeLiked(recipe))
+    }
     fun initLikedRecipesID(): Flow<List<String>> = flow {
         val profile = authRepository.getProfile(authRepository.currentUserId) ?: Profile()
         emit(profile.likedRecipes)

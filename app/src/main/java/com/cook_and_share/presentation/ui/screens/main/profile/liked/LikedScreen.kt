@@ -30,6 +30,7 @@ import com.cook_and_share.presentation.ui.components.RecipeBottomSheet
 import com.cook_and_share.presentation.ui.components.RecipeItem
 import com.cook_and_share.presentation.ui.components.TopAppBarBackIcon
 import com.cook_and_share.presentation.ui.components.TopBar
+import kotlinx.coroutines.flow.Flow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,6 +56,7 @@ fun LikedScreen(
     )
 
     LikedScreenContent(
+        isRecipeLiked = viewModel::isRecipeLiked,
         popUp = popUp,
         scrollBehavior = scrollBehavior,
         recipes = likedRecipes,
@@ -67,6 +69,7 @@ fun LikedScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun LikedScreenContent(
+    isRecipeLiked: (Recipe) -> Flow<Boolean>,
     isSheetExpanded: MutableState<Boolean>,
     onRecipeLikeClick: (Recipe) -> Unit,
     popUp: () -> Unit,
@@ -92,6 +95,7 @@ private fun LikedScreenContent(
                 .background(MaterialTheme.colorScheme.background)
         ) {
             NestedScrolling(
+                isRecipeLiked = isRecipeLiked,
                 recipes = recipes,
                 isSheetExpanded = isSheetExpanded,
                 onRecipeLikeClick = onRecipeLikeClick
@@ -102,6 +106,7 @@ private fun LikedScreenContent(
 
 @Composable
 private fun NestedScrolling(
+    isRecipeLiked: (Recipe) -> Flow<Boolean>,
     recipes: List<Recipe>,
     isSheetExpanded: MutableState<Boolean>,
     onRecipeLikeClick: (Recipe) -> Unit
@@ -115,6 +120,7 @@ private fun NestedScrolling(
             Spacer(modifier = Modifier.padding(top = 16.dp))
         }
         subColumn(
+            isRecipeLiked = isRecipeLiked,
             onRecipeLikeClick = onRecipeLikeClick,
             recipes = recipes,
             isSheetExpanded = isSheetExpanded
@@ -123,13 +129,16 @@ private fun NestedScrolling(
 }
 
 private fun LazyListScope.subColumn(
+    isRecipeLiked: (Recipe) -> Flow<Boolean>,
     onRecipeLikeClick: (Recipe) -> Unit,
     recipes: List<Recipe>,
     isSheetExpanded: MutableState<Boolean>,
     modifier: Modifier = Modifier
 ) {
     items(recipes, key = { it.id }) { recipeItem ->
+        val isLiked = isRecipeLiked(recipeItem).collectAsState(initial = false)
         RecipeItem(
+            isLiked = isLiked.value,
             onRecipeLikeClick = onRecipeLikeClick,
             recipe = recipeItem,
             onClick = {

@@ -10,6 +10,8 @@ import com.cook_and_share.domain.use_cases.LikeRecipeUseCase
 import com.cook_and_share.presentation.ui.screens.CookAndShareViewModel
 import com.cook_and_share.presentation.util.ProfileRoutes
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,13 +30,14 @@ class ProfileViewModel @Inject constructor(
             profile.value = authRepository.getProfile(authRepository.currentUserId) ?: Profile()
         }
     }
-
+    fun isRecipeLiked(recipe: Recipe): Flow<Boolean> = flow {
+        emit(likeRecipeUseCase.isRecipeLiked(recipe))
+    }
     fun onRecipeLikeClick(recipe: Recipe) {
         launchCatching {
             likeRecipeUseCase.onRecipeLikeClick(recipe)
         }
     }
-
     fun onSettingsClick(navigate: (String) -> Unit) {
         navigate(ProfileRoutes.Settings.route)
     }
