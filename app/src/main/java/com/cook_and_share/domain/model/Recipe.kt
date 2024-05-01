@@ -12,6 +12,6 @@ data class Recipe(
     val ingredients: List<Map<String, Int>> = emptyList(),
     val daily: Boolean = false,
     val recipe : String = "",
-    val likes: Int = 0,
+    val likes: List<String> = emptyList(),
     val userID: String = ""
 )

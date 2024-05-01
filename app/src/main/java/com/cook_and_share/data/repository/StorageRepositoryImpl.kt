@@ -84,6 +84,26 @@ class StorageRepositoryImpl @Inject constructor(
             }
         }
 
+    override val likedRecipes: Flow<List<Recipe>>
+        get() = callbackFlow {
+            val listener = database.reference.child(COLLECTION_NAME_RECIPES)
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val recipes = snapshot.children.mapNotNull { it.getValue<Recipe>() }
+                            .filter { it.likes.contains(auth.currentUserId) }
+                        trySend(recipes)
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        close(error.toException())
+                    }
+                })
+
+            awaitClose {
+                database.reference.child(COLLECTION_NAME_RECIPES).removeEventListener(listener)
+            }
+        }
+
     override suspend fun searchProfiles(query: String, fieldName: String): Flow<List<Profile>> {
         return callbackFlow {
             val listener = database.reference.child(COLLECTION_NAME_USERS)

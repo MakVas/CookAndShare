@@ -47,7 +47,6 @@ import com.cook_and_share.presentation.ui.components.RecipeBottomSheet
 import com.cook_and_share.presentation.ui.components.RecipeItem
 import com.cook_and_share.presentation.ui.components.TopBar
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -81,7 +80,7 @@ fun HomeScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeScreenContent(
-    isRecipeLiked: (Recipe) -> Flow<Boolean>,
+    isRecipeLiked: (Recipe) -> Boolean,
     recipes: List<Recipe>,
     dailyRecipes: List<Recipe>,
     scrollBehavior: TopAppBarScrollBehavior,
@@ -119,7 +118,7 @@ private fun HomeScreenContent(
 private fun NestedScrolling(
     dailyRecipes: List<Recipe>,
     recipes: List<Recipe>,
-    isRecipeLiked: (Recipe) -> Flow<Boolean>,
+    isRecipeLiked: (Recipe) -> Boolean,
     isSheetExpanded: MutableState<Boolean>,
     onRecipeLikeClick: (Recipe) -> Unit
 ) {
@@ -167,7 +166,7 @@ private fun NestedScrolling(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun SubRow(
-    isRecipeLiked: (Recipe) -> Flow<Boolean>,
+    isRecipeLiked: (Recipe) -> Boolean,
     onRecipeLikeClick: (Recipe) -> Unit,
     recipes: List<Recipe>,
     isSheetExpanded: MutableState<Boolean>
@@ -196,9 +195,9 @@ private fun SubRow(
             contentPadding = PaddingValues(horizontal = 32.dp),
             pageSpacing = 16.dp,
         ) {
-            val isLiked = isRecipeLiked(recipes[it]).collectAsState(initial = false)
+            val isLiked = isRecipeLiked(recipes[it])
             RecipeItem(
-                isLiked = isLiked.value,
+                isLiked = isLiked,
                 onRecipeLikeClick = onRecipeLikeClick,
                 recipe = recipes[it],
                 onClick = {
@@ -212,16 +211,16 @@ private fun SubRow(
 }
 
 private fun LazyListScope.subColumn(
-    isRecipeLiked: (Recipe) -> Flow<Boolean>,
+    isRecipeLiked: (Recipe) -> Boolean,
     onRecipeLikeClick: (Recipe) -> Unit,
     recipes: List<Recipe>,
     isSheetExpanded: MutableState<Boolean>,
     modifier: Modifier = Modifier
 ) {
     items(recipes, key = { it.id }) { recipeItem ->
-        val isLiked = isRecipeLiked(recipeItem).collectAsState(initial = false)
+        val isLiked = isRecipeLiked(recipeItem)
         RecipeItem(
-            isLiked = isLiked.value,
+            isLiked = isLiked,
             onRecipeLikeClick = onRecipeLikeClick,
             recipe = recipeItem,
             onClick = {

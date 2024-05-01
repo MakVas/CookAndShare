@@ -104,7 +104,7 @@ fun RecipeItem(
                         onRecipeLikeClick = {
                             onRecipeLikeClick(recipe)
                         },
-                        likes = recipe.likes.toString(),
+                        likes = recipe.likes.size.toString(),
                         modifier = Modifier
                             .fillMaxHeight()
                             .padding(end = 16.dp, bottom = 10.dp, top = 10.dp),

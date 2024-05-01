@@ -49,7 +49,6 @@ import com.cook_and_share.presentation.ui.components.RecipeItem
 import com.cook_and_share.presentation.ui.components.SettingsBottomSheet
 import com.cook_and_share.presentation.ui.components.TopAppBarAction
 import com.cook_and_share.presentation.ui.components.TopBar
-import kotlinx.coroutines.flow.Flow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -103,7 +102,7 @@ fun ProfileScreen(
 @Composable
 private fun ProfileScreenContent(
     profile: Profile,
-    isRecipeLiked: (Recipe) -> Flow<Boolean>,
+    isRecipeLiked: (Recipe) -> Boolean,
     scrollBehavior: TopAppBarScrollBehavior,
     isSettingsSheetExpanded: MutableState<Boolean>,
     isRecipeSheetExpanded: MutableState<Boolean>,
@@ -144,7 +143,7 @@ private fun ProfileScreenContent(
 @Composable
 private fun NestedScrolling(
     profile: Profile,
-    isRecipeLiked: (Recipe) -> Flow<Boolean>,
+    isRecipeLiked: (Recipe) -> Boolean,
     isRecipeSheetExpanded: MutableState<Boolean>,
     recipes: List<Recipe>,
     onRecipeLikeClick: (Recipe) -> Unit
@@ -186,23 +185,23 @@ private fun NestedScrolling(
 }
 
 private fun LazyListScope.subColumn(
-    isRecipeLiked: (Recipe) -> Flow<Boolean>,
+    isRecipeLiked: (Recipe) -> Boolean,
     onRecipeLikeClick: (Recipe) -> Unit,
     recipes: List<Recipe>,
     isSheetExpanded: MutableState<Boolean>,
     modifier: Modifier = Modifier
 ) {
     items(recipes, key = { it.id }) { recipeItem ->
-        val isLiked = isRecipeLiked(recipeItem).collectAsState(initial = false)
+        val isLiked = isRecipeLiked(recipeItem)
         RecipeItem(
-            isLiked = isLiked.value,
+            isLiked = isLiked,
             onRecipeLikeClick = onRecipeLikeClick,
             recipe = recipeItem,
             onClick = {
                 isSheetExpanded.value = true
             },
             modifier = modifier,
-            isPreview = true
+            isPreview = false
         )
         Spacer(modifier = Modifier.height(16.dp))
     }

@@ -10,24 +10,24 @@ class LikeRecipeUseCase @Inject constructor(
     private val authRepository: AuthRepository,
     private val storageRepository: StorageRepository
 ) {
-    suspend fun isRecipeLiked(recipe: Recipe): Boolean {
-        val profile = authRepository.getProfile(authRepository.currentUserId) ?: Profile()
-        return profile.likedRecipes.contains(recipe.id)
+    fun isRecipeLiked(recipe: Recipe): Boolean {
+        return recipe.likes.contains(authRepository.currentUserId)
     }
+
     suspend fun onRecipeLikeClick(recipe: Recipe) {
         val profile = authRepository.getProfile(authRepository.currentUserId) ?: Profile()
-        if (
-            profile.likedRecipes.contains(recipe.id).not()
-        ) {
-            val recipeLiked = recipe.copy(likes = recipe.likes + 1)
-            storageRepository.update(recipeLiked)
-            val profileLiked = profile.copy(likedRecipes = profile.likedRecipes + recipe.id)
-            authRepository.updateProfile(profileLiked)
-        } else {
-            val recipeLiked = recipe.copy(likes = recipe.likes - 1)
-            storageRepository.update(recipeLiked)
-            val profileLiked = profile.copy(likedRecipes = profile.likedRecipes - recipe.id)
-            authRepository.updateProfile(profileLiked)
-        }
+        val isLiked = recipe.likes.contains(authRepository.currentUserId)
+        val updatedRecipe =
+            recipe.copy(
+                likes = if (isLiked) recipe.likes - authRepository.currentUserId
+                else recipe.likes + authRepository.currentUserId
+            )
+        val profileLiked =
+            profile.copy(
+                likedRecipes = if (isLiked) profile.likedRecipes - authRepository.currentUserId
+                else profile.likedRecipes + authRepository.currentUserId
+            )
+        authRepository.updateProfile(profileLiked)
+        storageRepository.update(updatedRecipe)
     }
 }

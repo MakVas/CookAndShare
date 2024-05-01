@@ -30,7 +30,6 @@ import com.cook_and_share.presentation.ui.components.RecipeBottomSheet
 import com.cook_and_share.presentation.ui.components.RecipeItem
 import com.cook_and_share.presentation.ui.components.TopAppBarBackIcon
 import com.cook_and_share.presentation.ui.components.TopBar
-import kotlinx.coroutines.flow.Flow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,13 +37,7 @@ fun LikedScreen(
     popUp: () -> Unit,
     viewModel: LikedScreenViewModel = hiltViewModel()
 ) {
-    val recipes = viewModel.recipes.collectAsState(emptyList())
-    val likedRecipesID = viewModel.initLikedRecipesID().collectAsState(emptyList())
-    val likedRecipes = if (recipes.value.isNotEmpty() && likedRecipesID.value.isNotEmpty()) {
-        recipes.value.filter { it.id in likedRecipesID.value }
-    } else {
-        emptyList()
-    }
+    val likedRecipes = viewModel.likedRecipes.collectAsState(emptyList())
 
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val sheetState = rememberModalBottomSheetState()
@@ -59,7 +52,7 @@ fun LikedScreen(
         isRecipeLiked = viewModel::isRecipeLiked,
         popUp = popUp,
         scrollBehavior = scrollBehavior,
-        recipes = likedRecipes,
+        recipes = likedRecipes.value,
         onRecipeLikeClick = viewModel::onRecipeLikeClick,
         isSheetExpanded = isSheetExpanded
     )
@@ -69,7 +62,7 @@ fun LikedScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun LikedScreenContent(
-    isRecipeLiked: (Recipe) -> Flow<Boolean>,
+    isRecipeLiked: (Recipe) -> Boolean,
     isSheetExpanded: MutableState<Boolean>,
     onRecipeLikeClick: (Recipe) -> Unit,
     popUp: () -> Unit,
@@ -106,7 +99,7 @@ private fun LikedScreenContent(
 
 @Composable
 private fun NestedScrolling(
-    isRecipeLiked: (Recipe) -> Flow<Boolean>,
+    isRecipeLiked: (Recipe) -> Boolean,
     recipes: List<Recipe>,
     isSheetExpanded: MutableState<Boolean>,
     onRecipeLikeClick: (Recipe) -> Unit
@@ -129,16 +122,16 @@ private fun NestedScrolling(
 }
 
 private fun LazyListScope.subColumn(
-    isRecipeLiked: (Recipe) -> Flow<Boolean>,
+    isRecipeLiked: (Recipe) -> Boolean,
     onRecipeLikeClick: (Recipe) -> Unit,
     recipes: List<Recipe>,
     isSheetExpanded: MutableState<Boolean>,
     modifier: Modifier = Modifier
 ) {
     items(recipes, key = { it.id }) { recipeItem ->
-        val isLiked = isRecipeLiked(recipeItem).collectAsState(initial = false)
+        val isLiked = isRecipeLiked(recipeItem)
         RecipeItem(
-            isLiked = isLiked.value,
+            isLiked = isLiked,
             onRecipeLikeClick = onRecipeLikeClick,
             recipe = recipeItem,
             onClick = {

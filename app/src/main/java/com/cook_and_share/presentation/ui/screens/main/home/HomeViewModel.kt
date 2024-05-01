@@ -6,8 +6,6 @@ import com.cook_and_share.domain.repository.StorageRepository
 import com.cook_and_share.domain.use_cases.LikeRecipeUseCase
 import com.cook_and_share.presentation.ui.screens.CookAndShareViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,8 +18,8 @@ class HomeViewModel @Inject constructor(
     val recipes = storageRepository.recipes
     val dailyRecipes = storageRepository.dailyRecipes
 
-    fun isRecipeLiked(recipe: Recipe): Flow<Boolean> = flow {
-        emit(likeRecipeUseCase.isRecipeLiked(recipe))
+    fun isRecipeLiked(recipe: Recipe): Boolean{
+        return likeRecipeUseCase.isRecipeLiked(recipe)
     }
     fun onRecipeLikeClick(recipe: Recipe) {
         launchCatching {
