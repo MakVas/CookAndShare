@@ -94,17 +94,18 @@ fun SearchTopBar(
                     searchQuery.value = it
                 }
 
-                IconButton(
-                    modifier = Modifier.weight(1f),
-                    onClick = {
-                        //TODO: FILTER
+                if (tabIndex.value == 0)
+                    IconButton(
+                        modifier = Modifier.weight(1f),
+                        onClick = {
+                            //TODO: FILTER
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Tune,
+                            contentDescription = "filter"
+                        )
                     }
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Tune,
-                        contentDescription = "filter"
-                    )
-                }
             }
 
             TabRow(

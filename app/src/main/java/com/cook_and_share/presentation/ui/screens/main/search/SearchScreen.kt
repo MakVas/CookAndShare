@@ -8,12 +8,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cook_and_share.R
+import com.cook_and_share.domain.model.Profile
 import com.cook_and_share.presentation.ui.components.RecipeBottomSheet
 import com.cook_and_share.presentation.ui.components.SearchItem
 import com.cook_and_share.presentation.ui.components.SearchTopBar
@@ -32,7 +36,9 @@ import com.cook_and_share.presentation.ui.components.SearchTopBar
 fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel()
 ) {
-    val searchQuery = remember { mutableStateOf("") }
+
+    val searchResults by viewModel.getSearchProfileResult().collectAsState(emptyList())
+
     val tabIndex = remember { mutableIntStateOf(0) }
     val tabs = listOf(stringResource(id = R.string.recipes), stringResource(id = R.string.people))
 
@@ -44,7 +50,8 @@ fun SearchScreen(
         isSheetExpanded = isSheetExpanded
     )
     SearchScreenContent(
-        searchQuery = searchQuery,
+        searchResults = searchResults,
+        searchQuery = viewModel.searchQuery,
         tabIndex = tabIndex,
         tabs = tabs,
         isSheetExpanded = isSheetExpanded
@@ -53,6 +60,7 @@ fun SearchScreen(
 
 @Composable
 private fun SearchScreenContent(
+    searchResults: List<Profile>,
     searchQuery: MutableState<String>,
     tabIndex: MutableState<Int>,
     tabs: List<String>,
@@ -74,13 +82,17 @@ private fun SearchScreenContent(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
         ) {
-            NestedScrolling(isSheetExpanded, tabIndex)
+            NestedScrolling(searchResults, isSheetExpanded, tabIndex)
         }
     }
 }
 
 @Composable
-private fun NestedScrolling(isSheetExpanded: MutableState<Boolean>, tabIndex: MutableState<Int>) {
+private fun NestedScrolling(
+    searchResults: List<Profile>,
+    isSheetExpanded: MutableState<Boolean>,
+    tabIndex: MutableState<Int>
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -90,7 +102,10 @@ private fun NestedScrolling(isSheetExpanded: MutableState<Boolean>, tabIndex: Mu
         }
         when (tabIndex.value) {
             0 -> recipeSearch(isSheetExpanded, Modifier.padding(horizontal = 16.dp))
-            1 -> peopleSearch(Modifier.padding(horizontal = 16.dp))
+            1 -> peopleSearch(
+                searchResults,
+                Modifier.padding(horizontal = 16.dp)
+            )
         }
     }
 }
@@ -113,14 +128,18 @@ private fun LazyListScope.recipeSearch(
     }
 }
 
-private fun LazyListScope.peopleSearch(modifier: Modifier = Modifier) {
-    items(30) {
+private fun LazyListScope.peopleSearch(
+    searchResults: List<Profile>,
+    modifier: Modifier = Modifier
+) {
+
+    items(searchResults){ profile ->
         SearchItem(
             onClick = {
             },
             image = R.drawable.profile_default,
-            title = "User $it",
-            text = "Name Surname",
+            title = profile.username,
+            text = profile.email,
             modifier = modifier,
         )
         Spacer(modifier = Modifier.height(16.dp))

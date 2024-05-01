@@ -1,9 +1,11 @@
 package com.cook_and_share.data.repository
 
+import com.cook_and_share.domain.model.Profile
 import com.cook_and_share.domain.model.Recipe
 import com.cook_and_share.domain.repository.AuthRepository
 import com.cook_and_share.domain.repository.StorageRepository
 import com.cook_and_share.presentation.util.Constants.COLLECTION_NAME_RECIPES
+import com.cook_and_share.presentation.util.Constants.COLLECTION_NAME_USERS
 import com.cook_and_share.presentation.util.Constants.CREATED_AT_FIELD
 import com.cook_and_share.presentation.util.Constants.IS_DAILY_FIELD
 import com.cook_and_share.presentation.util.Constants.SAVE_RECIPE_TRACE
@@ -56,9 +58,24 @@ class StorageRepositoryImpl @Inject constructor(
                 .dataObjects()
         }
 
-    override suspend fun searchRecipes(): Flow<List<Recipe>> =
-        firestore.collection(COLLECTION_NAME_RECIPES).dataObjects()
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override suspend fun searchProfiles(query: String, fieldName: String): Flow<List<Profile>> {
+        return auth.currentUser.flatMapLatest {
+            firestore
+                .collection(COLLECTION_NAME_USERS)
+                .whereEqualTo(fieldName, query)
+                .dataObjects()
+        }
+    }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override fun searchRecipes(search: String): Flow<List<Recipe>> {
+        return auth.currentUser.flatMapLatest {
+            firestore
+                .collection(COLLECTION_NAME_RECIPES)
+                .dataObjects()
+        }
+    }
 
     override suspend fun getRecipe(recipeId: String): Recipe? =
         firestore.collection(COLLECTION_NAME_RECIPES).document(recipeId).get().await().toObject()

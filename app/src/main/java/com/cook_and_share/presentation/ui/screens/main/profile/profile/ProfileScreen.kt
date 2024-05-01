@@ -1,6 +1,8 @@
 package com.cook_and_share.presentation.ui.screens.main.profile.profile
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,16 +11,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -28,11 +30,15 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cook_and_share.R
@@ -53,6 +59,7 @@ fun ProfileScreen(
 ) {
     val profile = viewModel.profile
     val recipes = viewModel.recipes.collectAsState(emptyList())
+
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     val sheetState = rememberModalBottomSheetState()
@@ -68,7 +75,7 @@ fun ProfileScreen(
         sheetState = sheetState,
         isSheetExpanded = isSettingsSheetExpanded,
         onSettingsClick = {
-            isRecipeSheetExpanded.value = false
+            isSettingsSheetExpanded.value = false
             viewModel.onSettingsClick(navigate)
         },
         onLikedClick = {
@@ -121,11 +128,10 @@ private fun ProfileScreenContent(
             modifier = Modifier
                 .padding(values)
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
+                .background(colorScheme.background)
         ) {
             NestedScrolling(
-                name = profile.username,
-                email = profile.email,
+                profile = profile,
                 isRecipeLiked = isRecipeLiked,
                 isRecipeSheetExpanded = isRecipeSheetExpanded,
                 recipes = recipes,
@@ -137,8 +143,7 @@ private fun ProfileScreenContent(
 
 @Composable
 private fun NestedScrolling(
-    name: String,
-    email: String,
+    profile: Profile,
     isRecipeLiked: (Recipe) -> Flow<Boolean>,
     isRecipeSheetExpanded: MutableState<Boolean>,
     recipes: List<Recipe>,
@@ -156,8 +161,7 @@ private fun NestedScrolling(
                     .height(220.dp)
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                name = name,
-                email = email
+                profile = profile,
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -165,7 +169,7 @@ private fun NestedScrolling(
             Text(
                 modifier = Modifier.padding(start = 16.dp),
                 text = stringResource(id = R.string.your_recipes),
-                style = MaterialTheme.typography.headlineSmall
+                style = typography.headlineSmall
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -198,7 +202,7 @@ private fun LazyListScope.subColumn(
                 isSheetExpanded.value = true
             },
             modifier = modifier,
-            isPreview = false
+            isPreview = true
         )
         Spacer(modifier = Modifier.height(16.dp))
     }
@@ -207,36 +211,98 @@ private fun LazyListScope.subColumn(
 @Composable
 private fun ProfileContent(
     modifier: Modifier,
-    name: String,
-    email: String
+    profile: Profile
 ) {
-    ElevatedCard(
-        modifier = modifier,
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.secondary,
-            contentColor = MaterialTheme.colorScheme.onSecondary
-        ),
-        elevation = CardDefaults.cardElevation(1.dp)
+    Box(
+        modifier = modifier
+            .shadow(1.dp, RoundedCornerShape(16.dp), clip = true)
+            .clip(RoundedCornerShape(16.dp))
+            .clickable {
+                //TODO: Implement profile image click
+            }
+            .background(colorScheme.secondary),
     ) {
+        Image(
+            modifier = Modifier
+                .padding(16.dp)
+                .size(120.dp)
+                .clip(RoundedCornerShape(8.dp)),
+            painter = painterResource(id = R.drawable.profile_default),
+            contentDescription = "profile image",
+        )
         Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier.padding(top = 16.dp, start = 156.dp),
         ) {
             Text(
-                text = name,
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .padding(top = 16.dp)
-            )
-            Text(
-                text = email,
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .padding(top = 8.dp)
+                buildAnnotatedString {
+                    withStyle(
+                        SpanStyle(
+                            fontStyle = typography.titleMedium.fontStyle,
+                            color = colorScheme.tertiary,
+                            fontWeight = typography.titleMedium.fontWeight
+                        )
+                    ) {
+                        append(stringResource(id = R.string.username) + ": ")
+                    }
+                    append(profile.username + "\n")
+                    withStyle(
+                        SpanStyle(
+                            fontStyle = typography.titleMedium.fontStyle,
+                            color = colorScheme.tertiary,
+                            fontWeight = typography.titleMedium.fontWeight
+                        )
+                    ) {
+                        append(stringResource(id = R.string.email) + ": ")
+                    }
+                    append(profile.email + "\n")
+                    withStyle(
+                        SpanStyle(
+                            fontStyle = typography.titleMedium.fontStyle,
+                            color = colorScheme.tertiary,
+                            fontWeight = typography.titleMedium.fontWeight
+                        )
+                    ) {
+                        append(stringResource(id = R.string.followers) + ": ")
+                    }
+                    append(profile.followers.toString() + "\n")
+                    withStyle(
+                        SpanStyle(
+                            fontStyle = typography.titleMedium.fontStyle,
+                            color = colorScheme.tertiary,
+                            fontWeight = typography.titleMedium.fontWeight
+                        )
+                    ) {
+                        append(stringResource(id = R.string.following) + ": ")
+                    }
+                    append(profile.following.toString() + "\n")
+                    withStyle(
+                        SpanStyle(
+                            fontStyle = typography.titleMedium.fontStyle,
+                            color = colorScheme.tertiary,
+                            fontWeight = typography.titleMedium.fontWeight
+                        )
+                    ) {
+                        append(stringResource(id = R.string.recipes) + ": ")
+                    }
+                    append(profile.recipes.toString() + "\n")
+                }
             )
         }
+        Text(
+            modifier = Modifier
+                .padding(top = 142.dp, start = 16.dp),
+            text = buildAnnotatedString {
+                withStyle(
+                    SpanStyle(
+                        fontStyle = typography.titleMedium.fontStyle,
+                        color = colorScheme.tertiary,
+                        fontWeight = typography.titleMedium.fontWeight
+                    )
+                ) {
+                    append(stringResource(id = R.string.bio) + ": ")
+                }
+                append(profile.bio)
+            },
+        )
     }
 }
