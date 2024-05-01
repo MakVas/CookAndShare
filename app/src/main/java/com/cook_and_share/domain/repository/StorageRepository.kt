@@ -9,9 +9,9 @@ interface StorageRepository {
     val dailyRecipes: Flow<List<Recipe>>
     val myRecipes: Flow<List<Recipe>>
     suspend fun searchProfiles(query: String, fieldName: String): Flow<List<Profile>>
-    fun searchRecipes(search: String): Flow<List<Recipe>>
+    suspend fun searchRecipes(query: String, fieldName: String): Flow<List<Recipe>>
     suspend fun getRecipe(recipeId: String): Recipe?
-    suspend fun save(recipe: Recipe): String
+    suspend fun save(recipe: Recipe)
     suspend fun update(recipe: Recipe)
     suspend fun delete(recipeId: String)
 }

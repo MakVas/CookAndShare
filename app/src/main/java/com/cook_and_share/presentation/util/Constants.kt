@@ -7,17 +7,13 @@ object Constants {
 
     // Query fields
     const val USERNAME_FIELD = "username"
-    const val CREATED_AT_FIELD = "createdAt"
+    const val RECIPE_NAME_FIELD = "title"
     const val IS_DAILY_FIELD = "daily"
     const val USER_ID_FIELD = "userID"
     const val RECIPE_ID = "recipeID"
     const val PROFILE_ID = "profileID"
 
     // Trace names
-    const val SAVE_RECIPE_TRACE = "saveRecipe"
-    const val UPDATE_RECIPE_TRACE = "updateRecipe"
     const val CREATE_ACCOUNT_TRACE = "createAccount"
-    const val SAVE_PROFILE_TRACE = "saveProfile"
-    const val UPDATE_PROFILE_TRACE = "updateProfile"
 
 }

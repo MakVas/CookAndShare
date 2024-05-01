@@ -69,12 +69,12 @@ dependencies {
 
     //Firebase
     implementation("com.google.firebase:firebase-auth-ktx")
-    implementation ("com.google.firebase:firebase-firestore-ktx")
     implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
     implementation ("com.google.firebase:firebase-crashlytics-ktx")
     implementation ("com.google.firebase:firebase-perf-ktx")
     implementation ("com.google.firebase:firebase-config-ktx")
     implementation ("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-database")
 
     //IDK
     implementation("androidx.compose.material:material-icons-extended")

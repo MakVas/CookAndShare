@@ -5,12 +5,10 @@ import com.cook_and_share.domain.model.User
 import com.cook_and_share.domain.repository.AuthRepository
 import com.cook_and_share.presentation.util.Constants.COLLECTION_NAME_USERS
 import com.cook_and_share.presentation.util.Constants.CREATE_ACCOUNT_TRACE
-import com.cook_and_share.presentation.util.Constants.SAVE_PROFILE_TRACE
-import com.cook_and_share.presentation.util.Constants.UPDATE_PROFILE_TRACE
 import com.cook_and_share.presentation.util.trace
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.toObject
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.getValue
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -18,7 +16,7 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
-    private val firestore: FirebaseFirestore,
+    private val database: FirebaseDatabase,
     private val auth: FirebaseAuth
 ) : AuthRepository {
     override val currentUserId: String
@@ -57,18 +55,19 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getProfile(profileID: String): Profile? =
-        firestore.collection(COLLECTION_NAME_USERS).document(profileID).get().await().toObject()
+        database.reference.child(COLLECTION_NAME_USERS).child(profileID).get().await()
+            .getValue<Profile>()
 
-    override suspend fun saveProfile(profile: Profile): Unit =
-        trace(SAVE_PROFILE_TRACE) {
-            val updatedProfile = profile.copy(userID = currentUserId)
-            firestore.collection(COLLECTION_NAME_USERS).document(currentUserId).set(updatedProfile).await()
-        }
+    override suspend fun saveProfile(profile: Profile) {
+        val updatedProfile = profile.copy(userID = currentUserId)
+        database.reference.child(COLLECTION_NAME_USERS).child(currentUserId)
+            .setValue(updatedProfile).await()
+    }
 
-    override suspend fun updateProfile(profile: Profile): Unit =
-        trace(UPDATE_PROFILE_TRACE) {
-            firestore.collection(COLLECTION_NAME_USERS).document(profile.userID).set(profile).await()
-        }
+    override suspend fun updateProfile(profile: Profile) {
+        database.reference.child(COLLECTION_NAME_USERS).child(profile.userID).setValue(profile)
+            .await()
+    }
 
     override suspend fun deleteAccount() {
         auth.currentUser!!.delete().await()

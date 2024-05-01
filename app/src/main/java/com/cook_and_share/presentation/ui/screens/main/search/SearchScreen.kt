@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cook_and_share.R
 import com.cook_and_share.domain.model.Profile
+import com.cook_and_share.domain.model.Recipe
 import com.cook_and_share.presentation.ui.components.RecipeBottomSheet
 import com.cook_and_share.presentation.ui.components.SearchItem
 import com.cook_and_share.presentation.ui.components.SearchTopBar
@@ -37,7 +38,8 @@ fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel()
 ) {
 
-    val searchResults by viewModel.getSearchProfileResult().collectAsState(emptyList())
+    val searchProfileResults by viewModel.getSearchProfileResult().collectAsState(emptyList())
+    val searchRecipeResults by viewModel.getSearchRecipeResult().collectAsState(emptyList())
 
     val tabIndex = remember { mutableIntStateOf(0) }
     val tabs = listOf(stringResource(id = R.string.recipes), stringResource(id = R.string.people))
@@ -50,7 +52,8 @@ fun SearchScreen(
         isSheetExpanded = isSheetExpanded
     )
     SearchScreenContent(
-        searchResults = searchResults,
+        searchProfileResults = searchProfileResults,
+        searchRecipeResults = searchRecipeResults,
         searchQuery = viewModel.searchQuery,
         tabIndex = tabIndex,
         tabs = tabs,
@@ -60,7 +63,8 @@ fun SearchScreen(
 
 @Composable
 private fun SearchScreenContent(
-    searchResults: List<Profile>,
+    searchProfileResults: List<Profile>,
+    searchRecipeResults: List<Recipe>,
     searchQuery: MutableState<String>,
     tabIndex: MutableState<Int>,
     tabs: List<String>,
@@ -82,14 +86,20 @@ private fun SearchScreenContent(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
         ) {
-            NestedScrolling(searchResults, isSheetExpanded, tabIndex)
+            NestedScrolling(
+                searchProfileResults = searchProfileResults,
+                searchRecipeResults = searchRecipeResults,
+                isSheetExpanded = isSheetExpanded,
+                tabIndex = tabIndex
+            )
         }
     }
 }
 
 @Composable
 private fun NestedScrolling(
-    searchResults: List<Profile>,
+    searchProfileResults: List<Profile>,
+    searchRecipeResults: List<Recipe>,
     isSheetExpanded: MutableState<Boolean>,
     tabIndex: MutableState<Int>
 ) {
@@ -101,27 +111,31 @@ private fun NestedScrolling(
             Spacer(modifier = Modifier.height(16.dp))
         }
         when (tabIndex.value) {
-            0 -> recipeSearch(isSheetExpanded, Modifier.padding(horizontal = 16.dp))
+            0 -> recipeSearch(
+                searchRecipeResults = searchRecipeResults,
+                isSheetExpanded = isSheetExpanded,
+                modifier = Modifier.padding(horizontal = 16.dp))
             1 -> peopleSearch(
-                searchResults,
-                Modifier.padding(horizontal = 16.dp)
+                searchProfileResults = searchProfileResults,
+                modifier = Modifier.padding(horizontal = 16.dp)
             )
         }
     }
 }
 
 private fun LazyListScope.recipeSearch(
+    searchRecipeResults: List<Recipe>,
     isSheetExpanded: MutableState<Boolean>,
     modifier: Modifier = Modifier
 ) {
-    items(30) {
+    items(searchRecipeResults) {recipeItem ->
         SearchItem(
             onClick = {
                 isSheetExpanded.value = true
             },
-            image = if (it % 2 == 0) R.drawable.image1 else R.drawable.image2,
-            title = "Recipe $it",
-            text = "username",
+            image = R.drawable.image1,
+            title = recipeItem.title,
+            text = recipeItem.author,
             modifier = modifier
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -129,11 +143,11 @@ private fun LazyListScope.recipeSearch(
 }
 
 private fun LazyListScope.peopleSearch(
-    searchResults: List<Profile>,
+    searchProfileResults: List<Profile>,
     modifier: Modifier = Modifier
 ) {
 
-    items(searchResults){ profile ->
+    items(searchProfileResults){ profile ->
         SearchItem(
             onClick = {
             },
