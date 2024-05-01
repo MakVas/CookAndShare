@@ -2,7 +2,9 @@ package com.cook_and_share.presentation.ui.screens.main.add_recipe
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
+import com.cook_and_share.domain.model.Profile
 import com.cook_and_share.domain.model.Recipe
+import com.cook_and_share.domain.repository.AuthRepository
 import com.cook_and_share.domain.repository.LogRepository
 import com.cook_and_share.domain.repository.StorageRepository
 import com.cook_and_share.presentation.ui.screens.CookAndShareViewModel
@@ -16,9 +18,11 @@ import javax.inject.Inject
 class AddRecipeViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     logRepository: LogRepository,
+    private val authRepository: AuthRepository,
     private val storageRepository: StorageRepository,
 ) : CookAndShareViewModel(logRepository) {
 
+    val profile = mutableStateOf(Profile())
     val recipe = mutableStateOf(Recipe())
 
     init {
@@ -27,6 +31,11 @@ class AddRecipeViewModel @Inject constructor(
             launchCatching {
                 recipe.value = storageRepository.getRecipe(recipeId.idFromParameter()) ?: Recipe()
             }
+        }
+    }
+    init {
+        launchCatching {
+            profile.value = authRepository.getProfile(authRepository.currentUserId) ?: Profile()
         }
     }
 
@@ -49,9 +58,9 @@ class AddRecipeViewModel @Inject constructor(
     fun onRecipeChange(newValue: String) {
         recipe.value = recipe.value.copy(recipe = newValue)
     }
-
     fun onPublishClick(popUpScreen: () -> Unit) {
         launchCatching {
+            recipe.value = recipe.value.copy(author = profile.value.username)
             val editedTask = recipe.value
             storageRepository.save(editedTask)
             popUpScreen()

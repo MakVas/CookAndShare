@@ -39,6 +39,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale.Companion.Crop
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.cook_and_share.R
 import com.cook_and_share.domain.model.Recipe
@@ -93,9 +94,9 @@ fun RecipeItem(
                         modifier = Modifier.padding(top = 6.dp),
                         style = Typography.titleSmall
                     )
-
                     Text(
-                        text = recipe.author,
+                        text = if (!isPreview) recipe.author
+                        else stringResource(id = R.string.username),
                         style = Typography.labelMedium,
                     )
                 }
@@ -153,10 +154,10 @@ private fun LikeButton(
     ) {
         Box(
             modifier = Modifier
-                .clickable (
+                .clickable(
                     interactionSource = interactionSource,
                     indication = null
-                ){
+                ) {
                     onRecipeLikeClick()
                 },
         ) {
