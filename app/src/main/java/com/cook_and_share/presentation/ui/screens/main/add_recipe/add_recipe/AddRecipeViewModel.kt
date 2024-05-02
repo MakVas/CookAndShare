@@ -1,4 +1,4 @@
-package com.cook_and_share.presentation.ui.screens.main.add_recipe
+package com.cook_and_share.presentation.ui.screens.main.add_recipe.add_recipe
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle

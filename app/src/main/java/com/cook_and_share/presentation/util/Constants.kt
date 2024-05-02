@@ -4,6 +4,7 @@ object Constants {
     // Collection names
     const val COLLECTION_NAME_USERS = "users"
     const val COLLECTION_NAME_RECIPES = "recipes"
+    const val COLLECTION_NAME_CATEGORIES = "categories"
 
     // Query fields
     const val USERNAME_FIELD = "username"

@@ -46,7 +46,6 @@ import com.cook_and_share.presentation.ui.components.RecipeItem
 import com.cook_and_share.presentation.ui.components.RecipeTextField
 import com.cook_and_share.presentation.ui.components.SecondaryButton
 import com.cook_and_share.presentation.ui.components.TopBar
-import com.cook_and_share.presentation.ui.screens.main.add_recipe.AddRecipeViewModel
 
 @Composable
 fun AddRecipeScreen(

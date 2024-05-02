@@ -21,13 +21,14 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.cook_and_share.R
 import com.cook_and_share.presentation.ui.components.CategoryItem
 import com.cook_and_share.presentation.ui.components.CustomTextField
@@ -38,22 +39,24 @@ import com.cook_and_share.presentation.ui.components.TopBar
 @Composable
 fun CategoriesScreen(
     popUp: () -> Unit,
+    viewModel: CategoriesViewModel = hiltViewModel()
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
-    val onValueChange = remember { mutableStateOf("") }
+    val categories by viewModel.getSearchCategoriesResult().collectAsState(emptyList())
 
     CategoriesScreenContent(
+        categories = categories,
         popUp = popUp,
         scrollBehavior = scrollBehavior,
-        onValueChange = onValueChange
-
+        onValueChange = viewModel.searchQuery
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CategoriesScreenContent(
+    categories: List<String>,
     popUp: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
     onValueChange: MutableState<String>
@@ -76,13 +79,19 @@ private fun CategoriesScreenContent(
                 .fillMaxSize()
                 .background(colorScheme.background)
         ) {
-            NestedScrolling(onValueChange)
+            NestedScrolling(
+                categories = categories,
+                onValueChange = onValueChange
+            )
         }
     }
 }
 
 @Composable
-private fun NestedScrolling(onValueChange: MutableState<String>) {
+private fun NestedScrolling(
+    categories: List<String>,
+    onValueChange: MutableState<String>
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -102,15 +111,18 @@ private fun NestedScrolling(onValueChange: MutableState<String>) {
 
         }
         item {
-            Categories()
+            Categories(
+                categories = categories
+            )
         }
     }
 }
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun Categories() {
-
+private fun Categories(
+    categories: List<String>
+) {
     Text(
         text = stringResource(id = R.string.popular_categories),
         style = MaterialTheme.typography.headlineSmall,
@@ -128,9 +140,9 @@ private fun Categories() {
             .fillMaxWidth()
             .padding(start = 16.dp, end = 8.dp)
     ) {
-        repeat(50) {
+        repeat(categories.size) {
             CategoryItem(
-                category = "Category$it",
+                category = categories[it],
                 onClick = {
                     //TODO: Implement onClick
                 }

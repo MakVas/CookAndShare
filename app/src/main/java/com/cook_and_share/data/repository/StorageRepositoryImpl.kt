@@ -4,6 +4,7 @@ import com.cook_and_share.domain.model.Profile
 import com.cook_and_share.domain.model.Recipe
 import com.cook_and_share.domain.repository.AuthRepository
 import com.cook_and_share.domain.repository.StorageRepository
+import com.cook_and_share.presentation.util.Constants.COLLECTION_NAME_CATEGORIES
 import com.cook_and_share.presentation.util.Constants.COLLECTION_NAME_RECIPES
 import com.cook_and_share.presentation.util.Constants.COLLECTION_NAME_USERS
 import com.cook_and_share.presentation.util.Constants.IS_DAILY_FIELD
@@ -103,6 +104,28 @@ class StorageRepositoryImpl @Inject constructor(
                 database.reference.child(COLLECTION_NAME_RECIPES).removeEventListener(listener)
             }
         }
+    override suspend fun searchCategories(query: String): Flow<List<String>> {
+        return callbackFlow {
+            val listener = database.reference.child(COLLECTION_NAME_CATEGORIES)
+                .orderByValue()
+                .startAt(query)
+                .endAt(query + "\uf8ff")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val categories = snapshot.children.mapNotNull { it.getValue<String>() }
+                        trySend(categories)
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        close(error.toException())
+                    }
+                })
+
+            awaitClose {
+                database.reference.child(COLLECTION_NAME_CATEGORIES).removeEventListener(listener)
+            }
+        }
+    }
 
     override suspend fun searchProfiles(query: String, fieldName: String): Flow<List<Profile>> {
         return callbackFlow {
