@@ -16,7 +16,7 @@ class CategoriesViewModel @Inject constructor(
 ) : CookAndShareViewModel(logRepository) {
 
     val searchQuery = mutableStateOf("")
-
+    val selectedCategories = mutableStateOf(listOf<String>())
     fun getSearchCategoriesResult(): Flow<List<String>> {
         var resultFlow: Flow<List<String>> = flowOf(emptyList())
         launchCatching {
@@ -25,5 +25,13 @@ class CategoriesViewModel @Inject constructor(
             )
         }
         return resultFlow
+    }
+
+    fun onCategoryClick(category: String) {
+        if (selectedCategories.value.contains(category)) {
+            selectedCategories.value -= category
+        } else {
+            selectedCategories.value += category
+        }
     }
 }

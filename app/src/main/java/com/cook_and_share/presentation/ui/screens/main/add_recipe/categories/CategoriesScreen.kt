@@ -44,18 +44,23 @@ fun CategoriesScreen(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     val categories by viewModel.getSearchCategoriesResult().collectAsState(emptyList())
+    val selectedCategories = viewModel.selectedCategories.value
 
     CategoriesScreenContent(
         categories = categories,
         popUp = popUp,
         scrollBehavior = scrollBehavior,
-        onValueChange = viewModel.searchQuery
+        onValueChange = viewModel.searchQuery,
+        selectedCategories = selectedCategories,
+        onCategoryClick = viewModel::onCategoryClick
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CategoriesScreenContent(
+    selectedCategories: List<String>,
+    onCategoryClick: (String) -> Unit,
     categories: List<String>,
     popUp: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
@@ -80,6 +85,8 @@ private fun CategoriesScreenContent(
                 .background(colorScheme.background)
         ) {
             NestedScrolling(
+                selectedCategories = selectedCategories,
+                onCategoryClick = onCategoryClick,
                 categories = categories,
                 onValueChange = onValueChange
             )
@@ -89,6 +96,8 @@ private fun CategoriesScreenContent(
 
 @Composable
 private fun NestedScrolling(
+    selectedCategories: List<String>,
+    onCategoryClick: (String) -> Unit,
     categories: List<String>,
     onValueChange: MutableState<String>
 ) {
@@ -112,6 +121,8 @@ private fun NestedScrolling(
         }
         item {
             Categories(
+                selectedCategories = selectedCategories,
+                onCategoryClick = onCategoryClick,
                 categories = categories
             )
         }
@@ -121,6 +132,8 @@ private fun NestedScrolling(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun Categories(
+    selectedCategories: List<String>,
+    onCategoryClick: (String) -> Unit,
     categories: List<String>
 ) {
     Text(
@@ -142,9 +155,10 @@ private fun Categories(
     ) {
         repeat(categories.size) {
             CategoryItem(
+                isClicked = selectedCategories.contains(categories[it]),
                 category = categories[it],
                 onClick = {
-                    //TODO: Implement onClick
+                    onCategoryClick(categories[it])
                 }
             )
         }
