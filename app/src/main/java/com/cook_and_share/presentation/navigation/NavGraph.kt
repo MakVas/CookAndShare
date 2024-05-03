@@ -16,7 +16,9 @@ import com.cook_and_share.presentation.ui.screens.splash.SplashScreen
 import com.cook_and_share.presentation.util.ProfileRoutes
 
 fun NavGraphBuilder.cookAndShareNavGraph(
-    rootNavController: NavHostController
+    rootNavController: NavHostController,
+    isDarkTheme: Boolean,
+    toggleTheme: () -> Unit
 ) {
     customComposable(NavGraphs.Login.route) {
         LoginNavHost(rootNavController)
@@ -51,6 +53,8 @@ fun NavGraphBuilder.cookAndShareNavGraph(
 
     customComposable(ProfileRoutes.Settings.route) {
         SettingsScreen (
+            isDarkTheme = isDarkTheme,
+            toggleTheme = toggleTheme,
             popUp = { popUp(rootNavController) },
             restartApp = { route -> clearAndNavigate(rootNavController, route) }
         )

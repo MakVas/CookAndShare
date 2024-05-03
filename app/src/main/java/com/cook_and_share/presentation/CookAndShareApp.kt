@@ -25,8 +25,11 @@ import kotlinx.coroutines.CoroutineScope
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun CookAndShareApp() {
-    CookAndShareTheme {
+fun CookAndShareApp(
+    darkTheme: Boolean,
+    toggleTheme: () -> Unit
+) {
+    CookAndShareTheme (darkTheme = darkTheme){
         Surface(color = MaterialTheme.colorScheme.background) {
             val appState = rememberAppState()
 
@@ -45,7 +48,11 @@ fun CookAndShareApp() {
                     )
                 }
             ) {
-                CookAndShareNavHost(appState)
+                CookAndShareNavHost(
+                    appState = appState,
+                    isDarkTheme = darkTheme,
+                    toggleTheme = toggleTheme
+                )
             }
         }
     }

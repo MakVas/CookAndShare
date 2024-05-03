@@ -6,13 +6,19 @@ import com.cook_and_share.presentation.CookAndShareState
 
 @Composable
 fun CookAndShareNavHost(
-    appState: CookAndShareState
+    appState: CookAndShareState,
+    isDarkTheme: Boolean,
+    toggleTheme: () -> Unit
 ) {
     val rootNavController = appState.navController
     NavHost(
         navController = rootNavController,
         startDestination = NavGraphs.SplashScreen.route
     ) {
-        cookAndShareNavGraph(rootNavController)
+        cookAndShareNavGraph(
+            rootNavController = rootNavController,
+            isDarkTheme = isDarkTheme,
+            toggleTheme = toggleTheme
+        )
     }
 }

@@ -2,11 +2,12 @@ package com.cook_and_share.presentation.ui.screens.main.profile.info
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -16,9 +17,10 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.cook_and_share.R
+import com.cook_and_share.presentation.ui.components.TertiaryButton
 import com.cook_and_share.presentation.ui.components.TopAppBarBackIcon
 import com.cook_and_share.presentation.ui.components.TopBar
 
@@ -26,7 +28,7 @@ import com.cook_and_share.presentation.ui.components.TopBar
 @Composable
 fun InfoScreen(popUp: () -> Unit) {
 
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     InfoScreenContent(
         popUp = popUp,
@@ -65,19 +67,25 @@ private fun InfoScreenContent(
 
 @Composable
 private fun NestedScrolling() {
-    Column(
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp)
     ) {
+        item {
+            Spacer(modifier = Modifier.padding(top = 16.dp))
 
-        Spacer(modifier = Modifier.padding(top = 16.dp))
+            Text(
+                text = stringResource(id = R.string.programm_info)
+            )
 
-        Text(
-            text = "Another text",
-            style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center,
-        )
+            Spacer(modifier = Modifier.padding(top = 16.dp))
+
+            TertiaryButton(
+                modifier = Modifier,
+                label = R.string.version,
+                icon = Icons.Outlined.Info
+            )
+        }
     }
 }

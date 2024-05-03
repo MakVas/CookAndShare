@@ -11,6 +11,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,7 +27,7 @@ fun PrimaryButton(
     label: Int,
     icon: ImageVector,
     onClick: () -> Unit
-){
+) {
     ElevatedButton(
         onClick = onClick,
         shape = RoundedCornerShape(16.dp),
@@ -54,7 +56,7 @@ fun SecondaryButton(
     modifier: Modifier,
     label: Int,
     onClick: () -> Unit
-){
+) {
     ElevatedButton(
         onClick = onClick,
         shape = ButtonDefaults.elevatedShape,
@@ -81,7 +83,7 @@ fun TertiaryButton(
     label: Int,
     icon: ImageVector,
     isArrow: Boolean = false
-){
+) {
     Box(
         modifier = modifier
     ) {
@@ -105,5 +107,45 @@ fun TertiaryButton(
                 contentDescription = "arrow"
             )
         }
+    }
+}
+
+@Composable
+fun SwitcherButton(
+    modifier: Modifier,
+    label: Int,
+    icon: ImageVector,
+    isActive: Boolean,
+    onSwitchToggle: () -> Unit
+) {
+    Box(
+        modifier = modifier
+    ) {
+        Icon(
+            modifier = Modifier
+                .align(Alignment.CenterStart),
+            imageVector = icon,
+            contentDescription = "icon"
+        )
+        Text(
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+                .padding(start = 40.dp),
+            text = stringResource(id = label),
+            style = MaterialTheme.typography.bodyLarge
+        )
+        Switch(
+            modifier = Modifier.align(Alignment.CenterEnd),
+            colors = SwitchDefaults.colors(
+                checkedBorderColor = MaterialTheme.colorScheme.tertiary,
+                checkedTrackColor = MaterialTheme.colorScheme.secondary,
+                checkedThumbColor = MaterialTheme.colorScheme.tertiary,
+                uncheckedThumbColor = MaterialTheme.colorScheme.tertiary,
+                uncheckedTrackColor = MaterialTheme.colorScheme.secondary,
+                uncheckedBorderColor = MaterialTheme.colorScheme.tertiary,
+            ),
+            checked = isActive,
+            onCheckedChange = { onSwitchToggle() }
+        )
     }
 }
