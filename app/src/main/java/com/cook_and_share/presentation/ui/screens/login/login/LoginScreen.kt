@@ -84,7 +84,7 @@ private fun LoginScreenContent(
             label = stringResource(id = R.string.password)
         )
 
-        Spacer(modifier = Modifier.padding(vertical = 8.dp))
+        Spacer(modifier = Modifier.padding(vertical = 6.dp))
 
         Text(
             text = stringResource(id = R.string.forgot_password),
@@ -97,7 +97,7 @@ private fun LoginScreenContent(
                 }
         )
 
-        Spacer(modifier = Modifier.padding(vertical = 8.dp))
+        Spacer(modifier = Modifier.padding(vertical = 6.dp))
 
         SecondaryButton(
             modifier = Modifier
@@ -117,16 +117,15 @@ private fun LoginScreenContent(
 @Composable
 private fun GetStartedText(onClick: () -> Unit) {
     Row(
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-
+      verticalAlignment = Alignment.CenterVertically
+    ){
         Text(
             text = stringResource(id = R.string.dont_have_account),
             color = MaterialTheme.colorScheme.onPrimary,
         )
 
         Text(
+            textAlign = TextAlign.Center,
             text = stringResource(id = R.string.sign_up),
             color = MaterialTheme.colorScheme.onPrimary,
             style = Typography.titleMedium,

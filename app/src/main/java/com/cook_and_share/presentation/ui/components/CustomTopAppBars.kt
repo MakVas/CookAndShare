@@ -46,6 +46,7 @@ fun TopBar(
         modifier = Modifier.shadow(elevation = 3.dp),
         scrollBehavior = scrollBehavior,
         colors = TopAppBarDefaults.topAppBarColors(
+            scrolledContainerColor = colorScheme.primary,
             titleContentColor = colorScheme.onPrimary
         ),
         title = {
@@ -80,7 +81,7 @@ fun SearchTopBar(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
+                    .padding(start = 16.dp, end = 16.dp, top = 8.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {

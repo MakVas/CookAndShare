@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -229,64 +228,62 @@ private fun ProfileContent(
             painter = painterResource(id = R.drawable.profile_default),
             contentDescription = "profile image",
         )
-        Column(
-            modifier = Modifier.padding(top = 16.dp, start = 156.dp),
-        ) {
-            Text(
-                buildAnnotatedString {
-                    withStyle(
-                        SpanStyle(
-                            fontStyle = typography.titleMedium.fontStyle,
-                            color = colorScheme.tertiary,
-                            fontWeight = typography.titleMedium.fontWeight
-                        )
-                    ) {
-                        append(stringResource(id = R.string.username) + ": ")
-                    }
-                    append(profile.username + "\n")
-                    withStyle(
-                        SpanStyle(
-                            fontStyle = typography.titleMedium.fontStyle,
-                            color = colorScheme.tertiary,
-                            fontWeight = typography.titleMedium.fontWeight
-                        )
-                    ) {
-                        append(stringResource(id = R.string.email) + ": ")
-                    }
-                    append(profile.email + "\n")
-                    withStyle(
-                        SpanStyle(
-                            fontStyle = typography.titleMedium.fontStyle,
-                            color = colorScheme.tertiary,
-                            fontWeight = typography.titleMedium.fontWeight
-                        )
-                    ) {
-                        append(stringResource(id = R.string.followers) + ": ")
-                    }
-                    append(profile.followers.toString() + "\n")
-                    withStyle(
-                        SpanStyle(
-                            fontStyle = typography.titleMedium.fontStyle,
-                            color = colorScheme.tertiary,
-                            fontWeight = typography.titleMedium.fontWeight
-                        )
-                    ) {
-                        append(stringResource(id = R.string.following) + ": ")
-                    }
-                    append(profile.following.toString() + "\n")
-                    withStyle(
-                        SpanStyle(
-                            fontStyle = typography.titleMedium.fontStyle,
-                            color = colorScheme.tertiary,
-                            fontWeight = typography.titleMedium.fontWeight
-                        )
-                    ) {
-                        append(stringResource(id = R.string.recipes) + ": ")
-                    }
-                    append(profile.recipes.toString() + "\n")
+        Text(
+            buildAnnotatedString {
+                withStyle(
+                    SpanStyle(
+                        fontStyle = typography.titleMedium.fontStyle,
+                        color = colorScheme.tertiary,
+                        fontWeight = typography.titleMedium.fontWeight
+                    )
+                ) {
+                    append(stringResource(id = R.string.username) + ": ")
                 }
-            )
-        }
+                append(profile.username + "\n")
+                withStyle(
+                    SpanStyle(
+                        fontStyle = typography.titleMedium.fontStyle,
+                        color = colorScheme.tertiary,
+                        fontWeight = typography.titleMedium.fontWeight
+                    )
+                ) {
+                    append(stringResource(id = R.string.email) + ": ")
+                }
+                append(profile.email + "\n")
+                withStyle(
+                    SpanStyle(
+                        fontStyle = typography.titleMedium.fontStyle,
+                        color = colorScheme.tertiary,
+                        fontWeight = typography.titleMedium.fontWeight
+                    )
+                ) {
+                    append(stringResource(id = R.string.followers) + ": ")
+                }
+                append(profile.followers.toString() + "\n")
+                withStyle(
+                    SpanStyle(
+                        fontStyle = typography.titleMedium.fontStyle,
+                        color = colorScheme.tertiary,
+                        fontWeight = typography.titleMedium.fontWeight
+                    )
+                ) {
+                    append(stringResource(id = R.string.following) + ": ")
+                }
+                append(profile.following.toString() + "\n")
+                withStyle(
+                    SpanStyle(
+                        fontStyle = typography.titleMedium.fontStyle,
+                        color = colorScheme.tertiary,
+                        fontWeight = typography.titleMedium.fontWeight
+                    )
+                ) {
+                    append(stringResource(id = R.string.recipes) + ": ")
+                }
+                append(profile.recipes.toString())
+            },
+            Modifier.padding(top = 16.dp, start = 156.dp)
+        )
+
         Text(
             modifier = Modifier
                 .padding(top = 142.dp, start = 16.dp),

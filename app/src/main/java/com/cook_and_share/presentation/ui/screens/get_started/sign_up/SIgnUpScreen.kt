@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cook_and_share.R
@@ -104,7 +105,7 @@ private fun SignUpScreenContent(
                 label = stringResource(id = R.string.password)
             )
 
-            Spacer(modifier = Modifier.padding(vertical = 8.dp))
+            Spacer(modifier = Modifier.padding(vertical = 6.dp))
 
             PasswordField(
                 value = uiState.repeatPassword,
@@ -112,7 +113,7 @@ private fun SignUpScreenContent(
                 label = stringResource(id = R.string.repeat_password)
             )
 
-            Spacer(modifier = Modifier.padding(vertical = 8.dp))
+            Spacer(modifier = Modifier.padding(vertical = 6.dp))
 
             SecondaryButton(
                 modifier = Modifier
@@ -135,13 +136,15 @@ private fun LoginText(onClick: () -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-
         Text(
+
+            textAlign = TextAlign.Center,
             text = stringResource(id = R.string.have_account),
             color = MaterialTheme.colorScheme.onPrimary,
         )
 
         Text(
+            textAlign = TextAlign.Center,
             text = stringResource(id = R.string.login),
             color = MaterialTheme.colorScheme.onPrimary,
             style = Typography.titleMedium,

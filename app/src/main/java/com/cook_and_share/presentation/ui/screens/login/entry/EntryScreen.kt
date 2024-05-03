@@ -3,9 +3,9 @@ package com.cook_and_share.presentation.ui.screens.login.entry
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -33,7 +33,7 @@ fun EntryScreen(
     EntryScreenContent(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 50.dp, bottom = 16.dp)
+            .padding(top = 50.dp)
             .background(colorScheme.background),
         onLogInClick = { viewModel.onLoginClick(openAndPopUp) },
         onGetStarted = { viewModel.onGetStartedClick(navigate) }
@@ -47,7 +47,8 @@ private fun EntryScreenContent(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier
+        modifier = modifier,
+        verticalArrangement = Arrangement.SpaceEvenly,
     ) {
         ImageContent(
             modifier = Modifier
@@ -90,10 +91,9 @@ private fun ButtonContent(
 ) {
     Column(
         modifier = modifier,
+        verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-        Spacer(modifier = Modifier.padding(vertical = 8.dp))
 
         SecondaryButton(
             modifier = Modifier
@@ -106,8 +106,6 @@ private fun ButtonContent(
             }
         )
 
-        Spacer(modifier = Modifier.padding(vertical = 4.dp))
-
         LoginText(
             onClick = {
                 onLogInClick()
@@ -119,6 +117,7 @@ private fun ButtonContent(
 @Composable
 private fun LoginText(onClick: () -> Unit) {
     Row(
+        horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically,
     ) {
 

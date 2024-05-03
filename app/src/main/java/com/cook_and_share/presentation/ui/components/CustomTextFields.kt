@@ -47,8 +47,7 @@ fun CustomTextField(
         onValueChange = onValueChange,
         shape = RoundedCornerShape(16.dp),
         modifier = modifier
-            .fillMaxWidth()
-            .height(56.dp),
+            .fillMaxWidth(),
         label = {
             Text(fieldLabel)
         },

@@ -32,7 +32,6 @@ private fun PreferencesFragmentContent(
 ) {
     Column(
         modifier = Modifier
-            .padding(vertical = 16.dp)
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
         verticalArrangement = Arrangement.SpaceBetween
@@ -41,7 +40,7 @@ private fun PreferencesFragmentContent(
 
         SecondaryButton(
             modifier = Modifier
-                .padding(horizontal = 80.dp)
+                .padding(horizontal = 80.dp, vertical = 16.dp)
                 .height(65.dp)
                 .fillMaxWidth(),
             label = R.string.continue_text,
