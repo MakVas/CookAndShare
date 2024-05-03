@@ -41,15 +41,15 @@
     <string name="recipes">Рецепти</string>
     <string name="people">Люди</string>
     <string name="liked">Вподобання</string>
-    <string name="email_letter_sent">Email letter sent</string>
-    <string name="unknown_error">Unknown error</string>
-    <string name="generic_error">Generic Error</string>
-    <string name="try_again">Try Again</string>
-    <string name="repeat_password">Repeat password</string>
-    <string name="your_recipes">Your recipes</string>
-    <string name="get_started">Get started</string>
-    <string name="continue_text">Continue</string>
-    <string name="followers">Followers</string>
-    <string name="following">Following</string>
-    <string name="bio">Bio</string>
+    <string name="email_letter_sent">Електронний лист надіслано</string>
+    <string name="unknown_error">Невідома помилка</string>
+    <string name="generic_error">Помилка</string>
+    <string name="try_again">Спробуйте ще раз</string>
+    <string name="repeat_password">Повторіть пароль</string>
+    <string name="your_recipes">Ваші рецепти</string>
+    <string name="get_started">Почати</string>
+    <string name="continue_text">Продовжити</string>
+    <string name="followers">Підписники</string>
+    <string name="following">Підписки</string>
+    <string name="bio">Про себе</string>
 </resources>
