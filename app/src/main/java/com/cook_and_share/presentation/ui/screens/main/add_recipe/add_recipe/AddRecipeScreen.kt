@@ -30,6 +30,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,6 +50,7 @@ import com.cook_and_share.presentation.ui.components.TopBar
 
 @Composable
 fun AddRecipeScreen(
+    selectedCategories: MutableState<List<String>>,
     viewModel: AddRecipeViewModel = hiltViewModel(),
     navigate: (String) -> Unit,
     popUp: () -> Unit
@@ -56,8 +58,9 @@ fun AddRecipeScreen(
     val recipe by viewModel.recipe
 
     AddRecipeScreenContent(
+        selectedCategories = selectedCategories,
         recipe = recipe,
-        onPublishClick = { viewModel.onPublishClick(popUp) },
+        onPublishClick = { viewModel.onPublishClick((popUp), selectedCategories) },
         onTitleChange = viewModel::onTitleChange,
         onUrlChange = viewModel::onUrlChange,
         onTagsChange = viewModel::onTagsChange,
@@ -72,6 +75,7 @@ fun AddRecipeScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AddRecipeScreenContent(
+    selectedCategories: MutableState<List<String>>,
     recipe: Recipe,
     onPublishClick: () -> Unit,
     onTitleChange: (String) -> Unit,
@@ -80,7 +84,7 @@ private fun AddRecipeScreenContent(
     onIngredientsChange: (List<Map<String, Int>>) -> Unit,
     onRecipeChange: (String) -> Unit,
     onIngredientsClick: () -> Unit,
-    onCategoryClick:() -> Unit,
+    onCategoryClick: () -> Unit,
     onRecipeClick: () -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -100,6 +104,7 @@ private fun AddRecipeScreenContent(
                 .background(colorScheme.background)
         ) {
             NestedScrolling(
+                selectedCategories = selectedCategories,
                 recipe = recipe,
                 onPublishClick = onPublishClick,
                 onTitleChange = onTitleChange,
@@ -117,6 +122,7 @@ private fun AddRecipeScreenContent(
 
 @Composable
 private fun NestedScrolling(
+    selectedCategories: MutableState<List<String>>,
     recipe: Recipe,
     onPublishClick: () -> Unit,
     onTitleChange: (String) -> Unit,
@@ -124,7 +130,7 @@ private fun NestedScrolling(
     onTagsChange: (List<String>) -> Unit,
     onIngredientsChange: (List<Map<String, Int>>) -> Unit,
     onIngredientsClick: () -> Unit,
-    onCategoryClick:() -> Unit,
+    onCategoryClick: () -> Unit,
     onRecipeClick: () -> Unit,
     onRecipeChange: (String) -> Unit
 ) {
@@ -186,7 +192,7 @@ private fun NestedScrolling(
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth(),
             label = R.string.publish_recipe,
-            onClick = onPublishClick
+            onClick = { onPublishClick() }
         )
 
         Spacer(modifier = Modifier.padding(top = 16.dp))

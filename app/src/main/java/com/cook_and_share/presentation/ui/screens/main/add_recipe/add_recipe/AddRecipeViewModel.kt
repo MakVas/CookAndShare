@@ -1,5 +1,6 @@
 package com.cook_and_share.presentation.ui.screens.main.add_recipe.add_recipe
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import com.cook_and_share.domain.model.Profile
@@ -8,6 +9,7 @@ import com.cook_and_share.domain.repository.AuthRepository
 import com.cook_and_share.domain.repository.LogRepository
 import com.cook_and_share.domain.repository.StorageRepository
 import com.cook_and_share.presentation.ui.screens.CookAndShareViewModel
+import com.cook_and_share.presentation.ui.screens.main.add_recipe.categories.CategoriesViewModel
 import com.cook_and_share.presentation.util.Constants.RECIPE_ID
 import com.cook_and_share.presentation.util.Main
 import com.cook_and_share.presentation.util.idFromParameter
@@ -58,9 +60,12 @@ class AddRecipeViewModel @Inject constructor(
     fun onRecipeChange(newValue: String) {
         recipe.value = recipe.value.copy(recipe = newValue)
     }
-    fun onPublishClick(popUpScreen: () -> Unit) {
+    fun onPublishClick(popUpScreen: () -> Unit, selectedCategories: MutableState<List<String>>) {
         launchCatching {
-            recipe.value = recipe.value.copy(author = profile.value.username)
+            recipe.value = recipe.value.copy(
+                author = profile.value.username,
+                tags = selectedCategories.value
+            )
             val editedTask = recipe.value
             storageRepository.save(editedTask)
             popUpScreen()

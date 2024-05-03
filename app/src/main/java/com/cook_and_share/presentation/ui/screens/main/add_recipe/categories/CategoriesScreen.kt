@@ -38,20 +38,22 @@ import com.cook_and_share.presentation.ui.components.TopBar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoriesScreen(
+    selectedCategories: MutableState<List<String>>,
     popUp: () -> Unit,
     viewModel: CategoriesViewModel = hiltViewModel()
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     val categories by viewModel.getSearchCategoriesResult().collectAsState(emptyList())
-    val selectedCategories = viewModel.selectedCategories.value
+    val localSelectedCategories = emptyList<String>()
 
     CategoriesScreenContent(
+        selectedCategories = selectedCategories,
         categories = categories,
         popUp = popUp,
         scrollBehavior = scrollBehavior,
         onValueChange = viewModel.searchQuery,
-        selectedCategories = selectedCategories,
+        localSelectedCategories = localSelectedCategories,
         onCategoryClick = viewModel::onCategoryClick
     )
 }
@@ -59,8 +61,9 @@ fun CategoriesScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CategoriesScreenContent(
-    selectedCategories: List<String>,
-    onCategoryClick: (String) -> Unit,
+    selectedCategories: MutableState<List<String>>,
+    localSelectedCategories: List<String>,
+    onCategoryClick: (String, MutableState<List<String>>) -> Unit,
     categories: List<String>,
     popUp: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
@@ -86,6 +89,7 @@ private fun CategoriesScreenContent(
         ) {
             NestedScrolling(
                 selectedCategories = selectedCategories,
+                localSelectedCategories = localSelectedCategories,
                 onCategoryClick = onCategoryClick,
                 categories = categories,
                 onValueChange = onValueChange
@@ -96,8 +100,9 @@ private fun CategoriesScreenContent(
 
 @Composable
 private fun NestedScrolling(
-    selectedCategories: List<String>,
-    onCategoryClick: (String) -> Unit,
+    selectedCategories: MutableState<List<String>>,
+    localSelectedCategories: List<String>,
+    onCategoryClick: (String, MutableState<List<String>>) -> Unit,
     categories: List<String>,
     onValueChange: MutableState<String>
 ) {
@@ -122,6 +127,7 @@ private fun NestedScrolling(
         item {
             Categories(
                 selectedCategories = selectedCategories,
+                localSelectedCategories = localSelectedCategories,
                 onCategoryClick = onCategoryClick,
                 categories = categories
             )
@@ -132,8 +138,9 @@ private fun NestedScrolling(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun Categories(
-    selectedCategories: List<String>,
-    onCategoryClick: (String) -> Unit,
+    selectedCategories: MutableState<List<String>>,
+    localSelectedCategories: List<String>,
+    onCategoryClick: (String, MutableState<List<String>>) -> Unit,
     categories: List<String>
 ) {
     Text(
@@ -155,10 +162,10 @@ private fun Categories(
     ) {
         repeat(categories.size) {
             CategoryItem(
-                isClicked = selectedCategories.contains(categories[it]),
+                isClicked = selectedCategories.value.contains(categories[it]),
                 category = categories[it],
                 onClick = {
-                    onCategoryClick(categories[it])
+                    onCategoryClick(categories[it], selectedCategories)
                 }
             )
         }
