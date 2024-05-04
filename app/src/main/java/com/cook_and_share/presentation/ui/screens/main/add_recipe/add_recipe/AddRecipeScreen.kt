@@ -1,5 +1,10 @@
 package com.cook_and_share.presentation.ui.screens.main.add_recipe.add_recipe
 
+import android.net.Uri
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -57,35 +62,38 @@ fun AddRecipeScreen(
 ) {
     val recipe by viewModel.recipe
 
+    val uri by viewModel.recipeImage
+    val singlePhotoPicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia()
+    ) {
+        if (it != null) {
+            viewModel.getRecipeImage(it)
+        }
+    }
+
     AddRecipeScreenContent(
-        selectedCategories = selectedCategories,
         recipe = recipe,
         onPublishClick = { viewModel.onPublishClick((popUp), selectedCategories) },
         onTitleChange = viewModel::onTitleChange,
-        onUrlChange = viewModel::onUrlChange,
-        onTagsChange = viewModel::onTagsChange,
-        onIngredientsChange = viewModel::onIngredientsChange,
         onRecipeChange = viewModel::onRecipeChange,
         onIngredientsClick = { viewModel.onIngredientsClick(navigate) },
         onCategoryClick = { viewModel.onCategoryClick(navigate) },
-        onRecipeClick = { viewModel.onRecipeClick(navigate) }
+        singlePhotoPicker = singlePhotoPicker,
+        uri = uri
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AddRecipeScreenContent(
-    selectedCategories: MutableState<List<String>>,
     recipe: Recipe,
     onPublishClick: () -> Unit,
     onTitleChange: (String) -> Unit,
-    onUrlChange: (String) -> Unit,
-    onTagsChange: (List<String>) -> Unit,
-    onIngredientsChange: (List<Map<String, Int>>) -> Unit,
     onRecipeChange: (String) -> Unit,
     onIngredientsClick: () -> Unit,
     onCategoryClick: () -> Unit,
-    onRecipeClick: () -> Unit,
+    singlePhotoPicker: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>,
+    uri: Uri?
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
@@ -104,17 +112,14 @@ private fun AddRecipeScreenContent(
                 .background(colorScheme.background)
         ) {
             NestedScrolling(
-                selectedCategories = selectedCategories,
                 recipe = recipe,
                 onPublishClick = onPublishClick,
                 onTitleChange = onTitleChange,
-                onUrlChange = onUrlChange,
-                onTagsChange = onTagsChange,
-                onIngredientsChange = onIngredientsChange,
                 onRecipeChange = onRecipeChange,
                 onIngredientsClick = onIngredientsClick,
                 onCategoryClick = onCategoryClick,
-                onRecipeClick = onRecipeClick
+                singlePhotoPicker = singlePhotoPicker,
+                uri = uri
             )
         }
     }
@@ -122,17 +127,14 @@ private fun AddRecipeScreenContent(
 
 @Composable
 private fun NestedScrolling(
-    selectedCategories: MutableState<List<String>>,
     recipe: Recipe,
     onPublishClick: () -> Unit,
     onTitleChange: (String) -> Unit,
-    onUrlChange: (String) -> Unit,
-    onTagsChange: (List<String>) -> Unit,
-    onIngredientsChange: (List<Map<String, Int>>) -> Unit,
     onIngredientsClick: () -> Unit,
     onCategoryClick: () -> Unit,
-    onRecipeClick: () -> Unit,
-    onRecipeChange: (String) -> Unit
+    singlePhotoPicker: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>,
+    onRecipeChange: (String) -> Unit,
+    uri: Uri?
 ) {
     Column(
         modifier = Modifier
@@ -143,8 +145,11 @@ private fun NestedScrolling(
         Spacer(modifier = Modifier.padding(top = 16.dp))
 
         RecipeItem(
+            image = uri.toString(),
             recipe = recipe,
-            onClick = onRecipeClick,
+            onClick = {
+                singlePhotoPicker.launch(PickVisualMediaRequest())
+            },
             modifier = Modifier.padding(horizontal = 16.dp),
             isPreview = true
         )

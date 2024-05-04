@@ -131,6 +131,7 @@ private fun LazyListScope.subColumn(
     items(recipes, key = { it.id }) { recipeItem ->
         val isLiked = isRecipeLiked(recipeItem)
         RecipeItem(
+            image = recipeItem.imageUrl,
             isLiked = isLiked,
             onRecipeLikeClick = onRecipeLikeClick,
             recipe = recipeItem,

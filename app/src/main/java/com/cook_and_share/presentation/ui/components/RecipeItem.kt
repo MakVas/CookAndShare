@@ -41,12 +41,15 @@ import androidx.compose.ui.layout.ContentScale.Companion.Crop
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.cook_and_share.R
 import com.cook_and_share.domain.model.Recipe
 import com.cook_and_share.presentation.ui.theme.Typography
+import org.jetbrains.annotations.Async
 
 @Composable
 fun RecipeItem(
+    image: String,
     modifier: Modifier = Modifier,
     onRecipeLikeClick: (Recipe) -> Unit = {},
     recipe: Recipe,
@@ -67,14 +70,23 @@ fun RecipeItem(
         contentPadding = PaddingValues(0.dp)
     ) {
         Box {
-
-            Image(
-                modifier = Modifier
-                    .fillMaxSize(),
-                painter = painterResource(id = R.drawable.image2),
-                contentDescription = "recipe image",
-                contentScale = Crop,
-            )
+            if (image == "") {
+                Image(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    painter = painterResource(id = R.drawable.image2),
+                    contentDescription = "recipe image",
+                    contentScale = Crop,
+                )
+            } else {
+                AsyncImage(
+                    model = image,
+                    contentDescription = "recipe image",
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentScale = Crop
+                )
+            }
             Row(
                 modifier = Modifier
                     .height(70.dp)

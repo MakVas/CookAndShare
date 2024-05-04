@@ -1,5 +1,6 @@
 package com.cook_and_share.presentation.ui.screens.main.add_recipe.add_recipe
 
+import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -9,7 +10,6 @@ import com.cook_and_share.domain.repository.AuthRepository
 import com.cook_and_share.domain.repository.LogRepository
 import com.cook_and_share.domain.repository.StorageRepository
 import com.cook_and_share.presentation.ui.screens.CookAndShareViewModel
-import com.cook_and_share.presentation.ui.screens.main.add_recipe.categories.CategoriesViewModel
 import com.cook_and_share.presentation.util.Constants.RECIPE_ID
 import com.cook_and_share.presentation.util.Main
 import com.cook_and_share.presentation.util.idFromParameter
@@ -26,6 +26,7 @@ class AddRecipeViewModel @Inject constructor(
 
     val profile = mutableStateOf(Profile())
     val recipe = mutableStateOf(Recipe())
+    val recipeImage = mutableStateOf<Uri?>(null)
 
     init {
         val recipeId = savedStateHandle.get<String>(RECIPE_ID)
@@ -35,6 +36,7 @@ class AddRecipeViewModel @Inject constructor(
             }
         }
     }
+
     init {
         launchCatching {
             profile.value = authRepository.getProfile(authRepository.currentUserId) ?: Profile()
@@ -45,32 +47,29 @@ class AddRecipeViewModel @Inject constructor(
         recipe.value = recipe.value.copy(title = newValue)
     }
 
-    fun onUrlChange(newValue: String) {
-        recipe.value = recipe.value.copy(imageUrl = newValue)
-    }
-
-    fun onTagsChange(newValue: List<String>) {
-        recipe.value = recipe.value.copy(tags = newValue)
-    }
-
-    fun onIngredientsChange(newValue: List<Map<String, Int>>) {
-        recipe.value = recipe.value.copy(ingredients = newValue)
-    }
-
     fun onRecipeChange(newValue: String) {
         recipe.value = recipe.value.copy(recipe = newValue)
     }
+
     fun onPublishClick(popUpScreen: () -> Unit, selectedCategories: MutableState<List<String>>) {
+        var recipeID: String
         launchCatching {
             recipe.value = recipe.value.copy(
                 author = profile.value.username,
                 tags = selectedCategories.value
             )
             val editedTask = recipe.value
-            storageRepository.save(editedTask)
+            recipeID = storageRepository.save(editedTask)
+            storageRepository.update(
+                editedTask.copy(
+                    imageUrl = storageRepository.uploadRecipeImage(recipeID, recipeImage.value),
+                    id = recipeID
+                )
+            )
             popUpScreen()
         }
     }
+
     fun onIngredientsClick(navigate: (String) -> Unit) {
         navigate(Main.IngredientsScreen.route)
     }
@@ -79,7 +78,7 @@ class AddRecipeViewModel @Inject constructor(
         navigate(Main.CategoriesScreen.route)
     }
 
-    fun onRecipeClick(navigate: (String) -> Unit) {
-       //TODO: navigate(Screens.RecipeScreen.route)
+    fun getRecipeImage(uri: Uri?) {
+        recipeImage.value = uri
     }
 }

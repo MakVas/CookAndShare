@@ -1,5 +1,6 @@
 package com.cook_and_share.data.repository
 
+import android.net.Uri
 import com.cook_and_share.domain.model.Profile
 import com.cook_and_share.domain.model.Recipe
 import com.cook_and_share.domain.repository.AuthRepository
@@ -14,6 +15,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.getValue
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -22,6 +24,7 @@ import javax.inject.Inject
 
 class StorageRepositoryImpl @Inject constructor(
     private val database: FirebaseDatabase,
+    private val storage: FirebaseStorage,
     private val auth: AuthRepository
 ) : StorageRepository {
 
@@ -104,6 +107,7 @@ class StorageRepositoryImpl @Inject constructor(
                 database.reference.child(COLLECTION_NAME_RECIPES).removeEventListener(listener)
             }
         }
+
     override suspend fun searchCategories(query: String): Flow<List<String>> {
         return callbackFlow {
             val listener = database.reference.child(COLLECTION_NAME_CATEGORIES)
@@ -173,14 +177,26 @@ class StorageRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun uploadRecipeImage(recipeId: String, uri: Uri?): String {
+        var imgUrl = ""
+        uri?.let {
+            val uploadTask =
+                storage.reference.child(COLLECTION_NAME_RECIPES + "/${recipeId}").putFile(it)
+                    .await()
+            imgUrl = uploadTask.storage.downloadUrl.await().toString()
+        }
+        return imgUrl
+    }
+
     override suspend fun getRecipe(recipeId: String): Recipe? =
         database.reference.child(COLLECTION_NAME_RECIPES).child(recipeId).get().await()
             .getValue<Recipe>()
 
-    override suspend fun save(recipe: Recipe) {
+    override suspend fun save(recipe: Recipe): String {
         val newRecipeRef = database.reference.child(COLLECTION_NAME_RECIPES).push()
         val updatedTask = recipe.copy(id = newRecipeRef.key ?: "", userID = auth.currentUserId)
         newRecipeRef.setValue(updatedTask).await()
+        return newRecipeRef.key ?: ""
     }
 
     override suspend fun update(recipe: Recipe) {
