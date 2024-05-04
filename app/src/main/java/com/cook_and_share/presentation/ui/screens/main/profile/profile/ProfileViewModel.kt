@@ -1,5 +1,6 @@
 package com.cook_and_share.presentation.ui.screens.main.profile.profile
 
+import android.net.Uri
 import androidx.compose.runtime.mutableStateOf
 import com.cook_and_share.domain.model.Profile
 import com.cook_and_share.domain.model.Recipe
@@ -22,20 +23,22 @@ class ProfileViewModel @Inject constructor(
 
     val profile = mutableStateOf(Profile())
     val recipes = storageRepository.myRecipes
-
     init {
         launchCatching {
             profile.value = authRepository.getProfile(authRepository.currentUserId) ?: Profile()
         }
     }
-    fun isRecipeLiked(recipe: Recipe): Boolean{
+
+    fun isRecipeLiked(recipe: Recipe): Boolean {
         return likeRecipeUseCase.isRecipeLiked(recipe)
     }
+
     fun onRecipeLikeClick(recipe: Recipe) {
         launchCatching {
             likeRecipeUseCase.onRecipeLikeClick(recipe)
         }
     }
+
     fun onSettingsClick(navigate: (String) -> Unit) {
         navigate(ProfileRoutes.Settings.route)
     }
@@ -46,5 +49,12 @@ class ProfileViewModel @Inject constructor(
 
     fun onInfoClick(navigate: (String) -> Unit) {
         navigate(ProfileRoutes.Info.route)
+    }
+
+    fun setImage(uri: Uri) {
+        launchCatching {
+            val profileImage = authRepository.uploadProfileImage(uri)
+            authRepository.updateProfile(profile.value.copy(profileImage = profileImage))
+        }
     }
 }

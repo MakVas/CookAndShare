@@ -1,5 +1,6 @@
 package com.cook_and_share.presentation.ui.screens.login.login
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -55,70 +57,76 @@ private fun LoginScreenContent(
     onForgotPasswordClick: () -> Unit,
     onSignUpClick: () -> Unit
 ) {
-
-    AuthTitle(
-        subTitle = R.string.login_to_acc,
+    Surface(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 50.dp)
-    )
-
-    Column(
-        Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .background(MaterialTheme.colorScheme.background)
     ) {
 
-        EmailField(
-            value = uiState.email,
-            onNewValue = onEmailChange
-        )
-
-        Spacer(modifier = Modifier.padding(vertical = 8.dp))
-
-        PasswordField(
-            value = uiState.password,
-            onValueChange = onPasswordChange,
-            label = stringResource(id = R.string.password)
-        )
-
-        Spacer(modifier = Modifier.padding(vertical = 6.dp))
-
-        Text(
-            text = stringResource(id = R.string.forgot_password),
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.onPrimary,
-            style = Typography.titleMedium,
+        AuthTitle(
+            subTitle = R.string.login_to_acc,
             modifier = Modifier
-                .clickable {
-                    onForgotPasswordClick()
-                }
+                .fillMaxWidth()
+                .padding(top = 50.dp)
         )
 
-        Spacer(modifier = Modifier.padding(vertical = 6.dp))
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
 
-        SecondaryButton(
-            modifier = Modifier
-                .padding(horizontal = 80.dp)
-                .height(65.dp)
-                .fillMaxWidth(),
-            label = R.string.login,
-            onClick = onSignInClick
-        )
+            EmailField(
+                value = uiState.email,
+                onNewValue = onEmailChange
+            )
 
-        Spacer(modifier = Modifier.padding(vertical = 5.dp))
+            Spacer(modifier = Modifier.padding(vertical = 8.dp))
 
-        GetStartedText(onSignUpClick)
+            PasswordField(
+                value = uiState.password,
+                onValueChange = onPasswordChange,
+                label = stringResource(id = R.string.password)
+            )
+
+            Spacer(modifier = Modifier.padding(vertical = 6.dp))
+
+            Text(
+                text = stringResource(id = R.string.forgot_password),
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.onPrimary,
+                style = Typography.titleMedium,
+                modifier = Modifier
+                    .clickable {
+                        onForgotPasswordClick()
+                    }
+            )
+
+            Spacer(modifier = Modifier.padding(vertical = 6.dp))
+
+            SecondaryButton(
+                modifier = Modifier
+                    .padding(horizontal = 80.dp)
+                    .height(65.dp)
+                    .fillMaxWidth(),
+                label = R.string.login,
+                onClick = onSignInClick
+            )
+
+            Spacer(modifier = Modifier.padding(vertical = 5.dp))
+
+            GetStartedText(onSignUpClick)
+        }
     }
 }
 
 @Composable
 private fun GetStartedText(onClick: () -> Unit) {
     Row(
-      verticalAlignment = Alignment.CenterVertically
-    ){
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         Text(
             text = stringResource(id = R.string.dont_have_account),
             color = MaterialTheme.colorScheme.onPrimary,

@@ -133,7 +133,8 @@ private fun LazyListScope.recipeSearch(
             onClick = {
                 isSheetExpanded.value = true
             },
-            image = R.drawable.image1,
+            defaultImage = R.drawable.image1,
+            image = recipeItem.imageUrl,
             title = recipeItem.title,
             text = recipeItem.author,
             modifier = modifier
@@ -151,7 +152,8 @@ private fun LazyListScope.peopleSearch(
         SearchItem(
             onClick = {
             },
-            image = R.drawable.profile_default,
+            defaultImage = R.drawable.profile_default,
+            image = profile.profileImage,
             title = profile.username,
             text = profile.email,
             modifier = modifier,

@@ -1,5 +1,6 @@
 package com.cook_and_share.data.repository
 
+import android.net.Uri
 import com.cook_and_share.domain.model.Profile
 import com.cook_and_share.domain.model.User
 import com.cook_and_share.domain.repository.AuthRepository
@@ -9,6 +10,7 @@ import com.cook_and_share.presentation.util.trace
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.getValue
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -17,7 +19,8 @@ import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
     private val database: FirebaseDatabase,
-    private val auth: FirebaseAuth
+    private val auth: FirebaseAuth,
+    private val storage: FirebaseStorage
 ) : AuthRepository {
     override val currentUserId: String
         get() = auth.currentUser?.uid.orEmpty()
@@ -39,6 +42,17 @@ class AuthRepositoryImpl @Inject constructor(
             auth.addAuthStateListener(listener)
             awaitClose { auth.removeAuthStateListener(listener) }
         }
+
+    override suspend fun uploadProfileImage(uri: Uri?): String {
+        var imgUrl = ""
+        uri?.let {
+            val uploadTask =
+                storage.reference.child(COLLECTION_NAME_USERS + "/${currentUserId}").putFile(it)
+                    .await()
+            imgUrl = uploadTask.storage.downloadUrl.await().toString()
+        }
+        return imgUrl
+    }
 
     override suspend fun authenticate(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password).await()

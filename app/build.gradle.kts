@@ -68,6 +68,7 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.6.2")
 
     //Firebase
+    implementation("com.google.firebase:firebase-storage")
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
     implementation ("com.google.firebase:firebase-crashlytics-ktx")

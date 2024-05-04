@@ -1,5 +1,10 @@
 package com.cook_and_share.presentation.ui.screens.main.profile.profile
 
+import android.net.Uri
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -33,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -40,6 +46,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
 import com.cook_and_share.R
 import com.cook_and_share.domain.model.Profile
 import com.cook_and_share.domain.model.Recipe
@@ -57,6 +64,14 @@ fun ProfileScreen(
 ) {
     val profile = viewModel.profile
     val recipes = viewModel.recipes.collectAsState(emptyList())
+
+    val singlePhotoPicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia()
+    ) {
+        if (it != null) {
+            viewModel.setImage(it)
+        }
+    }
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
@@ -87,6 +102,7 @@ fun ProfileScreen(
     )
 
     ProfileScreenContent(
+        singlePhotoPicker = singlePhotoPicker,
         profile = profile.value,
         isRecipeLiked = viewModel::isRecipeLiked,
         scrollBehavior = scrollBehavior,
@@ -100,6 +116,7 @@ fun ProfileScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ProfileScreenContent(
+    singlePhotoPicker: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>,
     profile: Profile,
     isRecipeLiked: (Recipe) -> Boolean,
     scrollBehavior: TopAppBarScrollBehavior,
@@ -129,6 +146,7 @@ private fun ProfileScreenContent(
                 .background(colorScheme.background)
         ) {
             NestedScrolling(
+                singlePhotoPicker = singlePhotoPicker,
                 profile = profile,
                 isRecipeLiked = isRecipeLiked,
                 isRecipeSheetExpanded = isRecipeSheetExpanded,
@@ -141,6 +159,7 @@ private fun ProfileScreenContent(
 
 @Composable
 private fun NestedScrolling(
+    singlePhotoPicker: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>,
     profile: Profile,
     isRecipeLiked: (Recipe) -> Boolean,
     isRecipeSheetExpanded: MutableState<Boolean>,
@@ -155,6 +174,9 @@ private fun NestedScrolling(
             Spacer(modifier = Modifier.height(16.dp))
 
             ProfileContent(
+                onClick = {
+                    singlePhotoPicker.launch(PickVisualMediaRequest())
+                },
                 modifier = Modifier
                     .height(220.dp)
                     .fillMaxWidth()
@@ -209,25 +231,39 @@ private fun LazyListScope.subColumn(
 @Composable
 private fun ProfileContent(
     modifier: Modifier,
-    profile: Profile
+    profile: Profile,
+    onClick: () -> Unit
 ) {
     Box(
         modifier = modifier
             .shadow(1.dp, RoundedCornerShape(16.dp), clip = true)
             .clip(RoundedCornerShape(16.dp))
-            .clickable {
-                //TODO: Implement profile image click
-            }
+            .clickable { onClick() }
             .background(colorScheme.secondary),
     ) {
-        Image(
-            modifier = Modifier
-                .padding(16.dp)
-                .size(120.dp)
-                .clip(RoundedCornerShape(8.dp)),
-            painter = painterResource(id = R.drawable.profile_default),
-            contentDescription = "profile image",
-        )
+        if (profile.profileImage == "") {
+            Image(
+                painter = painterResource(id = R.drawable.profile_default),
+                contentDescription = "profile image",
+                modifier = Modifier
+                    .padding(16.dp)
+                    .size(120.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+                contentScale = ContentScale.FillBounds
+            )
+        } else {
+            AsyncImage(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .size(120.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+                model = profile.profileImage,
+                contentScale = ContentScale.FillBounds,
+                clipToBounds = true,
+                contentDescription = "profile image",
+            )
+        }
+
         Text(
             buildAnnotatedString {
                 withStyle(
@@ -298,7 +334,7 @@ private fun ProfileContent(
                     append(stringResource(id = R.string.bio) + ": ")
                 }
                 append(profile.bio)
-            },
+            }
         )
     }
 }

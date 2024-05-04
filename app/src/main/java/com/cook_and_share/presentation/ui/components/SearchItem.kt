@@ -22,12 +22,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.cook_and_share.presentation.ui.theme.Typography
 
 @Composable
 fun SearchItem(
     onClick: () -> Unit,
-    image: Int,
+    defaultImage: Int,
+    image: String,
     title: String,
     text: String,
     modifier: Modifier = Modifier
@@ -49,13 +51,23 @@ fun SearchItem(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                Image(
-                    modifier = Modifier
-                        .size(80.dp),
-                    painter = painterResource(id = image),
-                    contentDescription = "recipe image",
-                    contentScale = ContentScale.Crop,
-                )
+                if (image == "") {
+                    Image(
+                        modifier = Modifier
+                            .size(80.dp),
+                        painter = painterResource(id = defaultImage),
+                        contentDescription = "profile image",
+                        contentScale = ContentScale.Crop,
+                    )
+                } else {
+                    AsyncImage(
+                        modifier = Modifier
+                            .size(80.dp),
+                        model = image,
+                        contentDescription = "profile image",
+                        contentScale = ContentScale.Crop,
+                    )
+                }
                 Column(
                     modifier = Modifier
                         .fillMaxHeight()
