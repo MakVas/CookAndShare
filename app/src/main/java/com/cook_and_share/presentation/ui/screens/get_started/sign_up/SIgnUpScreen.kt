@@ -117,7 +117,7 @@ private fun SignUpScreenContent(
 
             SecondaryButton(
                 modifier = Modifier
-                    .padding(horizontal = 80.dp)
+                    .padding(horizontal = 70.dp)
                     .height(65.dp)
                     .fillMaxWidth(),
                 label = R.string.sign_up,

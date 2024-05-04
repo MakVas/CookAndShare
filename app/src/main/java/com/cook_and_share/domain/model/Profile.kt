@@ -6,8 +6,6 @@ data class Profile(
     val email: String = "",
     val profileImage: String = "",
     val bio: String = "",
-    val followers: Int = 0,
-    val following: Int = 0,
-    val recipes: Int = 0,
-    val likedRecipes: List<String> = emptyList()
+    val likedRecipes: List<String> = emptyList(),
+    val myRecipes: List<String> = emptyList()
 )

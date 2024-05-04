@@ -133,7 +133,7 @@ private fun LazyListScope.recipeSearch(
             onClick = {
                 isSheetExpanded.value = true
             },
-            defaultImage = R.drawable.image1,
+            defaultImage = R.drawable.no_image,
             image = recipeItem.imageUrl,
             title = recipeItem.title,
             text = recipeItem.author,

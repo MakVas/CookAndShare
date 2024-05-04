@@ -63,9 +63,11 @@ class AddRecipeViewModel @Inject constructor(
             storageRepository.update(
                 editedTask.copy(
                     imageUrl = storageRepository.uploadRecipeImage(recipeID, recipeImage.value),
-                    id = recipeID
+                    id = recipeID,
+                    userID = authRepository.currentUserId
                 )
             )
+            authRepository.updateProfile(profile.value.copy(myRecipes = profile.value.myRecipes + recipeID))
             popUpScreen()
         }
     }

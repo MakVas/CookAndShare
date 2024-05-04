@@ -23,6 +23,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.cook_and_share.R
 import com.cook_and_share.presentation.ui.theme.Typography
 
 @Composable
@@ -51,23 +52,21 @@ fun SearchItem(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                if (image == "") {
+                Box {
                     Image(
-                        modifier = Modifier
-                            .size(80.dp),
                         painter = painterResource(id = defaultImage),
-                        contentDescription = "profile image",
-                        contentScale = ContentScale.Crop,
+                        contentDescription = "placeholder image",
+                        modifier = Modifier.size(80.dp),
+                        contentScale = ContentScale.Crop
                     )
-                } else {
                     AsyncImage(
-                        modifier = Modifier
-                            .size(80.dp),
+                        modifier = Modifier.size(80.dp),
                         model = image,
                         contentDescription = "profile image",
                         contentScale = ContentScale.Crop,
                     )
                 }
+
                 Column(
                     modifier = Modifier
                         .fillMaxHeight()

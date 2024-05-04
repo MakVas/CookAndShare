@@ -242,7 +242,7 @@ private fun ProfileContent(
             .clickable { onClick() }
             .background(colorScheme.secondary),
     ) {
-        if (profile.profileImage == "") {
+        Box {
             Image(
                 painter = painterResource(id = R.drawable.profile_default),
                 contentDescription = "profile image",
@@ -250,21 +250,19 @@ private fun ProfileContent(
                     .padding(16.dp)
                     .size(120.dp)
                     .clip(RoundedCornerShape(8.dp)),
-                contentScale = ContentScale.FillBounds
+                contentScale = ContentScale.Crop
             )
-        } else {
             AsyncImage(
                 modifier = Modifier
                     .padding(16.dp)
                     .size(120.dp)
                     .clip(RoundedCornerShape(8.dp)),
                 model = profile.profileImage,
-                contentScale = ContentScale.FillBounds,
+                contentScale = ContentScale.Crop,
                 clipToBounds = true,
                 contentDescription = "profile image",
             )
         }
-
         Text(
             buildAnnotatedString {
                 withStyle(
@@ -274,7 +272,7 @@ private fun ProfileContent(
                         fontWeight = typography.titleMedium.fontWeight
                     )
                 ) {
-                    append(stringResource(id = R.string.username) + ": ")
+                    append(stringResource(id = R.string.username) + ":\n")
                 }
                 append(profile.username + "\n")
                 withStyle(
@@ -284,39 +282,9 @@ private fun ProfileContent(
                         fontWeight = typography.titleMedium.fontWeight
                     )
                 ) {
-                    append(stringResource(id = R.string.email) + ": ")
+                    append(stringResource(id = R.string.recipes) + ":\n")
                 }
-                append(profile.email + "\n")
-                withStyle(
-                    SpanStyle(
-                        fontStyle = typography.titleMedium.fontStyle,
-                        color = colorScheme.tertiary,
-                        fontWeight = typography.titleMedium.fontWeight
-                    )
-                ) {
-                    append(stringResource(id = R.string.followers) + ": ")
-                }
-                append(profile.followers.toString() + "\n")
-                withStyle(
-                    SpanStyle(
-                        fontStyle = typography.titleMedium.fontStyle,
-                        color = colorScheme.tertiary,
-                        fontWeight = typography.titleMedium.fontWeight
-                    )
-                ) {
-                    append(stringResource(id = R.string.following) + ": ")
-                }
-                append(profile.following.toString() + "\n")
-                withStyle(
-                    SpanStyle(
-                        fontStyle = typography.titleMedium.fontStyle,
-                        color = colorScheme.tertiary,
-                        fontWeight = typography.titleMedium.fontWeight
-                    )
-                ) {
-                    append(stringResource(id = R.string.recipes) + ": ")
-                }
-                append(profile.recipes.toString())
+                append(profile.myRecipes.size.toString() + "\n")
             },
             Modifier.padding(top = 16.dp, start = 156.dp)
         )

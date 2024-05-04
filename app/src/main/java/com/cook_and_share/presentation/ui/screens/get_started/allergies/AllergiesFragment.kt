@@ -41,7 +41,7 @@ private fun AllergiesFragmentContent(
 
         SecondaryButton(
             modifier = Modifier
-                .padding(horizontal = 80.dp, vertical = 16.dp)
+                .padding(horizontal = 70.dp, vertical = 16.dp)
                 .height(65.dp)
                 .fillMaxWidth(),
             label = R.string.continue_text,

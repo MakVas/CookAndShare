@@ -45,7 +45,6 @@ import coil.compose.AsyncImage
 import com.cook_and_share.R
 import com.cook_and_share.domain.model.Recipe
 import com.cook_and_share.presentation.ui.theme.Typography
-import org.jetbrains.annotations.Async
 
 @Composable
 fun RecipeItem(
@@ -70,23 +69,21 @@ fun RecipeItem(
         contentPadding = PaddingValues(0.dp)
     ) {
         Box {
-            if (image == "") {
+            Box {
                 Image(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    painter = painterResource(id = R.drawable.image2),
-                    contentDescription = "recipe image",
-                    contentScale = Crop,
+                    painter = painterResource(id = R.drawable.no_image),
+                    contentDescription = "placeholder image",
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = Crop
                 )
-            } else {
                 AsyncImage(
+                    modifier = Modifier.fillMaxSize(),
                     model = image,
                     contentDescription = "recipe image",
-                    modifier = Modifier
-                        .fillMaxSize(),
                     contentScale = Crop
                 )
             }
+
             Row(
                 modifier = Modifier
                     .height(70.dp)

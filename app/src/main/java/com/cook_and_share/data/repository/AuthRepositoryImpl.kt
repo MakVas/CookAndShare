@@ -8,7 +8,10 @@ import com.cook_and_share.presentation.util.Constants.COLLECTION_NAME_USERS
 import com.cook_and_share.presentation.util.Constants.CREATE_ACCOUNT_TRACE
 import com.cook_and_share.presentation.util.trace
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.getValue
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.channels.awaitClose
@@ -41,6 +44,26 @@ class AuthRepositoryImpl @Inject constructor(
                 }
             auth.addAuthStateListener(listener)
             awaitClose { auth.removeAuthStateListener(listener) }
+        }
+
+    override val currentProfile: Flow<Profile>
+        get() = callbackFlow {
+            val listener = database.reference.child(COLLECTION_NAME_USERS)
+                .child(currentUserId)
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val profile = snapshot.getValue<Profile>()
+                        profile?.let { trySend(it) }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        close(error.toException())
+                    }
+                })
+
+            awaitClose {
+                database.reference.child(COLLECTION_NAME_USERS).child(currentUserId).removeEventListener(listener)
+            }
         }
 
     override suspend fun uploadProfileImage(uri: Uri?): String {

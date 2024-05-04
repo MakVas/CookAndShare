@@ -23,9 +23,12 @@ class ProfileViewModel @Inject constructor(
 
     val profile = mutableStateOf(Profile())
     val recipes = storageRepository.myRecipes
+
     init {
         launchCatching {
-            profile.value = authRepository.getProfile(authRepository.currentUserId) ?: Profile()
+            authRepository.currentProfile.collect { profileData ->
+                profile.value = profileData
+            }
         }
     }
 

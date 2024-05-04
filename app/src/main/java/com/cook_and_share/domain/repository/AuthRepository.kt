@@ -10,6 +10,7 @@ interface AuthRepository {
     val currentUserEmail: String
     val hasUser: Boolean
     val currentUser: Flow<User>
+    val currentProfile: Flow<Profile>
     suspend fun uploadProfileImage(uri: Uri?): String
     suspend fun authenticate(email: String, password: String)
     suspend fun sendRecoveryEmail(email: String)

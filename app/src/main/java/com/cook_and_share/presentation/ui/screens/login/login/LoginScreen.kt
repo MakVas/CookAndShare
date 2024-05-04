@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -108,7 +110,7 @@ private fun LoginScreenContent(
 
             SecondaryButton(
                 modifier = Modifier
-                    .padding(horizontal = 80.dp)
+                    .padding(horizontal = 70.dp)
                     .height(65.dp)
                     .fillMaxWidth(),
                 label = R.string.login,
@@ -122,10 +124,12 @@ private fun LoginScreenContent(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun GetStartedText(onClick: () -> Unit) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically
+    FlowRow(
+        horizontalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center,
     ) {
         Text(
             text = stringResource(id = R.string.dont_have_account),
