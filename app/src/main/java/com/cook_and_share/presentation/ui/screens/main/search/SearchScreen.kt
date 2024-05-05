@@ -47,7 +47,10 @@ fun SearchScreen(
     val sheetState = rememberModalBottomSheetState()
     val isSheetExpanded = rememberSaveable { mutableStateOf(false) }
 
+    val recipe = remember { mutableStateOf(Recipe()) }
+
     RecipeBottomSheet(
+        recipe = recipe.value,
         sheetState = sheetState,
         isSheetExpanded = isSheetExpanded
     )
@@ -57,6 +60,7 @@ fun SearchScreen(
         searchQuery = viewModel.searchQuery,
         tabIndex = tabIndex,
         tabs = tabs,
+        recipe = recipe,
         isSheetExpanded = isSheetExpanded
     )
 }
@@ -68,6 +72,7 @@ private fun SearchScreenContent(
     searchQuery: MutableState<String>,
     tabIndex: MutableState<Int>,
     tabs: List<String>,
+    recipe: MutableState<Recipe>,
     isSheetExpanded: MutableState<Boolean>
 ) {
     Scaffold(
@@ -89,6 +94,7 @@ private fun SearchScreenContent(
             NestedScrolling(
                 searchProfileResults = searchProfileResults,
                 searchRecipeResults = searchRecipeResults,
+                recipe = recipe,
                 isSheetExpanded = isSheetExpanded,
                 tabIndex = tabIndex
             )
@@ -100,6 +106,7 @@ private fun SearchScreenContent(
 private fun NestedScrolling(
     searchProfileResults: List<Profile>,
     searchRecipeResults: List<Recipe>,
+    recipe: MutableState<Recipe>,
     isSheetExpanded: MutableState<Boolean>,
     tabIndex: MutableState<Int>
 ) {
@@ -112,6 +119,7 @@ private fun NestedScrolling(
         }
         when (tabIndex.value) {
             0 -> recipeSearch(
+                recipe = recipe,
                 searchRecipeResults = searchRecipeResults,
                 isSheetExpanded = isSheetExpanded,
                 modifier = Modifier.padding(horizontal = 16.dp))
@@ -124,6 +132,7 @@ private fun NestedScrolling(
 }
 
 private fun LazyListScope.recipeSearch(
+    recipe: MutableState<Recipe>,
     searchRecipeResults: List<Recipe>,
     isSheetExpanded: MutableState<Boolean>,
     modifier: Modifier = Modifier
@@ -131,6 +140,7 @@ private fun LazyListScope.recipeSearch(
     items(searchRecipeResults) {recipeItem ->
         SearchItem(
             onClick = {
+                recipe.value = recipeItem
                 isSheetExpanded.value = true
             },
             defaultImage = R.drawable.no_image,

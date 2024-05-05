@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="version">Версія: beta 0.0.2</string>
     <string name="email">Електронна пошта</string>
     <string name="password">Пароль</string>
     <string name="forgot_password">Забули пароль?</string>
@@ -52,11 +53,10 @@
     <string name="followers">Підписники</string>
     <string name="following">Підписки</string>
     <string name="bio">Про себе</string>
-    <string name="version">Версія: beta 0.0.1</string>
     <string name="programm_info"><![CDATA[\"Cook&Share\" - це додаток, який генерує різноманітні рецепти приготування страв з продуктів, що є в холодильнику користувача. Мета проекту - полегшити життя та підвищити комфорт і зручність для користувачів, підтримувати його актуальність та сприяти його розвитку.\n\nПроект представлений у вигляді додатку для мобільних пристроїв, який можна завантажити на відповідний пристрій. Користувачами є люди, які цікавляться кулінарними рецептами. Варто зазначити, що це своєрідна соціальна мережа, де люди будуть розміщувати лише кулінарні рецепти або шукати щось цікаве замість фото та відео зі свого особистого життя. Таким чином можна створити зручну спільноту справжніх гурманів або дізнатися щось нове про кухню інших країн.]]></string>
     <string name="toggle_theme">Оберіть тему</string>
-    <string name="title_error">Enter title</string>
-    <string name="recipe_error">Enter recipe</string>
-    <string name="image_error">Choose an image</string>
-    <string name="category_error">Select categories</string>
+    <string name="title_error">Введіть назву рецепту</string>
+    <string name="recipe_error">Введіть рецепт</string>
+    <string name="image_error">Оберіть зображення</string>
+    <string name="category_error">Оберіть категорії</string>
 </resources>

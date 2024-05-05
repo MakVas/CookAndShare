@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -38,12 +39,14 @@ fun LikedScreen(
     viewModel: LikedScreenViewModel = hiltViewModel()
 ) {
     val likedRecipes = viewModel.likedRecipes.collectAsState(emptyList())
+    val recipe = remember { mutableStateOf(Recipe()) }
 
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val sheetState = rememberModalBottomSheetState()
     val isSheetExpanded = rememberSaveable { mutableStateOf(false) }
 
     RecipeBottomSheet(
+        recipe = recipe.value,
         sheetState = sheetState,
         isSheetExpanded = isSheetExpanded
     )
@@ -53,6 +56,7 @@ fun LikedScreen(
         popUp = popUp,
         scrollBehavior = scrollBehavior,
         recipes = likedRecipes.value,
+        recipe = recipe,
         onRecipeLikeClick = viewModel::onRecipeLikeClick,
         isSheetExpanded = isSheetExpanded
     )
@@ -67,6 +71,7 @@ private fun LikedScreenContent(
     onRecipeLikeClick: (Recipe) -> Unit,
     popUp: () -> Unit,
     scrollBehavior: TopAppBarScrollBehavior,
+    recipe: MutableState<Recipe>,
     recipes: List<Recipe>
 ) {
     Scaffold(
@@ -91,6 +96,7 @@ private fun LikedScreenContent(
                 isRecipeLiked = isRecipeLiked,
                 recipes = recipes,
                 isSheetExpanded = isSheetExpanded,
+                recipe = recipe,
                 onRecipeLikeClick = onRecipeLikeClick
             )
         }
@@ -102,6 +108,7 @@ private fun NestedScrolling(
     isRecipeLiked: (Recipe) -> Boolean,
     recipes: List<Recipe>,
     isSheetExpanded: MutableState<Boolean>,
+    recipe: MutableState<Recipe>,
     onRecipeLikeClick: (Recipe) -> Unit
 ) {
     LazyColumn(
@@ -113,6 +120,7 @@ private fun NestedScrolling(
             Spacer(modifier = Modifier.padding(top = 16.dp))
         }
         subColumn(
+            recipe = recipe,
             isRecipeLiked = isRecipeLiked,
             onRecipeLikeClick = onRecipeLikeClick,
             recipes = recipes,
@@ -122,6 +130,7 @@ private fun NestedScrolling(
 }
 
 private fun LazyListScope.subColumn(
+    recipe: MutableState<Recipe>,
     isRecipeLiked: (Recipe) -> Boolean,
     onRecipeLikeClick: (Recipe) -> Unit,
     recipes: List<Recipe>,
@@ -136,6 +145,7 @@ private fun LazyListScope.subColumn(
             onRecipeLikeClick = onRecipeLikeClick,
             recipe = recipeItem,
             onClick = {
+                recipe.value = recipeItem
                 isSheetExpanded.value = true
             },
             modifier = modifier,

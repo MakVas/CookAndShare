@@ -45,7 +45,6 @@ fun CategoriesScreen(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     val categories by viewModel.getSearchCategoriesResult().collectAsState(emptyList())
-    val localSelectedCategories = emptyList<String>()
 
     CategoriesScreenContent(
         selectedCategories = selectedCategories,
@@ -53,7 +52,6 @@ fun CategoriesScreen(
         popUp = popUp,
         scrollBehavior = scrollBehavior,
         onValueChange = viewModel.searchQuery,
-        localSelectedCategories = localSelectedCategories,
         onCategoryClick = viewModel::onCategoryClick
     )
 }
@@ -62,7 +60,6 @@ fun CategoriesScreen(
 @Composable
 private fun CategoriesScreenContent(
     selectedCategories: MutableState<List<String>>,
-    localSelectedCategories: List<String>,
     onCategoryClick: (String, MutableState<List<String>>) -> Unit,
     categories: List<String>,
     popUp: () -> Unit,
@@ -89,7 +86,6 @@ private fun CategoriesScreenContent(
         ) {
             NestedScrolling(
                 selectedCategories = selectedCategories,
-                localSelectedCategories = localSelectedCategories,
                 onCategoryClick = onCategoryClick,
                 categories = categories,
                 onValueChange = onValueChange
@@ -101,7 +97,6 @@ private fun CategoriesScreenContent(
 @Composable
 private fun NestedScrolling(
     selectedCategories: MutableState<List<String>>,
-    localSelectedCategories: List<String>,
     onCategoryClick: (String, MutableState<List<String>>) -> Unit,
     categories: List<String>,
     onValueChange: MutableState<String>
@@ -127,7 +122,6 @@ private fun NestedScrolling(
         item {
             Categories(
                 selectedCategories = selectedCategories,
-                localSelectedCategories = localSelectedCategories,
                 onCategoryClick = onCategoryClick,
                 categories = categories
             )
@@ -139,7 +133,6 @@ private fun NestedScrolling(
 @Composable
 private fun Categories(
     selectedCategories: MutableState<List<String>>,
-    localSelectedCategories: List<String>,
     onCategoryClick: (String, MutableState<List<String>>) -> Unit,
     categories: List<String>
 ) {
@@ -162,6 +155,8 @@ private fun Categories(
     ) {
         repeat(categories.size) {
             CategoryItem(
+                modifier = Modifier
+                    .padding(bottom = 8.dp, end = 8.dp),
                 isClicked = selectedCategories.value.contains(categories[it]),
                 category = categories[it],
                 onClick = {

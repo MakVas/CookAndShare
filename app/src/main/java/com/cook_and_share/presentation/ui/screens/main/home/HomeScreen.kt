@@ -31,6 +31,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -56,6 +57,7 @@ fun HomeScreen(
 ) {
     val recipes = viewModel.recipes.collectAsState(emptyList())
     val dailyRecipes = viewModel.dailyRecipes.collectAsState(emptyList())
+    val recipe = remember { mutableStateOf(Recipe()) }
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
@@ -64,10 +66,12 @@ fun HomeScreen(
 
 
     RecipeBottomSheet(
+        recipe = recipe.value,
         sheetState = sheetState,
         isSheetExpanded = isSheetExpanded
     )
     HomeScreenContent(
+        recipe = recipe,
         recipes = recipes.value,
         dailyRecipes = dailyRecipes.value,
         scrollBehavior = scrollBehavior,
@@ -80,6 +84,7 @@ fun HomeScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeScreenContent(
+    recipe: MutableState<Recipe>,
     isRecipeLiked: (Recipe) -> Boolean,
     recipes: List<Recipe>,
     dailyRecipes: List<Recipe>,
@@ -104,6 +109,7 @@ private fun HomeScreenContent(
                 .background(colorScheme.background)
         ) {
             NestedScrolling(
+                recipe = recipe,
                 dailyRecipes = dailyRecipes,
                 recipes = recipes,
                 isSheetExpanded = isSheetExpanded,
@@ -116,6 +122,7 @@ private fun HomeScreenContent(
 
 @Composable
 private fun NestedScrolling(
+    recipe: MutableState<Recipe>,
     dailyRecipes: List<Recipe>,
     recipes: List<Recipe>,
     isRecipeLiked: (Recipe) -> Boolean,
@@ -139,6 +146,7 @@ private fun NestedScrolling(
             Spacer(modifier = Modifier.height(16.dp))
 
             SubRow(
+                recipe = recipe,
                 isRecipeLiked = isRecipeLiked,
                 onRecipeLikeClick = onRecipeLikeClick,
                 recipes = dailyRecipes,
@@ -154,6 +162,7 @@ private fun NestedScrolling(
             Spacer(modifier = Modifier.height(16.dp))
         }
         subColumn(
+            recipe = recipe,
             onRecipeLikeClick = onRecipeLikeClick,
             recipes = recipes,
             isRecipeLiked = isRecipeLiked,
@@ -166,6 +175,7 @@ private fun NestedScrolling(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun SubRow(
+    recipe: MutableState<Recipe>,
     isRecipeLiked: (Recipe) -> Boolean,
     onRecipeLikeClick: (Recipe) -> Unit,
     recipes: List<Recipe>,
@@ -202,6 +212,7 @@ private fun SubRow(
                 onRecipeLikeClick = onRecipeLikeClick,
                 recipe = recipes[it],
                 onClick = {
+                    recipe.value = recipes[it]
                     isSheetExpanded.value = true
                 },
                 isPreview = false
@@ -212,6 +223,7 @@ private fun SubRow(
 }
 
 private fun LazyListScope.subColumn(
+    recipe: MutableState<Recipe>,
     isRecipeLiked: (Recipe) -> Boolean,
     onRecipeLikeClick: (Recipe) -> Unit,
     recipes: List<Recipe>,
@@ -226,6 +238,7 @@ private fun LazyListScope.subColumn(
             onRecipeLikeClick = onRecipeLikeClick,
             recipe = recipeItem,
             onClick = {
+                recipe.value = recipeItem
                 isSheetExpanded.value = true
             },
             modifier = modifier,

@@ -24,11 +24,12 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun CategoryItem(
+    modifier: Modifier = Modifier,
     isClicked: Boolean = false,
     category: String,
     backgroundColor: Color = if (isClicked) colorScheme.tertiary else colorScheme.secondary,
     textColor: Color = if (isClicked) colorScheme.secondary else colorScheme.onSecondary,
-    onClick: () -> Unit
+    onClick: () -> Unit = {}
 ) {
     val scale = remember { Animatable(initialValue = 1f) }
     val interactionSource = remember { MutableInteractionSource() }
@@ -48,8 +49,7 @@ fun CategoryItem(
     }
 
     Box(
-        Modifier
-            .padding(bottom = 8.dp, end = 8.dp)
+        modifier = modifier
             .scale(scale.value)
             .border(1.dp, colorScheme.onSecondary, RoundedCornerShape(16.dp))
             .clip(RoundedCornerShape(16.dp))

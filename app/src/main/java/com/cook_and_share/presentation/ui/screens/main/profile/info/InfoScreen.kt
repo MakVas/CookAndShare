@@ -86,6 +86,8 @@ private fun NestedScrolling() {
                 label = R.string.version,
                 icon = Icons.Outlined.Info
             )
+
+            Spacer(modifier = Modifier.padding(top = 16.dp))
         }
     }
 }
