@@ -5,6 +5,7 @@ import java.util.regex.Pattern
 
 private const val MIN_PASS_LENGTH = 6
 private const val MIN_USERNAME_LENGTH = 4
+private const val MIN_RECIPE_LENGTH = 2
 private const val PASS_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{4,}$"
 
 fun String.isValidEmail(): Boolean {
@@ -27,4 +28,8 @@ fun String.passwordMatches(repeated: String): Boolean {
 
 fun String.idFromParameter(): String {
     return this.substring(1, this.length - 1)
+}
+
+fun String.isValidRecipe(): Boolean {
+    return this.isNotBlank() && this.length >= MIN_RECIPE_LENGTH
 }
