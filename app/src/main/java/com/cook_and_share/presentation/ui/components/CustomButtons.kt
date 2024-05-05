@@ -53,7 +53,7 @@ fun PrimaryButton(
 
 @Composable
 fun SecondaryButton(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     label: Int,
     onClick: () -> Unit
 ) {

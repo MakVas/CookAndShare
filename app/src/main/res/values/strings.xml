@@ -61,4 +61,6 @@
     <string name="recipe_error">Enter recipe</string>
     <string name="image_error">Choose an image</string>
     <string name="category_error">Select categories</string>
+    <string name="connection_error">Connection error</string>
+    <string name="check_connection_text">Сheck your internet connection</string>
 </resources>

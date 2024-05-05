@@ -59,4 +59,6 @@
     <string name="recipe_error">Введіть рецепт</string>
     <string name="image_error">Оберіть зображення</string>
     <string name="category_error">Оберіть категорії</string>
+    <string name="connection_error">Помилка підключення</string>
+    <string name="check_connection_text">Перевірте з\'єднання з інтернетом</string>
 </resources>
