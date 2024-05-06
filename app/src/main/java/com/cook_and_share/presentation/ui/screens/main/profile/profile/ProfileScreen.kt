@@ -1,13 +1,6 @@
 package com.cook_and_share.presentation.ui.screens.main.profile.profile
 
-import android.net.Uri
-import androidx.activity.compose.ManagedActivityResultLauncher
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -15,11 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,21 +27,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
 import com.cook_and_share.R
 import com.cook_and_share.domain.model.Profile
 import com.cook_and_share.domain.model.Recipe
+import com.cook_and_share.presentation.ui.components.ProfileItem
 import com.cook_and_share.presentation.ui.components.RecipeBottomSheet
 import com.cook_and_share.presentation.ui.components.RecipeItem
 import com.cook_and_share.presentation.ui.components.SettingsBottomSheet
@@ -66,14 +50,6 @@ fun ProfileScreen(
     val profile = viewModel.profile
     val recipes = viewModel.recipes.collectAsState(emptyList())
     val recipe = remember { mutableStateOf(Recipe()) }
-
-    val singlePhotoPicker = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickVisualMedia()
-    ) {
-        if (it != null) {
-            viewModel.setImage(it)
-        }
-    }
 
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
@@ -105,8 +81,10 @@ fun ProfileScreen(
     )
 
     ProfileScreenContent(
+        onProfileClick = {
+            viewModel.onProfileClick(navigate)
+        },
         recipe = recipe,
-        singlePhotoPicker = singlePhotoPicker,
         profile = profile.value,
         isRecipeLiked = viewModel::isRecipeLiked,
         scrollBehavior = scrollBehavior,
@@ -120,7 +98,7 @@ fun ProfileScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ProfileScreenContent(
-    singlePhotoPicker: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>,
+    onProfileClick: () -> Unit,
     profile: Profile,
     isRecipeLiked: (Recipe) -> Boolean,
     scrollBehavior: TopAppBarScrollBehavior,
@@ -151,7 +129,7 @@ private fun ProfileScreenContent(
                 .background(colorScheme.background)
         ) {
             NestedScrolling(
-                singlePhotoPicker = singlePhotoPicker,
+                onProfileClick = onProfileClick,
                 profile = profile,
                 isRecipeLiked = isRecipeLiked,
                 isRecipeSheetExpanded = isRecipeSheetExpanded,
@@ -165,7 +143,7 @@ private fun ProfileScreenContent(
 
 @Composable
 private fun NestedScrolling(
-    singlePhotoPicker: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>,
+    onProfileClick: () -> Unit,
     profile: Profile,
     isRecipeLiked: (Recipe) -> Boolean,
     isRecipeSheetExpanded: MutableState<Boolean>,
@@ -180,9 +158,9 @@ private fun NestedScrolling(
         item {
             Spacer(modifier = Modifier.height(16.dp))
 
-            ProfileContent(
+            ProfileItem(
                 onClick = {
-                    singlePhotoPicker.launch(PickVisualMediaRequest())
+                    onProfileClick()
                 },
                 modifier = Modifier
                     .height(220.dp)
@@ -236,84 +214,5 @@ private fun LazyListScope.subColumn(
             isPreview = false
         )
         Spacer(modifier = Modifier.height(16.dp))
-    }
-}
-
-@Composable
-private fun ProfileContent(
-    modifier: Modifier,
-    profile: Profile,
-    onClick: () -> Unit
-) {
-    Box(
-        modifier = modifier
-            .shadow(1.dp, RoundedCornerShape(16.dp), clip = true)
-            .clip(RoundedCornerShape(16.dp))
-            .clickable { onClick() }
-            .background(colorScheme.secondary),
-    ) {
-        Box {
-            Image(
-                painter = painterResource(id = R.drawable.profile_default),
-                contentDescription = "profile image",
-                modifier = Modifier
-                    .padding(16.dp)
-                    .size(120.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                contentScale = ContentScale.Crop
-            )
-            AsyncImage(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .size(120.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                model = profile.profileImage,
-                contentScale = ContentScale.Crop,
-                clipToBounds = true,
-                contentDescription = "profile image",
-            )
-        }
-        Text(
-            buildAnnotatedString {
-                withStyle(
-                    SpanStyle(
-                        fontStyle = typography.titleMedium.fontStyle,
-                        color = colorScheme.tertiary,
-                        fontWeight = typography.titleMedium.fontWeight
-                    )
-                ) {
-                    append(stringResource(id = R.string.username) + ":\n")
-                }
-                append(profile.username + "\n")
-                withStyle(
-                    SpanStyle(
-                        fontStyle = typography.titleMedium.fontStyle,
-                        color = colorScheme.tertiary,
-                        fontWeight = typography.titleMedium.fontWeight
-                    )
-                ) {
-                    append(stringResource(id = R.string.recipes) + ":\n")
-                }
-                append(profile.myRecipes.size.toString() + "\n")
-            },
-            Modifier.padding(top = 16.dp, start = 156.dp)
-        )
-
-        Text(
-            modifier = Modifier
-                .padding(top = 142.dp, start = 16.dp),
-            text = buildAnnotatedString {
-                withStyle(
-                    SpanStyle(
-                        fontStyle = typography.titleMedium.fontStyle,
-                        color = colorScheme.tertiary,
-                        fontWeight = typography.titleMedium.fontWeight
-                    )
-                ) {
-                    append(stringResource(id = R.string.bio) + ": ")
-                }
-                append(profile.bio)
-            }
-        )
     }
 }

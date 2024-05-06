@@ -61,4 +61,10 @@
     <string name="category_error">Оберіть категорії</string>
     <string name="connection_error">Помилка підключення</string>
     <string name="check_connection_text">Перевірте з\'єднання з інтернетом</string>
+    <string name="profile_settings">Налаштування профілю</string>
+    <string name="application_design">Оформлення застосунку</string>
+    <string name="about_me">Про себе</string>
+    <string name="cancel">Відмінити</string>
+    <string name="confirm_log_out">Підтвердіть вихід з системи</string>
+    <string name="save_changes">Зберегти зміни</string>
 </resources>

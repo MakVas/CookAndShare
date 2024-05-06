@@ -63,4 +63,10 @@
     <string name="category_error">Select categories</string>
     <string name="connection_error">Connection error</string>
     <string name="check_connection_text">Сheck your internet connection</string>
+    <string name="profile_settings">Profile settings</string>
+    <string name="application_design">Application design</string>
+    <string name="about_me">About me</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm_log_out">Confirm your logout</string>
+    <string name="save_changes">Save changes</string>
 </resources>

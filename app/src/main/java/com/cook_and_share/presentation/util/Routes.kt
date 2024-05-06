@@ -4,10 +4,10 @@ sealed class GetStarted(val route: String) {
     data object Allergies : GetStarted("allergies")
     data object Dislikes : GetStarted("dislikes")
     data object Preferences : GetStarted("preferences")
-    data object SignUpScreen : Login("sign_up_screen")
+    data object SignUpScreen : GetStarted("sign_up_screen")
 }
 sealed class Login(val route: String) {
-    data object LoginScreen : GetStarted("login_screen")
+    data object LoginScreen : Login("login_screen")
     data object EntryScreen : Login("entry_screen")
     data object ForgotPassScreen : Login("forgot_pass_screen")
 }
@@ -20,8 +20,9 @@ sealed class Main(val route: String) {
     data object IngredientsScreen : Main("ingredients_screen")
 }
 sealed class ProfileRoutes(val route: String) {
-    data object Settings : Main("settings")
-    data object Info : Main("info")
-    data object Liked : Main("liked")
+    data object AboutMe :  ProfileRoutes("about_me")
+    data object Settings : ProfileRoutes("settings")
+    data object Info : ProfileRoutes("info")
+    data object Liked : ProfileRoutes("liked")
 
 }

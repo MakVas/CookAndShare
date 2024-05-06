@@ -1,6 +1,5 @@
 package com.cook_and_share.presentation.ui.screens.main.profile.profile
 
-import android.net.Uri
 import androidx.compose.runtime.mutableStateOf
 import com.cook_and_share.domain.model.Profile
 import com.cook_and_share.domain.model.Recipe
@@ -54,10 +53,7 @@ class ProfileViewModel @Inject constructor(
         navigate(ProfileRoutes.Info.route)
     }
 
-    fun setImage(uri: Uri) {
-        launchCatching {
-            val profileImage = authRepository.uploadProfileImage(uri)
-            authRepository.updateProfile(profile.value.copy(profileImage = profileImage))
-        }
+    fun onProfileClick(navigate: (String) -> Unit) {
+        navigate(ProfileRoutes.AboutMe.route)
     }
 }

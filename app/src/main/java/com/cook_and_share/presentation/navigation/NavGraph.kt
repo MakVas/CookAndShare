@@ -9,6 +9,7 @@ import com.cook_and_share.presentation.popUp
 import com.cook_and_share.presentation.ui.screens.get_started.GetStartedScreen
 import com.cook_and_share.presentation.ui.screens.login.navigation.LoginNavHost
 import com.cook_and_share.presentation.ui.screens.main.MainScreen
+import com.cook_and_share.presentation.ui.screens.main.profile.about_me.AboutMeScreen
 import com.cook_and_share.presentation.ui.screens.main.profile.info.InfoScreen
 import com.cook_and_share.presentation.ui.screens.main.profile.liked.LikedScreen
 import com.cook_and_share.presentation.ui.screens.main.profile.settings.SettingsScreen
@@ -44,15 +45,19 @@ fun NavGraphBuilder.cookAndShareNavGraph(
     }
 
     customComposable(ProfileRoutes.Liked.route) {
-        LikedScreen(popUp = { popUp(rootNavController)} )
+        LikedScreen(popUp = { popUp(rootNavController) })
     }
 
     customComposable(ProfileRoutes.Info.route) {
         InfoScreen { popUp(rootNavController) }
     }
 
+    customComposable(ProfileRoutes.AboutMe.route) {
+        AboutMeScreen(popUp = { popUp(rootNavController) })
+    }
+
     customComposable(ProfileRoutes.Settings.route) {
-        SettingsScreen (
+        SettingsScreen(
             isDarkTheme = isDarkTheme,
             toggleTheme = toggleTheme,
             popUp = { popUp(rootNavController) },

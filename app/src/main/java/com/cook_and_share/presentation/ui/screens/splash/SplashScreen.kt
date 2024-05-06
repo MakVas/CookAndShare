@@ -53,8 +53,9 @@ private fun SplashScreenContent(
             Text(text = stringResource(id = R.string.generic_error))
             SecondaryButton(
                 modifier = Modifier,
-                label = R.string.try_again
-            ) { onAppStart() }
+                label = R.string.try_again,
+                onClick = onAppStart
+            )
         } else {
             CircularProgressIndicator(
                 modifier = Modifier.size(64.dp),
