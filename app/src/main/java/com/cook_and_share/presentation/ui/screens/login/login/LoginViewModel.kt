@@ -51,16 +51,8 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun onForgotPasswordClick() {
-        if (!email.isValidEmail()) {
-            SnackbarManager.showMessage(R.string.email_error)
-            return
-        }
-
-        launchCatching {
-            authRepository.sendRecoveryEmail(email)
-            SnackbarManager.showMessage(R.string.email_letter_sent)
-        }
+    fun onForgotPasswordClick(navigate: (String) -> Unit) {
+        navigate(Login.ForgotPassScreen.route)
     }
 
     fun onSignUpClick(navigate: (String) -> Unit) {

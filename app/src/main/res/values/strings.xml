@@ -72,4 +72,6 @@
     <string name="toggle_translation_beta">Auto translation (beta)</string>
     <string name="beta_attention">WARNING! Please note that beta features are not stable and may consume extra traffic and memory on your device.</string>
     <string name="beta_functions">Beta functions</string>
+    <string name="send">Send</string>
+    <string name="forgot_pass_title">Reset password</string>
 </resources>

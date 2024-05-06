@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import com.cook_and_share.presentation.navigate
 import com.cook_and_share.presentation.navigateAndPopUp
 import com.cook_and_share.presentation.navigation.customComposable
-import com.cook_and_share.presentation.ui.screens.login.ForgotPassScreen
+import com.cook_and_share.presentation.ui.screens.login.forgot_pass.ForgotPassScreen
 import com.cook_and_share.presentation.ui.screens.login.entry.EntryScreen
 import com.cook_and_share.presentation.ui.screens.login.login.LoginScreen
 import com.cook_and_share.presentation.util.Login
@@ -27,6 +27,8 @@ fun NavGraphBuilder.loginGraph(
         )
     }
     customComposable(Login.ForgotPassScreen.route) {
-        ForgotPassScreen()
+        ForgotPassScreen(
+            popUp = { rootNavController.popBackStack() }
+        )
     }
 }

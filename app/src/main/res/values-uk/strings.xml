@@ -70,4 +70,6 @@
     <string name="toggle_translation_beta">Авто переклад (бета)</string>
     <string name="beta_attention">УВАГА! Зверніть увагу, що бета функції працюють нестабільно, використання такого функціоналу може надмірно споживати трафік та пам\'ять вашого пристрою.</string>
     <string name="beta_functions">Бета функції</string>
+    <string name="send">Надіслати</string>
+    <string name="forgot_pass_title">Скинути пароль</string>
 </resources>

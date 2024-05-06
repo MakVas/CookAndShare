@@ -43,7 +43,7 @@ fun LoginScreen(
         onEmailChange = viewModel::onEmailChange,
         onPasswordChange = viewModel::onPasswordChange,
         onSignInClick = { viewModel.onSignInClick(openAndPopUp) },
-        onForgotPasswordClick = { viewModel.onForgotPasswordClick() },
+        onForgotPasswordClick = { viewModel.onForgotPasswordClick(navigate) },
         onSignUpClick = { viewModel.onSignUpClick(navigate) }
     )
 
