@@ -6,6 +6,7 @@ import com.cook_and_share.domain.model.Recipe
 import com.cook_and_share.domain.repository.LogRepository
 import com.cook_and_share.domain.repository.StorageRepository
 import com.cook_and_share.domain.repository.TranslateRepository
+import com.cook_and_share.domain.use_cases.LikeRecipeUseCase
 import com.cook_and_share.presentation.ui.screens.CookAndShareViewModel
 import com.cook_and_share.presentation.util.Constants.RECIPE_NAME_FIELD
 import com.cook_and_share.presentation.util.Constants.USERNAME_FIELD
@@ -18,6 +19,7 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val storageRepository: StorageRepository,
     private val translateRepository: TranslateRepository,
+    private val likeRecipeUseCase: LikeRecipeUseCase,
     logRepository: LogRepository
 ) : CookAndShareViewModel(logRepository) {
 
@@ -69,4 +71,13 @@ class SearchViewModel @Inject constructor(
         return resultFlow
     }
 
+    fun isRecipeLiked(recipe: Recipe): Boolean {
+        return likeRecipeUseCase.isRecipeLiked(recipe)
+    }
+
+    fun onRecipeLikeClick(recipe: Recipe) {
+        launchCatching {
+            likeRecipeUseCase.onRecipeLikeClick(recipe)
+        }
+    }
 }

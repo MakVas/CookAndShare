@@ -1,5 +1,5 @@
 <resources>
-    <string name="version">Version: beta 0.0.3</string>
+    <string name="version">Version: beta 0.0.4</string>
     <string name="web_client_id" translatable="false">AIzaSyBwDBp06krAvssnt8QgF5HITDG6vBDBNRM.apps.googleusercontent.com</string>
     <string name="app_name" translatable="false">Cook&amp;Share</string>
     <string name="app_name_caps" translatable="false">COOK&amp;SHARE</string>

@@ -127,7 +127,7 @@ fun RecipeItem(
 }
 
 @Composable
-private fun LikeButton(
+fun LikeButton(
     modifier: Modifier = Modifier,
     isLiked: Boolean,
     onRecipeLikeClick: () -> Unit,
@@ -159,7 +159,7 @@ private fun LikeButton(
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween,
+        verticalArrangement = Arrangement.SpaceEvenly,
     ) {
         Box(
             modifier = Modifier

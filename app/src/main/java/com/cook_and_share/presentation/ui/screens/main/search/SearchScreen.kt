@@ -29,7 +29,8 @@ import com.cook_and_share.R
 import com.cook_and_share.domain.model.Profile
 import com.cook_and_share.domain.model.Recipe
 import com.cook_and_share.presentation.ui.components.RecipeBottomSheet
-import com.cook_and_share.presentation.ui.components.SearchItem
+import com.cook_and_share.presentation.ui.components.SearchProfileItem
+import com.cook_and_share.presentation.ui.components.SearchRecipeItem
 import com.cook_and_share.presentation.ui.components.SearchTopBar
 import java.util.Locale
 
@@ -63,6 +64,8 @@ fun SearchScreen(
         isSheetExpanded = isSheetExpanded
     )
     SearchScreenContent(
+        isRecipeLiked = viewModel::isRecipeLiked,
+        onRecipeLikeClick = viewModel::onRecipeLikeClick,
         searchProfileResults = searchProfileResults,
         searchRecipeResults = searchRecipeResults,
         searchQuery = viewModel.searchQuery,
@@ -75,6 +78,8 @@ fun SearchScreen(
 
 @Composable
 private fun SearchScreenContent(
+    isRecipeLiked: (Recipe) -> Boolean,
+    onRecipeLikeClick: (Recipe) -> Unit,
     searchProfileResults: List<Profile>,
     searchRecipeResults: List<Recipe>,
     searchQuery: MutableState<String>,
@@ -100,6 +105,8 @@ private fun SearchScreenContent(
                 .background(MaterialTheme.colorScheme.background)
         ) {
             NestedScrolling(
+                isRecipeLiked = isRecipeLiked,
+                onRecipeLikeClick = onRecipeLikeClick,
                 searchProfileResults = searchProfileResults,
                 searchRecipeResults = searchRecipeResults,
                 recipe = recipe,
@@ -112,6 +119,8 @@ private fun SearchScreenContent(
 
 @Composable
 private fun NestedScrolling(
+    isRecipeLiked: (Recipe) -> Boolean,
+    onRecipeLikeClick: (Recipe) -> Unit,
     searchProfileResults: List<Profile>,
     searchRecipeResults: List<Recipe>,
     recipe: MutableState<Recipe>,
@@ -127,6 +136,8 @@ private fun NestedScrolling(
         }
         when (tabIndex.value) {
             0 -> recipeSearch(
+                isRecipeLiked = isRecipeLiked,
+                onRecipeLikeClick = onRecipeLikeClick,
                 recipe = recipe,
                 searchRecipeResults = searchRecipeResults,
                 isSheetExpanded = isSheetExpanded,
@@ -140,22 +151,24 @@ private fun NestedScrolling(
 }
 
 private fun LazyListScope.recipeSearch(
+    isRecipeLiked: (Recipe) -> Boolean,
+    onRecipeLikeClick: (Recipe) -> Unit,
     recipe: MutableState<Recipe>,
     searchRecipeResults: List<Recipe>,
     isSheetExpanded: MutableState<Boolean>,
     modifier: Modifier = Modifier
 ) {
     items(searchRecipeResults) {recipeItem ->
-        SearchItem(
+        val isLiked = isRecipeLiked(recipeItem)
+        SearchRecipeItem(
             onClick = {
                 recipe.value = recipeItem
                 isSheetExpanded.value = true
             },
-            defaultImage = R.drawable.no_image,
-            image = recipeItem.imageUrl,
-            title = recipeItem.title,
-            text = recipeItem.author,
-            modifier = modifier
+            recipe = recipeItem,
+            modifier = modifier,
+            isLiked = isLiked,
+            onRecipeLikeClick = onRecipeLikeClick
         )
         Spacer(modifier = Modifier.height(16.dp))
     }
@@ -167,13 +180,10 @@ private fun LazyListScope.peopleSearch(
 ) {
 
     items(searchProfileResults){ profile ->
-        SearchItem(
+        SearchProfileItem(
             onClick = {
             },
-            defaultImage = R.drawable.profile_default,
-            image = profile.profileImage,
-            title = profile.username,
-            text = profile.email,
+            profile = profile,
             modifier = modifier,
         )
         Spacer(modifier = Modifier.height(16.dp))
