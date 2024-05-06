@@ -6,6 +6,7 @@ import com.cook_and_share.domain.model.Recipe
 import com.cook_and_share.domain.repository.AuthRepository
 import com.cook_and_share.domain.repository.LogRepository
 import com.cook_and_share.domain.repository.StorageRepository
+import com.cook_and_share.domain.repository.TranslateRepository
 import com.cook_and_share.domain.use_cases.LikeRecipeUseCase
 import com.cook_and_share.presentation.ui.screens.CookAndShareViewModel
 import com.cook_and_share.presentation.util.ProfileRoutes
@@ -16,6 +17,7 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val likeRecipeUseCase: LikeRecipeUseCase,
+    private val translateRepository: TranslateRepository,
     storageRepository: StorageRepository,
     logRepository: LogRepository
 ) : CookAndShareViewModel(logRepository) {
@@ -27,6 +29,31 @@ class ProfileViewModel @Inject constructor(
         launchCatching {
             authRepository.currentProfile.collect { profileData ->
                 profile.value = profileData
+            }
+        }
+    }
+
+    fun identifyLanguage(text: String): String {
+        val second = mutableStateOf("")
+        launchCatching {
+            second.value = translateRepository.detectLanguage(text)
+        }
+        return second.value
+    }
+
+    fun translateText(
+        text: String,
+        sourceLanguage: String,
+        targetLanguage: String,
+        callback: (String) -> Unit
+    ) {
+        launchCatching {
+            translateRepository.translateText(
+                text,
+                sourceLanguage,
+                targetLanguage
+            ) { translatedText ->
+                callback(translatedText)
             }
         }
     }

@@ -31,10 +31,12 @@ import com.cook_and_share.presentation.ui.components.RecipeBottomSheet
 import com.cook_and_share.presentation.ui.components.RecipeItem
 import com.cook_and_share.presentation.ui.components.TopAppBarBackIcon
 import com.cook_and_share.presentation.ui.components.TopBar
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LikedScreen(
+    isTranslation: Boolean,
     popUp: () -> Unit,
     viewModel: LikedScreenViewModel = hiltViewModel()
 ) {
@@ -45,7 +47,13 @@ fun LikedScreen(
     val sheetState = rememberModalBottomSheetState()
     val isSheetExpanded = rememberSaveable { mutableStateOf(false) }
 
+    val localLanguage = Locale.getDefault().language
+
     RecipeBottomSheet(
+        isTranslation = isTranslation,
+        localLanguage = localLanguage,
+        identifyLanguage = viewModel::identifyLanguage,
+        translateText = viewModel::translateText,
         recipe = recipe.value,
         sheetState = sheetState,
         isSheetExpanded = isSheetExpanded

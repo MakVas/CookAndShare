@@ -15,12 +15,13 @@ import com.cook_and_share.presentation.ui.screens.main.search.SearchScreen
 import com.cook_and_share.presentation.util.Main
 
 fun NavGraphBuilder.mainGraph(
+    isTranslation: Boolean,
     rootNavController: NavHostController,
     navController: NavHostController,
     selectedCategories: MutableState<List<String>>
 ) {
     composable(Main.HomeScreen.route) {
-        HomeScreen()
+        HomeScreen(isTranslation)
     }
     composable(Main.AddRecipeScreen.route) {
         AddRecipeScreen(
@@ -30,10 +31,13 @@ fun NavGraphBuilder.mainGraph(
         )
     }
     composable(Main.SearchRecipeScreen.route) {
-        SearchScreen()
+        SearchScreen(
+            isTranslation = isTranslation
+        )
     }
     composable(Main.ProfileScreen.route) {
         ProfileScreen(
+            isTranslation = isTranslation,
             navigate = { route -> navigate(rootNavController, route) },
         )
     }

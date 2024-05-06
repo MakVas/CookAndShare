@@ -1,5 +1,7 @@
 package com.cook_and_share.presentation.ui.screens.main.home
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -49,10 +51,13 @@ import com.cook_and_share.presentation.ui.components.RecipeItem
 import com.cook_and_share.presentation.ui.components.TopBar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.Locale
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+    isTranslation: Boolean,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val recipes = viewModel.recipes.collectAsState(emptyList())
@@ -64,8 +69,13 @@ fun HomeScreen(
     val sheetState = rememberModalBottomSheetState()
     val isSheetExpanded = rememberSaveable { mutableStateOf(false) }
 
+    val localLanguage = Locale.getDefault().language
 
     RecipeBottomSheet(
+        isTranslation = isTranslation,
+        localLanguage = localLanguage,
+        identifyLanguage = viewModel::identifyLanguage,
+        translateText = viewModel::translateText,
         recipe = recipe.value,
         sheetState = sheetState,
         isSheetExpanded = isSheetExpanded

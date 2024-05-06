@@ -5,6 +5,7 @@ import com.cook_and_share.domain.model.Profile
 import com.cook_and_share.domain.model.Recipe
 import com.cook_and_share.domain.repository.LogRepository
 import com.cook_and_share.domain.repository.StorageRepository
+import com.cook_and_share.domain.repository.TranslateRepository
 import com.cook_and_share.presentation.ui.screens.CookAndShareViewModel
 import com.cook_and_share.presentation.util.Constants.RECIPE_NAME_FIELD
 import com.cook_and_share.presentation.util.Constants.USERNAME_FIELD
@@ -16,11 +17,12 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val storageRepository: StorageRepository,
+    private val translateRepository: TranslateRepository,
     logRepository: LogRepository
 ) : CookAndShareViewModel(logRepository) {
 
     val searchQuery = mutableStateOf("")
-    fun getSearchProfileResult():Flow<List<Profile>> {
+    fun getSearchProfileResult(): Flow<List<Profile>> {
         var resultFlow: Flow<List<Profile>> = flowOf(emptyList())
         launchCatching {
             resultFlow = storageRepository.searchProfiles(
@@ -31,7 +33,32 @@ class SearchViewModel @Inject constructor(
         return resultFlow
     }
 
-    fun getSearchRecipeResult():Flow<List<Recipe>> {
+    fun identifyLanguage(text: String): String {
+        val second = mutableStateOf("")
+        launchCatching {
+            second.value = translateRepository.detectLanguage(text)
+        }
+        return second.value
+    }
+
+    fun translateText(
+        text: String,
+        sourceLanguage: String,
+        targetLanguage: String,
+        callback: (String) -> Unit
+    ) {
+        launchCatching {
+            translateRepository.translateText(
+                text,
+                sourceLanguage,
+                targetLanguage
+            ) { translatedText ->
+                callback(translatedText)
+            }
+        }
+    }
+
+    fun getSearchRecipeResult(): Flow<List<Recipe>> {
         var resultFlow: Flow<List<Recipe>> = flowOf(emptyList())
         launchCatching {
             resultFlow = storageRepository.searchRecipes(

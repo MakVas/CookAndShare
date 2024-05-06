@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.outlined.FormatPaint
+import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -43,11 +44,15 @@ import com.cook_and_share.presentation.ui.components.TopBar
 fun SettingsScreen(
     isDarkTheme: Boolean,
     toggleTheme: () -> Unit,
+    isTranslation: Boolean,
+    toggleTranslation: () -> Unit,
     popUp: () -> Unit,
     restartApp: (String) -> Unit,
     viewModel: SettingsViewModel = hiltViewModel(),
 ) {
     SettingsScreenContent(
+        isTranslation = isTranslation,
+        toggleTranslation = toggleTranslation,
         isExitAccDialog = viewModel.isExitAccDialog,
         isDarkTheme = isDarkTheme,
         onThemeSwitchToggle = { toggleTheme() },
@@ -59,6 +64,8 @@ fun SettingsScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SettingsScreenContent(
+    isTranslation: Boolean,
+    toggleTranslation: () -> Unit,
     isExitAccDialog: MutableState<Boolean>,
     isDarkTheme: Boolean,
     onThemeSwitchToggle: () -> Unit,
@@ -89,6 +96,8 @@ private fun SettingsScreenContent(
                 onSignOutClick = onSignOutClick
             )
             NestedScrolling(
+                isTranslation = isTranslation,
+                toggleTranslation = toggleTranslation,
                 isExitAccDialog = isExitAccDialog,
                 isDarkTheme = isDarkTheme,
                 onThemeSwitchToggle = onThemeSwitchToggle
@@ -99,6 +108,8 @@ private fun SettingsScreenContent(
 
 @Composable
 private fun NestedScrolling(
+    isTranslation: Boolean,
+    toggleTranslation: () -> Unit,
     isExitAccDialog: MutableState<Boolean>,
     isDarkTheme: Boolean,
     onThemeSwitchToggle: () -> Unit
@@ -127,6 +138,35 @@ private fun NestedScrolling(
             icon = Icons.Outlined.FormatPaint,
             isActive = isDarkTheme,
             onSwitchToggle = onThemeSwitchToggle
+        )
+
+        Spacer(modifier = Modifier.padding(top = 16.dp))
+
+        Text(
+            text = stringResource(id = R.string.beta_functions),
+            style = typography.bodyMedium,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+
+        Spacer(modifier = Modifier.padding(top = 6.dp))
+
+        SwitcherButton(
+            modifier = Modifier
+                .height(65.dp)
+                .padding(horizontal = 16.dp)
+                .fillMaxWidth(),
+            label = R.string.toggle_translation_beta,
+            icon = Icons.Outlined.Language,
+            isActive = isTranslation,
+            onSwitchToggle = toggleTranslation
+        )
+
+        Spacer(modifier = Modifier.padding(top = 6.dp))
+
+        Text(
+            text = stringResource(id = R.string.beta_attention),
+            style = typography.bodyMedium,
+            modifier = Modifier.padding(horizontal = 16.dp)
         )
 
         Spacer(modifier = Modifier.padding(top = 16.dp))

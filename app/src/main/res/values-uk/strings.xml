@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="version">Версія: beta 0.0.2</string>
+    <string name="version">Версія: beta 0.0.3</string>
     <string name="email">Електронна пошта</string>
     <string name="password">Пароль</string>
     <string name="forgot_password">Забули пароль?</string>
@@ -67,4 +67,7 @@
     <string name="cancel">Відмінити</string>
     <string name="confirm_log_out">Підтвердіть вихід з системи</string>
     <string name="save_changes">Зберегти зміни</string>
+    <string name="toggle_translation_beta">Авто переклад (бета)</string>
+    <string name="beta_attention">УВАГА! Зверніть увагу, що бета функції працюють нестабільно, використання такого функціоналу може надмірно споживати трафік та пам\'ять вашого пристрою.</string>
+    <string name="beta_functions">Бета функції</string>
 </resources>

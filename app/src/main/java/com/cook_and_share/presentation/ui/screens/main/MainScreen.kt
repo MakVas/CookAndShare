@@ -30,6 +30,7 @@ import com.cook_and_share.presentation.ui.screens.main.navigation.MainNavHost
 
 @Composable
 fun MainScreen(
+    isTranslation: Boolean,
     rootNavController: NavHostController
 ) {
     val navController = rememberNavController()
@@ -44,7 +45,11 @@ fun MainScreen(
                 .fillMaxSize()
                 .padding(it)
         ) {
-            MainNavHost(rootNavController, navController)
+            MainNavHost(
+                isTranslation = isTranslation,
+                rootNavController = rootNavController,
+                navController = navController
+            )
         }
     }
 }

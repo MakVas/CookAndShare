@@ -31,10 +31,12 @@ import com.cook_and_share.domain.model.Recipe
 import com.cook_and_share.presentation.ui.components.RecipeBottomSheet
 import com.cook_and_share.presentation.ui.components.SearchItem
 import com.cook_and_share.presentation.ui.components.SearchTopBar
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
+    isTranslation: Boolean,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
 
@@ -49,7 +51,13 @@ fun SearchScreen(
 
     val recipe = remember { mutableStateOf(Recipe()) }
 
+    val localLanguage = Locale.getDefault().language
+
     RecipeBottomSheet(
+        isTranslation = isTranslation,
+        localLanguage = localLanguage,
+        identifyLanguage = viewModel::identifyLanguage,
+        translateText = viewModel::translateText,
         recipe = recipe.value,
         sheetState = sheetState,
         isSheetExpanded = isSheetExpanded

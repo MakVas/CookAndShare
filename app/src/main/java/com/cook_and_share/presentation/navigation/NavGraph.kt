@@ -18,6 +18,8 @@ import com.cook_and_share.presentation.util.ProfileRoutes
 
 fun NavGraphBuilder.cookAndShareNavGraph(
     rootNavController: NavHostController,
+    isTranslation: Boolean,
+    toggleTranslation: () -> Unit,
     isDarkTheme: Boolean,
     toggleTheme: () -> Unit
 ) {
@@ -26,7 +28,10 @@ fun NavGraphBuilder.cookAndShareNavGraph(
     }
 
     customComposable(NavGraphs.Main.route) {
-        MainScreen(rootNavController)
+        MainScreen(
+            isTranslation = isTranslation,
+            rootNavController = rootNavController
+        )
     }
 
     customComposable(NavGraphs.GetStarted.route) {
@@ -45,7 +50,10 @@ fun NavGraphBuilder.cookAndShareNavGraph(
     }
 
     customComposable(ProfileRoutes.Liked.route) {
-        LikedScreen(popUp = { popUp(rootNavController) })
+        LikedScreen(
+            isTranslation = isTranslation,
+            popUp = { popUp(rootNavController) }
+        )
     }
 
     customComposable(ProfileRoutes.Info.route) {
@@ -58,6 +66,8 @@ fun NavGraphBuilder.cookAndShareNavGraph(
 
     customComposable(ProfileRoutes.Settings.route) {
         SettingsScreen(
+            isTranslation = isTranslation,
+            toggleTranslation = toggleTranslation,
             isDarkTheme = isDarkTheme,
             toggleTheme = toggleTheme,
             popUp = { popUp(rootNavController) },

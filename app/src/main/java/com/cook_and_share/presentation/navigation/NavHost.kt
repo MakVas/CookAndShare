@@ -7,6 +7,8 @@ import com.cook_and_share.presentation.CookAndShareState
 @Composable
 fun CookAndShareNavHost(
     appState: CookAndShareState,
+    isTranslation: Boolean,
+    toggleTranslation: () -> Unit,
     isDarkTheme: Boolean,
     toggleTheme: () -> Unit
 ) {
@@ -17,6 +19,8 @@ fun CookAndShareNavHost(
     ) {
         cookAndShareNavGraph(
             rootNavController = rootNavController,
+            isTranslation = isTranslation,
+            toggleTranslation = toggleTranslation,
             isDarkTheme = isDarkTheme,
             toggleTheme = toggleTheme
         )

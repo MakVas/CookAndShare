@@ -40,10 +40,12 @@ import com.cook_and_share.presentation.ui.components.RecipeItem
 import com.cook_and_share.presentation.ui.components.SettingsBottomSheet
 import com.cook_and_share.presentation.ui.components.TopAppBarAction
 import com.cook_and_share.presentation.ui.components.TopBar
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
+    isTranslation: Boolean,
     navigate: (String) -> Unit,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
@@ -57,7 +59,13 @@ fun ProfileScreen(
     val isRecipeSheetExpanded = rememberSaveable { mutableStateOf(false) }
     val isSettingsSheetExpanded = rememberSaveable { mutableStateOf(false) }
 
+    val localLanguage = Locale.getDefault().language
+
     RecipeBottomSheet(
+        isTranslation = isTranslation,
+        localLanguage = localLanguage,
+        identifyLanguage = viewModel::identifyLanguage,
+        translateText = viewModel::translateText,
         recipe = recipe.value,
         sheetState = sheetState,
         isSheetExpanded = isRecipeSheetExpanded

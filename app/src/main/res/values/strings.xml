@@ -1,5 +1,5 @@
 <resources>
-    <string name="version">Version: beta 0.0.2</string>
+    <string name="version">Version: beta 0.0.3</string>
     <string name="web_client_id" translatable="false">AIzaSyBwDBp06krAvssnt8QgF5HITDG6vBDBNRM.apps.googleusercontent.com</string>
     <string name="app_name" translatable="false">Cook&amp;Share</string>
     <string name="app_name_caps" translatable="false">COOK&amp;SHARE</string>
@@ -69,4 +69,7 @@
     <string name="cancel">Cancel</string>
     <string name="confirm_log_out">Confirm your logout</string>
     <string name="save_changes">Save changes</string>
+    <string name="toggle_translation_beta">Auto translation (beta)</string>
+    <string name="beta_attention">WARNING! Please note that beta features are not stable and may consume extra traffic and memory on your device.</string>
+    <string name="beta_functions">Beta functions</string>
 </resources>

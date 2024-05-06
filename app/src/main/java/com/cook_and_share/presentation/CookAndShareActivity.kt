@@ -34,8 +34,11 @@ class MainActivity : ComponentActivity() {
                 initial = ConnectivityObserver.Status.Unavailable
             )
             var darkTheme by remember { mutableStateOf(false) }
+            var isTranslation by remember { mutableStateOf(false) }
             if (status == ConnectivityObserver.Status.Available) {
                 CookAndShareApp(
+                    isTranslation = isTranslation,
+                    toggleTranslation = { isTranslation = !isTranslation },
                     darkTheme = darkTheme,
                     toggleTheme = { darkTheme = !darkTheme }
                 )
