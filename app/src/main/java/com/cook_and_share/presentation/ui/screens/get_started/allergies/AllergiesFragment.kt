@@ -78,7 +78,7 @@ private fun AllergiesFragmentContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 16.dp),
-            textAlign = TextAlign.Start,
+            textAlign = TextAlign.Center,
         )
 
         Allergies(
