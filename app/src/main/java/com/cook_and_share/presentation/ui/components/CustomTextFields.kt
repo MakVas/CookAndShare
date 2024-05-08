@@ -184,6 +184,8 @@ fun RecipeTextField(
     fieldLabel: String,
     text: String,
     onNewValue: (String) -> Unit,
+    isNumber: Boolean = false,
+    isSingleLine: Boolean = false
 ) {
     TextField(
         value = text,
@@ -193,7 +195,7 @@ fun RecipeTextField(
         label = {
             Text(fieldLabel)
         },
-        colors = TextFieldDefaults.colors(
+        colors = if (!isNumber) TextFieldDefaults.colors(
             focusedTextColor = colorScheme.onSecondary,
             unfocusedTextColor = colorScheme.onSecondary,
             focusedContainerColor = colorScheme.secondary,
@@ -208,8 +210,25 @@ fun RecipeTextField(
                 handleColor = colorScheme.onSecondary,
                 backgroundColor = colorScheme.onSecondary
             )
-
+        ) else TextFieldDefaults.colors(
+            focusedTextColor = colorScheme.onSecondary,
+            unfocusedTextColor = colorScheme.onSecondary,
+            focusedContainerColor = colorScheme.primary,
+            unfocusedContainerColor = colorScheme.primary,
+            disabledContainerColor = colorScheme.primary,
+            cursorColor = colorScheme.onSecondary,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedLabelColor = colorScheme.onSecondary,
+            unfocusedLabelColor = colorScheme.onSecondary,
+            selectionColors = TextSelectionColors(
+                handleColor = colorScheme.onSecondary,
+                backgroundColor = colorScheme.onSecondary
+            )
         ),
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Default)
+        keyboardOptions =
+        if (!isNumber) KeyboardOptions(imeAction = ImeAction.Default)
+        else KeyboardOptions(keyboardType = KeyboardType.Number),
+        singleLine = isSingleLine
     )
 }

@@ -2,16 +2,24 @@ package com.cook_and_share.presentation.ui.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,10 +33,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.cook_and_share.R
@@ -202,6 +213,114 @@ fun SettingsBottomSheet(
 
             Spacer(modifier = Modifier.height(100.dp))
 
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@Composable
+fun IngredientsBottomSheet(
+    onValueChange: MutableState<String>,
+    selectedIngredients: MutableState<List<String>>,
+    ingredients: List<String>,
+    sheetState: SheetState,
+    isSheetExpanded: MutableState<Boolean>,
+    onIngredientClick: (String, MutableState<List<String>>) -> Unit
+) {
+    if (isSheetExpanded.value) {
+        ModalBottomSheet(sheetState = sheetState, onDismissRequest = {
+            isSheetExpanded.value = false
+        }) {
+            CustomTextField(
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+                icon = Icons.Default.Search,
+                fieldLabel = stringResource(id = R.string.search),
+                value = onValueChange.value,
+                onValueChange = { onValueChange.value = it }
+            )
+
+            LazyColumn {
+                item {
+                    FlowRow(
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 16.dp, end = 8.dp)
+                    ) {
+                        repeat(ingredients.size) {
+                            CategoryItem(
+                                modifier = Modifier
+                                    .padding(bottom = 8.dp, end = 8.dp),
+                                isClicked = selectedIngredients.value.contains(ingredients[it]),
+                                category = ingredients[it],
+                                onClick = {
+                                    onIngredientClick(ingredients[it], selectedIngredients)
+                                    isSheetExpanded.value = false
+                                }
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(200.dp))
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ChangeQuantityButtons(
+    modifier: Modifier,
+    quantity: String,
+    onDecrement: () -> Unit,
+    onIncrement: () -> Unit
+) {
+    Row(
+        modifier
+            .aspectRatio(2.5f)
+            .border(
+                1.dp,
+                MaterialTheme.colorScheme.tertiary,
+                MaterialTheme.shapes.small
+            ),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .aspectRatio(1f)
+                .clip(MaterialTheme.shapes.small)
+                .clickable { onDecrement.invoke() },
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "-",
+                style = typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onBackground,
+            )
+        }
+        Text(
+            quantity,
+            Modifier.weight(1f),
+            style = typography.bodyLarge,
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.onBackground
+        )
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .aspectRatio(1f)
+                .clip(MaterialTheme.shapes.small)
+                .clickable { onIncrement.invoke() },
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "+",
+                style = typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onBackground
+            )
         }
     }
 }

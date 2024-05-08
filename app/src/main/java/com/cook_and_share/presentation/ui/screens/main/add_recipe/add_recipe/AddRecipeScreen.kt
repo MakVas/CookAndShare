@@ -35,7 +35,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -52,10 +51,10 @@ import com.cook_and_share.presentation.ui.components.RecipeItem
 import com.cook_and_share.presentation.ui.components.RecipeTextField
 import com.cook_and_share.presentation.ui.components.SecondaryButton
 import com.cook_and_share.presentation.ui.components.TopBar
+import com.cook_and_share.presentation.ui.screens.main.add_recipe.AddRecipeViewModel
 
 @Composable
 fun AddRecipeScreen(
-    selectedCategories: MutableState<List<String>>,
     viewModel: AddRecipeViewModel = hiltViewModel(),
     navigate: (String) -> Unit,
     popUp: () -> Unit
@@ -73,11 +72,11 @@ fun AddRecipeScreen(
 
     AddRecipeScreenContent(
         recipe = recipe,
-        onPublishClick = { viewModel.onPublishClick((popUp), selectedCategories) },
+        onPublishClick = { viewModel.onPublishClick((popUp), viewModel.selectedCategories) },
         onTitleChange = viewModel::onTitleChange,
         onRecipeChange = viewModel::onRecipeChange,
         onIngredientsClick = { viewModel.onIngredientsClick(navigate) },
-        onCategoryClick = { viewModel.onCategoryClick(navigate) },
+        onCategoryClick = { viewModel.onCategoryScreenClick(navigate) },
         singlePhotoPicker = singlePhotoPicker,
         uri = uri
     )

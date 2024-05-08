@@ -108,9 +108,9 @@ class StorageRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun searchCategories(query: String): Flow<List<String>> {
+    override suspend fun searchCategoriesOrIngredients(query: String, fieldName: String): Flow<List<String>> {
         return callbackFlow {
-            val listener = database.reference.child(COLLECTION_NAME_CATEGORIES)
+            val listener = database.reference.child(fieldName)
                 .orderByValue()
                 .startAt(query)
                 .endAt(query + "\uf8ff")

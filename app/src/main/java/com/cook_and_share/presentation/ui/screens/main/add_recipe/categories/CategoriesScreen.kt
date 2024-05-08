@@ -13,10 +13,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
@@ -26,33 +24,32 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.cook_and_share.R
 import com.cook_and_share.presentation.ui.components.CategoryItem
 import com.cook_and_share.presentation.ui.components.CustomTextField
 import com.cook_and_share.presentation.ui.components.TopAppBarBackIcon
 import com.cook_and_share.presentation.ui.components.TopBar
+import com.cook_and_share.presentation.ui.screens.main.add_recipe.AddRecipeViewModel
+import com.cook_and_share.presentation.util.Constants.COLLECTION_NAME_CATEGORIES
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoriesScreen(
-    selectedCategories: MutableState<List<String>>,
     popUp: () -> Unit,
-    viewModel: CategoriesViewModel = hiltViewModel()
+    viewModel: AddRecipeViewModel
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
-    val categories by viewModel.getSearchCategoriesResult().collectAsState(emptyList())
+    val categories by viewModel.getSearchResult(COLLECTION_NAME_CATEGORIES).collectAsState(emptyList())
 
     CategoriesScreenContent(
-        selectedCategories = selectedCategories,
+        selectedCategories = viewModel.selectedCategories,
         categories = categories,
         popUp = popUp,
         scrollBehavior = scrollBehavior,
         onValueChange = viewModel.searchQuery,
-        onCategoryClick = viewModel::onCategoryClick
+        onCategoryClick = viewModel::onItemClick
     )
 }
 
@@ -136,17 +133,6 @@ private fun Categories(
     onCategoryClick: (String, MutableState<List<String>>) -> Unit,
     categories: List<String>
 ) {
-    Text(
-        text = stringResource(id = R.string.popular_categories),
-        style = MaterialTheme.typography.headlineSmall,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        textAlign = TextAlign.Start,
-    )
-
-    Spacer(modifier = Modifier.padding(top = 16.dp))
-
     FlowRow(
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier

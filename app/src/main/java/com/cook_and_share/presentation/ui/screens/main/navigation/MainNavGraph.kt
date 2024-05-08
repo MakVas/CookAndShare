@@ -1,12 +1,12 @@
 package com.cook_and_share.presentation.ui.screens.main.navigation
 
-import androidx.compose.runtime.MutableState
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.cook_and_share.presentation.navigate
 import com.cook_and_share.presentation.popUp
 import com.cook_and_share.presentation.ui.screens.main.add_recipe.add_recipe.AddRecipeScreen
+import com.cook_and_share.presentation.ui.screens.main.add_recipe.AddRecipeViewModel
 import com.cook_and_share.presentation.ui.screens.main.add_recipe.categories.CategoriesScreen
 import com.cook_and_share.presentation.ui.screens.main.add_recipe.ingredients.IngredientsScreen
 import com.cook_and_share.presentation.ui.screens.main.home.HomeScreen
@@ -18,14 +18,14 @@ fun NavGraphBuilder.mainGraph(
     isTranslation: Boolean,
     rootNavController: NavHostController,
     navController: NavHostController,
-    selectedCategories: MutableState<List<String>>
+    viewModel: AddRecipeViewModel,
 ) {
     composable(Main.HomeScreen.route) {
         HomeScreen(isTranslation)
     }
     composable(Main.AddRecipeScreen.route) {
         AddRecipeScreen(
-            selectedCategories = selectedCategories,
+            viewModel = viewModel,
             navigate = { route -> navigate(navController, route) },
             popUp = { popUp(navController) },
         )
@@ -43,12 +43,13 @@ fun NavGraphBuilder.mainGraph(
     }
     composable(Main.CategoriesScreen.route) {
         CategoriesScreen(
-            selectedCategories = selectedCategories,
+            viewModel = viewModel,
             popUp = { popUp(navController) }
         )
     }
     composable(Main.IngredientsScreen.route) {
         IngredientsScreen(
+            viewModel = viewModel,
             popUp = { popUp(navController) },
         )
     }

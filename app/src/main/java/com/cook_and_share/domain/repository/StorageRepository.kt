@@ -11,7 +11,7 @@ interface StorageRepository {
     val myRecipes: Flow<List<Recipe>>
     val likedRecipes: Flow<List<Recipe>>
     suspend fun uploadRecipeImage(recipeId: String, uri: Uri?): String
-    suspend fun searchCategories(query: String): Flow<List<String>>
+    suspend fun searchCategoriesOrIngredients(query: String, fieldName: String): Flow<List<String>>
     suspend fun searchProfiles(query: String, fieldName: String): Flow<List<Profile>>
     suspend fun searchRecipes(query: String, fieldName: String): Flow<List<Recipe>>
     suspend fun getRecipe(recipeId: String): Recipe?

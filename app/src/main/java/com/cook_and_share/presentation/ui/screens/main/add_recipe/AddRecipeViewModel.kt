@@ -1,4 +1,4 @@
-package com.cook_and_share.presentation.ui.screens.main.add_recipe.add_recipe
+package com.cook_and_share.presentation.ui.screens.main.add_recipe
 
 import android.net.Uri
 import androidx.compose.runtime.MutableState
@@ -17,6 +17,8 @@ import com.cook_and_share.presentation.util.Main
 import com.cook_and_share.presentation.util.idFromParameter
 import com.cook_and_share.presentation.util.isValidRecipe
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,19 +32,25 @@ class AddRecipeViewModel @Inject constructor(
     val profile = mutableStateOf(Profile())
     val recipe = mutableStateOf(Recipe())
     val recipeImage = mutableStateOf<Uri?>(null)
-
-    init {
-        val recipeId = savedStateHandle.get<String>(RECIPE_ID)
-        if (recipeId != null) {
-            launchCatching {
-                recipe.value = storageRepository.getRecipe(recipeId.idFromParameter()) ?: Recipe()
-            }
+    val searchQuery = mutableStateOf("")
+    val selectedCategories: MutableState<List<String>> = mutableStateOf(emptyList())
+    val selectedIngredients: MutableState<List<String>> = mutableStateOf(emptyList())
+    fun getSearchResult(fieldName: String): Flow<List<String>> {
+        var resultFlow: Flow<List<String>> = flowOf(emptyList())
+        launchCatching {
+            resultFlow = storageRepository.searchCategoriesOrIngredients(
+                query = searchQuery.value,
+                fieldName = fieldName
+            )
         }
+        return resultFlow
     }
 
-    init {
-        launchCatching {
-            profile.value = authRepository.getProfile(authRepository.currentUserId) ?: Profile()
+    fun onItemClick(category: String, selectedCategories: MutableState<List<String>>) {
+        if (selectedCategories.value.contains(category)) {
+            selectedCategories.value -= category
+        } else {
+            selectedCategories.value += category
         }
     }
 
@@ -99,11 +107,27 @@ class AddRecipeViewModel @Inject constructor(
         navigate(Main.IngredientsScreen.route)
     }
 
-    fun onCategoryClick(navigate: (String) -> Unit) {
+    fun onCategoryScreenClick(navigate: (String) -> Unit) {
         navigate(Main.CategoriesScreen.route)
     }
 
     fun getRecipeImage(uri: Uri?) {
         recipeImage.value = uri
+    }
+
+
+    init {
+        val recipeId = savedStateHandle.get<String>(RECIPE_ID)
+        if (recipeId != null) {
+            launchCatching {
+                recipe.value = storageRepository.getRecipe(recipeId.idFromParameter()) ?: Recipe()
+            }
+        }
+    }
+
+    init {
+        launchCatching {
+            profile.value = authRepository.getProfile(authRepository.currentUserId) ?: Profile()
+        }
     }
 }
