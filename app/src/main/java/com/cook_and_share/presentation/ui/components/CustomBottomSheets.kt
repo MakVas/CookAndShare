@@ -2,7 +2,7 @@ package com.cook_and_share.presentation.ui.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -36,10 +35,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.cook_and_share.R
@@ -135,15 +137,66 @@ fun RecipeBottomSheet(
                 }
             }
 
+            Spacer(modifier = Modifier.height(8.dp))
+
+            LazyColumn {
+                items(recipe.ingredients.size) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Box(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .shadow(1.dp, shape = RoundedCornerShape(16.dp), clip = true)
+                            .height(75.dp)
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(16.dp))
+                            .background(color = MaterialTheme.colorScheme.secondary),
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .height(75.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Text(
+                                buildAnnotatedString {
+                                    withStyle(
+                                        SpanStyle(
+                                            fontStyle = typography.titleMedium.fontStyle,
+                                            color = MaterialTheme.colorScheme.tertiary,
+                                            fontWeight = typography.titleMedium.fontWeight
+                                        )
+                                    ) {
+                                        append(recipe.ingredients[it].name + "\n")
+                                    }
+                                    withStyle(
+                                        SpanStyle(
+                                            fontStyle = typography.bodySmall.fontStyle,
+                                            color = MaterialTheme.colorScheme.tertiary,
+                                            fontWeight = typography.bodySmall.fontWeight
+                                        )
+                                    ) {
+                                        append(
+                                            recipe.ingredients[it].quantity.toString()
+                                                    + " "
+                                                    + recipe.ingredients[it].unit
+                                        )
+                                    }
+                                },
+                                modifier = Modifier.padding(start = 16.dp)
+                            )
+                        }
+                    }
+                }
+            }
+
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "**There will be ingredients**",
-                style = typography.bodyMedium,
+                text = stringResource(id = R.string.cooking_method),
+                style = typography.headlineSmall,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             Text(
                 text = translatedRecipe.value,
@@ -263,64 +316,6 @@ fun IngredientsBottomSheet(
                     Spacer(modifier = Modifier.height(200.dp))
                 }
             }
-        }
-    }
-}
-
-@Composable
-private fun ChangeQuantityButtons(
-    modifier: Modifier,
-    quantity: String,
-    onDecrement: () -> Unit,
-    onIncrement: () -> Unit
-) {
-    Row(
-        modifier
-            .aspectRatio(2.5f)
-            .border(
-                1.dp,
-                MaterialTheme.colorScheme.tertiary,
-                MaterialTheme.shapes.small
-            ),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceEvenly
-    ) {
-        Box(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-                .aspectRatio(1f)
-                .clip(MaterialTheme.shapes.small)
-                .clickable { onDecrement.invoke() },
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "-",
-                style = typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onBackground,
-            )
-        }
-        Text(
-            quantity,
-            Modifier.weight(1f),
-            style = typography.bodyLarge,
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.onBackground
-        )
-        Box(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-                .aspectRatio(1f)
-                .clip(MaterialTheme.shapes.small)
-                .clickable { onIncrement.invoke() },
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "+",
-                style = typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onBackground
-            )
         }
     }
 }

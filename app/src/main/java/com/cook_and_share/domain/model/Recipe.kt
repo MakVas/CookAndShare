@@ -9,7 +9,7 @@ data class Recipe(
     val author: String = "",
     val imageUrl: String = "",
     val tags: List<String> = emptyList(),
-    val ingredients: List<Map<String, Int>> = emptyList(),
+    val ingredients: List<Ingredient> = emptyList(),
     val daily: Boolean = false,
     val recipe : String = "",
     val likes: List<String> = emptyList(),

@@ -5,6 +5,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import com.cook_and_share.R
+import com.cook_and_share.domain.model.Ingredient
 import com.cook_and_share.domain.model.Profile
 import com.cook_and_share.domain.model.Recipe
 import com.cook_and_share.domain.repository.AuthRepository
@@ -35,6 +36,7 @@ class AddRecipeViewModel @Inject constructor(
     val searchQuery = mutableStateOf("")
     val selectedCategories: MutableState<List<String>> = mutableStateOf(emptyList())
     val selectedIngredients: MutableState<List<String>> = mutableStateOf(emptyList())
+    val selectedIngredientItems: MutableState<List<Ingredient>> = mutableStateOf(emptyList())
     fun getSearchResult(fieldName: String): Flow<List<String>> {
         var resultFlow: Flow<List<String>> = flowOf(emptyList())
         launchCatching {
@@ -87,7 +89,8 @@ class AddRecipeViewModel @Inject constructor(
         launchCatching {
             recipe.value = recipe.value.copy(
                 author = profile.value.username,
-                tags = selectedCategories.value
+                tags = selectedCategories.value,
+                ingredients = selectedIngredientItems.value
             )
             val editedTask = recipe.value
             recipeID = storageRepository.save(editedTask)

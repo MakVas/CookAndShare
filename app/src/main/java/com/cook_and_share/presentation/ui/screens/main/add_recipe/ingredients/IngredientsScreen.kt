@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -24,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import com.cook_and_share.R
+import com.cook_and_share.domain.model.Ingredient
 import com.cook_and_share.presentation.ui.components.IngredientItem
 import com.cook_and_share.presentation.ui.components.IngredientsBottomSheet
 import com.cook_and_share.presentation.ui.components.SecondaryButton
@@ -46,6 +48,7 @@ fun IngredientsScreen(
     val sheetState = rememberModalBottomSheetState()
     val isSheetExpanded = rememberSaveable { mutableStateOf(false) }
 
+
     val unitList = listOf("g", "kg", "ml", "l", "tbsp", "tsp", "cup", "piece")
 
     IngredientsBottomSheet(
@@ -61,7 +64,8 @@ fun IngredientsScreen(
         isSheetExpanded = isSheetExpanded,
         popUp = popUp,
         scrollBehavior = scrollBehavior,
-        selectedIngredients = viewModel.selectedIngredients
+        selectedIngredients = viewModel.selectedIngredients,
+        selectedIngredientItems = viewModel.selectedIngredientItems
     )
 }
 
@@ -72,7 +76,8 @@ private fun IngredientsScreenContent(
     selectedIngredients: MutableState<List<String>>,
     isSheetExpanded: MutableState<Boolean>,
     popUp: () -> Unit,
-    scrollBehavior: TopAppBarScrollBehavior
+    scrollBehavior: TopAppBarScrollBehavior,
+    selectedIngredientItems: MutableState<List<Ingredient>>
 ) {
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -95,7 +100,8 @@ private fun IngredientsScreenContent(
             NestedScrolling(
                 unitList = unitList,
                 selectedIngredients = selectedIngredients,
-                isSheetExpanded = isSheetExpanded
+                isSheetExpanded = isSheetExpanded,
+                selectedIngredientItems = selectedIngredientItems
             )
         }
     }
@@ -106,23 +112,24 @@ private fun NestedScrolling(
     unitList: List<String>,
     selectedIngredients: MutableState<List<String>>,
     isSheetExpanded: MutableState<Boolean>,
+    selectedIngredientItems: MutableState<List<Ingredient>>
 ) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp)
     ) {
-        items(selectedIngredients.value.size) {
+        items(selectedIngredients.value) {name ->
             Spacer(modifier = Modifier.height(16.dp))
 
             IngredientItem(
                 modifier = Modifier,
-                ingredient = selectedIngredients.value[it],
-                quantity = mutableStateOf("0"),
+                name = name,
                 unitList = unitList,
+                selectedIngredientItems = selectedIngredientItems,
                 onButtonClick = {
-                    selectedIngredients.value -= selectedIngredients.value[it]
-                }
+                    selectedIngredients.value -= name
+                },
             )
         }
         item {

@@ -25,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -38,21 +39,22 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.cook_and_share.R
+import com.cook_and_share.domain.model.Ingredient
 
 @Composable
 fun IngredientItem(
     modifier: Modifier = Modifier,
-    ingredient: String,
-    quantity: MutableState<String>,
+    name: String,
     unitList: List<String>,
     isEdit: Boolean = true,
-    onButtonClick: () -> Unit = {}
+    selectedIngredientItems: MutableState<List<Ingredient>>,
+    onButtonClick: () -> Unit = {},
 ) {
-
     var expanded by remember { mutableStateOf(false) }
     val isExpanded = remember { mutableStateOf(false) }
     val height = if (expanded) 121 else 75
-    val selectedIndex = remember { mutableStateOf(0) }
+    val selectedIndex = remember { mutableIntStateOf(0) }
+    val quantity = remember { mutableStateOf("0") }
 
     Box(
         modifier = modifier
@@ -93,7 +95,7 @@ fun IngredientItem(
                                 fontWeight = typography.titleMedium.fontWeight
                             )
                         ) {
-                            append(ingredient + "\n")
+                            append(name + "\n")
                         }
                         withStyle(
                             SpanStyle(
@@ -102,7 +104,7 @@ fun IngredientItem(
                                 fontWeight = typography.bodySmall.fontWeight
                             )
                         ) {
-                            append(quantity.value + " " + unitList[selectedIndex.value])
+                            append(quantity.value + " " + unitList[selectedIndex.intValue])
                         }
                     },
                 )
@@ -113,8 +115,20 @@ fun IngredientItem(
                         .padding(12.dp)
                         .height(51.dp),
                     shape = RoundedCornerShape(8.dp),
-                    label = R.string.edit,
-                    onClick = { expanded = !expanded }
+                    label = if (!expanded) R.string.edit else R.string.save,
+                    onClick = {
+                        if (!expanded) {
+                            expanded = true
+                        } else {
+                            selectedIngredientItems.value +=
+                                Ingredient(
+                                    name,
+                                    quantity.value.toInt(),
+                                    unitList[selectedIndex.intValue]
+                                )
+                            expanded = false
+                        }
+                    }
                 )
             }
         }
@@ -129,8 +143,10 @@ fun IngredientItem(
                     modifier = Modifier,
                     quantity = quantity.value,
                     onDecrement = {
-                        if (quantity.value.toInt() > 0)
+                        if (quantity.value.toInt() > 0) {
                             quantity.value = (quantity.value.toInt() - 1).toString()
+
+                        }
                     },
                     onIncrement = { quantity.value = (quantity.value.toInt() + 1).toString() }
                 )
