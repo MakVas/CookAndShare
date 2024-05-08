@@ -17,7 +17,6 @@ class CategoriesViewModel @Inject constructor(
 ) : CookAndShareViewModel(logRepository) {
 
     val searchQuery = mutableStateOf("")
-    //val selectedCategories = mutableStateOf(listOf<String>())
 
     fun getSearchCategoriesResult(): Flow<List<String>> {
         var resultFlow: Flow<List<String>> = flowOf(emptyList())
