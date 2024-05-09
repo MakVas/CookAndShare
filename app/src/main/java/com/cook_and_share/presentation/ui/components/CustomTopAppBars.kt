@@ -68,6 +68,7 @@ fun TopBar(
 
 @Composable
 fun SearchTopBar(
+    isFilterSheetExpanded: MutableState<Boolean>,
     text: Int,
     tabIndex: MutableState<Int>,
     tabs: List<String>,
@@ -99,7 +100,7 @@ fun SearchTopBar(
                     IconButton(
                         modifier = Modifier.weight(1f),
                         onClick = {
-                            //TODO: FILTER
+                            isFilterSheetExpanded.value = true
                         }
                     ) {
                         Icon(

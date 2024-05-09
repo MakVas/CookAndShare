@@ -308,3 +308,104 @@ fun IngredientsBottomSheet(
         }
     }
 }
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@Composable
+fun FilterBottomSheet(
+    onValueChange: MutableState<String>,
+    onIngredientValueChange: MutableState<String>,
+    selectedCategories: MutableState<List<String>>,
+    selectedIngredients: MutableState<List<String>>,
+    categories: List<String>,
+    ingredients: List<String>,
+    sheetState: SheetState,
+    isSheetExpanded: MutableState<Boolean>,
+    onIngredientClick: (String, MutableState<List<String>>) -> Unit
+) {
+    if (isSheetExpanded.value) {
+        ModalBottomSheet(sheetState = sheetState, onDismissRequest = {
+            isSheetExpanded.value = false
+        }) {
+            Text(
+                text = stringResource(id = R.string.categories),
+                style = typography.headlineSmall,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            CustomTextField(
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp),
+                icon = Icons.Default.Search,
+                fieldLabel = stringResource(id = R.string.search),
+                value = onValueChange.value,
+                onValueChange = { onValueChange.value = it }
+            )
+
+            LazyRow {
+                item {
+                    FlowRow(
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 16.dp, end = 8.dp)
+                    ) {
+                        repeat(categories.size) {
+                            CategoryItem(
+                                modifier = Modifier
+                                    .padding(bottom = 8.dp, end = 8.dp),
+                                isClicked = selectedCategories.value.contains(categories[it]),
+                                category = categories[it],
+                                onClick = {
+                                    onIngredientClick(categories[it], selectedCategories)
+                                }
+                            )
+                        }
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = stringResource(id = R.string.ingredients),
+                style = typography.headlineSmall,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            CustomTextField(
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp),
+                icon = Icons.Default.Search,
+                fieldLabel = stringResource(id = R.string.search),
+                value = onIngredientValueChange.value,
+                onValueChange = { onIngredientValueChange.value = it }
+            )
+
+            LazyRow {
+                item {
+                    FlowRow(
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 16.dp, end = 8.dp)
+                    ) {
+                        repeat(ingredients.size) {
+                            CategoryItem(
+                                modifier = Modifier
+                                    .padding(bottom = 8.dp, end = 8.dp),
+                                isClicked = selectedIngredients.value.contains(ingredients[it]),
+                                category = ingredients[it],
+                                onClick = {
+                                    onIngredientClick(ingredients[it], selectedIngredients)
+                                }
+                            )
+                        }
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.height(70.dp))
+        }
+    }
+}

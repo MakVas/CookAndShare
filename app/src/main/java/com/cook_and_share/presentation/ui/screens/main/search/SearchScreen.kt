@@ -28,10 +28,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.cook_and_share.R
 import com.cook_and_share.domain.model.Profile
 import com.cook_and_share.domain.model.Recipe
+import com.cook_and_share.presentation.ui.components.FilterBottomSheet
 import com.cook_and_share.presentation.ui.components.RecipeBottomSheet
 import com.cook_and_share.presentation.ui.components.SearchProfileItem
 import com.cook_and_share.presentation.ui.components.SearchRecipeItem
 import com.cook_and_share.presentation.ui.components.SearchTopBar
+import com.cook_and_share.presentation.util.Constants
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,20 +44,46 @@ fun SearchScreen(
 ) {
 
     val searchProfileResults by viewModel.getSearchProfileResult().collectAsState(emptyList())
-    val searchRecipeResults by viewModel.getSearchRecipeResult().collectAsState(emptyList())
 
     val tabIndex = remember { mutableIntStateOf(0) }
     val tabs = listOf(stringResource(id = R.string.recipes), stringResource(id = R.string.people))
 
     val sheetState = rememberModalBottomSheetState()
     val isSheetExpanded = rememberSaveable { mutableStateOf(false) }
+    val isFilterSheetExpanded = rememberSaveable { mutableStateOf(false) }
 
     val recipe = remember { mutableStateOf(Recipe()) }
 
+    val ingredients by viewModel.getSearchResult(
+        viewModel.searchIngredientQuery.value,
+        Constants.COLLECTION_NAME_INGREDIENTS
+    )
+        .collectAsState(emptyList())
+    val categories by viewModel.getSearchResult(
+        viewModel.searchCategoryQuery.value,
+        Constants.COLLECTION_NAME_CATEGORIES
+    )
+        .collectAsState(emptyList())
+
+
+    val searchRecipeResults by viewModel.getSearchRecipeResult(
+        viewModel.selectedCategories.value,
+        viewModel.selectedIngredients.value
+    ).collectAsState(emptyList())
+
     val localLanguage = Locale.getDefault().language
 
-   // val filteredRecipes = viewModel.filter(query, selectedCategory, recipes)
-
+    FilterBottomSheet(
+        onValueChange = viewModel.searchCategoryQuery,
+        onIngredientValueChange = viewModel.searchIngredientQuery,
+        selectedCategories = viewModel.selectedCategories,
+        selectedIngredients = viewModel.selectedIngredients,
+        categories = categories,
+        ingredients = ingredients,
+        sheetState = sheetState,
+        isSheetExpanded = isFilterSheetExpanded,
+        onIngredientClick = viewModel::onItemClick
+    )
     RecipeBottomSheet(
         isTranslation = isTranslation,
         localLanguage = localLanguage,
@@ -66,6 +94,7 @@ fun SearchScreen(
         isSheetExpanded = isSheetExpanded
     )
     SearchScreenContent(
+        isFilterSheetExpanded = isFilterSheetExpanded,
         isRecipeLiked = viewModel::isRecipeLiked,
         onRecipeLikeClick = viewModel::onRecipeLikeClick,
         searchProfileResults = searchProfileResults,
@@ -80,6 +109,7 @@ fun SearchScreen(
 
 @Composable
 private fun SearchScreenContent(
+    isFilterSheetExpanded: MutableState<Boolean>,
     isRecipeLiked: (Recipe) -> Boolean,
     onRecipeLikeClick: (Recipe) -> Unit,
     searchProfileResults: List<Profile>,
@@ -93,6 +123,7 @@ private fun SearchScreenContent(
     Scaffold(
         topBar = {
             SearchTopBar(
+                isFilterSheetExpanded = isFilterSheetExpanded,
                 text = R.string.search,
                 searchQuery = searchQuery,
                 tabIndex = tabIndex,
@@ -143,7 +174,9 @@ private fun NestedScrolling(
                 recipe = recipe,
                 searchRecipeResults = searchRecipeResults,
                 isSheetExpanded = isSheetExpanded,
-                modifier = Modifier.padding(horizontal = 16.dp))
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+
             1 -> peopleSearch(
                 searchProfileResults = searchProfileResults,
                 modifier = Modifier.padding(horizontal = 16.dp)
@@ -160,7 +193,7 @@ private fun LazyListScope.recipeSearch(
     isSheetExpanded: MutableState<Boolean>,
     modifier: Modifier = Modifier
 ) {
-    items(searchRecipeResults) {recipeItem ->
+    items(searchRecipeResults) { recipeItem ->
         val isLiked = isRecipeLiked(recipeItem)
         SearchRecipeItem(
             onClick = {
@@ -181,7 +214,7 @@ private fun LazyListScope.peopleSearch(
     modifier: Modifier = Modifier
 ) {
 
-    items(searchProfileResults){ profile ->
+    items(searchProfileResults) { profile ->
         SearchProfileItem(
             onClick = {
             },

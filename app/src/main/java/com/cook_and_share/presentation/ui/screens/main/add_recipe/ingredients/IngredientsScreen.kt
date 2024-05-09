@@ -48,7 +48,6 @@ fun IngredientsScreen(
     val sheetState = rememberModalBottomSheetState()
     val isSheetExpanded = rememberSaveable { mutableStateOf(false) }
 
-
     val unitList = listOf("g", "kg", "ml", "l", "tbsp", "tsp", "cup", "glass", "units")
 
     IngredientsBottomSheet(
