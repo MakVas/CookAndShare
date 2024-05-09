@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="version">Версія: beta 0.0.4</string>
+    <string name="version">Версія: beta 0.0.5</string>
     <string name="email">Електронна пошта</string>
     <string name="password">Пароль</string>
     <string name="forgot_password">Забули пароль?</string>

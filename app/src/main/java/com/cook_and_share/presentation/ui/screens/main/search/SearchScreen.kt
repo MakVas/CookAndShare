@@ -54,6 +54,8 @@ fun SearchScreen(
 
     val localLanguage = Locale.getDefault().language
 
+   // val filteredRecipes = viewModel.filter(query, selectedCategory, recipes)
+
     RecipeBottomSheet(
         isTranslation = isTranslation,
         localLanguage = localLanguage,

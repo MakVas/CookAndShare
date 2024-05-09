@@ -49,7 +49,7 @@ fun IngredientsScreen(
     val isSheetExpanded = rememberSaveable { mutableStateOf(false) }
 
 
-    val unitList = listOf("g", "kg", "ml", "l", "tbsp", "tsp", "cup", "piece")
+    val unitList = listOf("g", "kg", "ml", "l", "tbsp", "tsp", "cup", "glass", "units")
 
     IngredientsBottomSheet(
         onValueChange = viewModel.searchQuery,

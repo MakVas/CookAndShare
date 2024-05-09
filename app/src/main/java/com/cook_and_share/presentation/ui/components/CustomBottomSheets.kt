@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -39,9 +40,6 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.cook_and_share.R
@@ -127,84 +125,75 @@ fun RecipeBottomSheet(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            LazyRow {
-                items(recipe.tags.size) {
-                    CategoryItem(
-                        modifier = Modifier.padding(start = 16.dp),
-                        isClicked = true,
-                        category = recipe.tags[it]
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
             LazyColumn {
+
+                item {
+                    LazyRow {
+                        items(recipe.tags.size) {
+                            CategoryItem(
+                                modifier = Modifier.padding(start = 16.dp),
+                                isClicked = true,
+                                category = recipe.tags[it]
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+
                 items(recipe.ingredients.size) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Box(
                         modifier = Modifier
                             .padding(horizontal = 16.dp)
                             .shadow(1.dp, shape = RoundedCornerShape(16.dp), clip = true)
-                            .height(75.dp)
+                            .height(45.dp)
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(16.dp))
                             .background(color = MaterialTheme.colorScheme.secondary),
                     ) {
                         Row(
                             modifier = Modifier
-                                .height(75.dp),
-                            verticalAlignment = Alignment.CenterVertically,
+                                .fillMaxSize(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                buildAnnotatedString {
-                                    withStyle(
-                                        SpanStyle(
-                                            fontStyle = typography.titleMedium.fontStyle,
-                                            color = MaterialTheme.colorScheme.tertiary,
-                                            fontWeight = typography.titleMedium.fontWeight
-                                        )
-                                    ) {
-                                        append(recipe.ingredients[it].name + "\n")
-                                    }
-                                    withStyle(
-                                        SpanStyle(
-                                            fontStyle = typography.bodySmall.fontStyle,
-                                            color = MaterialTheme.colorScheme.tertiary,
-                                            fontWeight = typography.bodySmall.fontWeight
-                                        )
-                                    ) {
-                                        append(
-                                            recipe.ingredients[it].quantity.toString()
-                                                    + " "
-                                                    + recipe.ingredients[it].unit
-                                        )
-                                    }
-                                },
+                                text = recipe.ingredients[it].name,
+                                style = typography.titleMedium,
                                 modifier = Modifier.padding(start = 16.dp)
                             )
+
+                            Text(
+                                text = recipe.ingredients[it].quantity.toString() + " " + recipe.ingredients[it].unit,
+                                style = typography.bodyMedium,
+                                modifier = Modifier.padding(end = 16.dp)
+                            )
+
                         }
                     }
                 }
+                item {
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text(
+                        text = stringResource(id = R.string.cooking_method),
+                        style = typography.headlineSmall,
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = translatedRecipe.value,
+                        style = typography.bodyMedium,
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+
+                    Spacer(modifier = Modifier.height(50.dp))
+                }
             }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = stringResource(id = R.string.cooking_method),
-                style = typography.headlineSmall,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Text(
-                text = translatedRecipe.value,
-                style = typography.bodyMedium,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-
-            Spacer(modifier = Modifier.height(50.dp))
         }
     }
 }
