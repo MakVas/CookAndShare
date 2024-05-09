@@ -25,12 +25,6 @@ class SearchViewModel @Inject constructor(
 
     val searchQuery = mutableStateOf("")
 
-    fun filter(query: String, recipes: List<Recipe>) : List<Recipe> {
-        return recipes.filter {
-            it.tags.contains(query) || it.ingredients[0].name.contains(query)
-        }
-    }
-
     fun getSearchProfileResult(): Flow<List<Profile>> {
         var resultFlow: Flow<List<Profile>> = flowOf(emptyList())
         launchCatching {
