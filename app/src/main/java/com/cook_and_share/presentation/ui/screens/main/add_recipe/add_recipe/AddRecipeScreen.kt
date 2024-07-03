@@ -6,6 +6,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,11 +16,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.CloudUpload
 import androidx.compose.material.icons.filled.DriveFileRenameOutline
 import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.Tag
@@ -27,7 +33,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
@@ -38,20 +43,30 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cook_and_share.R
 import com.cook_and_share.domain.model.Recipe
+import com.cook_and_share.presentation.ui.components.CustomLabel
+import com.cook_and_share.presentation.ui.components.CustomSmallLabel
 import com.cook_and_share.presentation.ui.components.CustomTextField
+import com.cook_and_share.presentation.ui.components.CustomTitle
 import com.cook_and_share.presentation.ui.components.PrimaryButton
 import com.cook_and_share.presentation.ui.components.RecipeItem
 import com.cook_and_share.presentation.ui.components.RecipeTextField
 import com.cook_and_share.presentation.ui.components.SecondaryButton
 import com.cook_and_share.presentation.ui.components.TopBar
 import com.cook_and_share.presentation.ui.screens.main.add_recipe.AddRecipeViewModel
+import com.cook_and_share.presentation.ui.theme.CustomChocolate
 
 @Composable
 fun AddRecipeScreen(
@@ -99,8 +114,20 @@ private fun AddRecipeScreenContent(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopBar(
-                text = R.string.add,
+                title = {
+                    CustomTitle(text = stringResource(id = R.string.add_recipe))
+                },
                 scrollBehavior = scrollBehavior,
+                actions = {
+                    Text(
+                        modifier = Modifier
+                            .padding(end = 16.dp)
+                            .clickable { },
+                        color = colorScheme.surfaceTint,
+                        style = typography.bodyMedium,
+                        text = stringResource(id = R.string.reset),
+                    )
+                }
             )
         }
     ) { values ->
@@ -141,6 +168,42 @@ private fun NestedScrolling(
             .verticalScroll(rememberScrollState())
 
     ) {
+        CustomLabel(
+            modifier = Modifier.padding(start = 16.dp),
+            text = stringResource(id = R.string.recipe_name)
+        )
+
+        Spacer(modifier = Modifier.padding(top = 8.dp))
+
+        CustomTextField(
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .fillMaxWidth(),
+            icon = Icons.Default.DriveFileRenameOutline,
+            fieldLabel = stringResource(id = R.string.recipe_name),
+            value = recipe.title,
+            onValueChange = { onTitleChange(it) }
+        )
+
+        Spacer(modifier = Modifier.padding(top = 16.dp))
+
+        CustomLabel(
+            modifier = Modifier.padding(start = 16.dp),
+            text = stringResource(id = R.string.upload_photo)
+        )
+
+        Spacer(modifier = Modifier.padding(top = 8.dp))
+
+        LazyRow {
+            items(3) {
+                AddPhotoButton()
+            }
+
+            item {
+                Spacer(modifier = Modifier.width(16.dp))
+            }
+        }
+
         Spacer(modifier = Modifier.padding(top = 16.dp))
 
         RecipeItem(
@@ -156,9 +219,7 @@ private fun NestedScrolling(
         Spacer(modifier = Modifier.padding(top = 16.dp))
 
         DoubleButton(
-            recipe = recipe,
             modifier = Modifier.padding(horizontal = 16.dp),
-            onNewValue = onTitleChange,
             onClick = onCategoryClick
         )
 
@@ -207,8 +268,6 @@ private fun NestedScrolling(
 @Composable
 private fun DoubleButton(
     modifier: Modifier,
-    recipe: Recipe,
-    onNewValue: (String) -> Unit,
     onClick: () -> Unit
 ) {
 
@@ -219,20 +278,7 @@ private fun DoubleButton(
         colors = CardDefaults.cardColors(containerColor = colorScheme.secondary)
     ) {
         Column {
-            CustomTextField(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                icon = Icons.Default.DriveFileRenameOutline,
-                fieldLabel = stringResource(id = R.string.recipe_name),
-                value = recipe.title,
-                onValueChange = { onNewValue(it) }
-            )
 
-            HorizontalDivider(
-                modifier = Modifier.padding(horizontal = 56.dp),
-                thickness = 1.dp,
-                color = colorScheme.onSecondary
-            )
 
             CategoriesButton(
                 modifier = Modifier
@@ -280,6 +326,53 @@ private fun CategoriesButton(
                 modifier = Modifier.align(Alignment.CenterEnd),
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                 contentDescription = "categories"
+            )
+        }
+    }
+}
+
+@Composable
+fun AddPhotoButton() {
+    Box(
+        modifier = Modifier
+            .padding(start = 16.dp)
+            .width(150.dp)
+            .height(125.dp)
+            .background(
+                color = colorScheme.secondary,
+                shape = RoundedCornerShape(size = 16.dp)
+            )
+            .drawWithContent {
+                drawRoundRect(
+                    color = CustomChocolate,
+                    style = Stroke(
+                        cap = StrokeCap.Round,
+                        width = 3.5f,
+                        pathEffect = PathEffect.dashPathEffect(
+                            intervals = floatArrayOf(10.dp.toPx(), 10.dp.toPx()),
+                            phase = 0f
+                        )
+                    ),
+                    cornerRadius = CornerRadius(16.dp.toPx())
+                )
+                this.drawContent()
+            }
+            .clip(RoundedCornerShape(16.dp))
+            .clickable {  }
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                modifier = Modifier.size(46.dp),
+                tint = colorScheme.tertiary,
+                imageVector = Icons.Default.CloudUpload,
+                contentDescription = "no photo"
+            )
+            CustomSmallLabel(
+                text = stringResource(id = R.string.add)
             )
         }
     }

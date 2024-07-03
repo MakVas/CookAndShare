@@ -20,6 +20,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.cook_and_share.R
+import com.cook_and_share.presentation.ui.components.CustomTitle
 import com.cook_and_share.presentation.ui.components.TertiaryButton
 import com.cook_and_share.presentation.ui.components.TopAppBarBackIcon
 import com.cook_and_share.presentation.ui.components.TopBar
@@ -46,7 +47,9 @@ private fun InfoScreenContent(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopBar(
-                text = R.string.info,
+                title = {
+                    CustomTitle(text = stringResource(id = R.string.info))
+                },
                 scrollBehavior = scrollBehavior,
                 iconButton = {
                     TopAppBarBackIcon(popUp)

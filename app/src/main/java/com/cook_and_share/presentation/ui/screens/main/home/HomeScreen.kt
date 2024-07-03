@@ -1,7 +1,6 @@
 package com.cook_and_share.presentation.ui.screens.main.home
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -46,6 +45,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.cook_and_share.R
 import com.cook_and_share.domain.model.Recipe
 import com.cook_and_share.presentation.ui.components.CustomPagerIndicator
+import com.cook_and_share.presentation.ui.components.CustomTitle
 import com.cook_and_share.presentation.ui.components.RecipeBottomSheet
 import com.cook_and_share.presentation.ui.components.RecipeItem
 import com.cook_and_share.presentation.ui.components.TopBar
@@ -107,7 +107,9 @@ private fun HomeScreenContent(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopBar(
-                text = R.string.app_name,
+                title = {
+                    CustomTitle(text = stringResource(id = R.string.app_name))
+                },
                 scrollBehavior = scrollBehavior
             )
         }
@@ -145,7 +147,6 @@ private fun NestedScrolling(
             .fillMaxSize(),
     ) {
         item {
-            Spacer(modifier = Modifier.height(16.dp))
 
             Text(
                 modifier = Modifier.padding(start = 16.dp),

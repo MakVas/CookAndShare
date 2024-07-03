@@ -23,9 +23,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.cook_and_share.R
 import com.cook_and_share.domain.model.Ingredient
+import com.cook_and_share.presentation.ui.components.CustomTitle
 import com.cook_and_share.presentation.ui.components.IngredientItem
 import com.cook_and_share.presentation.ui.components.IngredientsBottomSheet
 import com.cook_and_share.presentation.ui.components.SecondaryButton
@@ -82,7 +84,9 @@ private fun IngredientsScreenContent(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopBar(
-                text = R.string.ingredients,
+                title = {
+                    CustomTitle(text = stringResource(id = R.string.ingredients))
+                },
                 scrollBehavior = scrollBehavior,
                 iconButton = {
                     TopAppBarBackIcon(popUp)
@@ -118,7 +122,7 @@ private fun NestedScrolling(
             .fillMaxSize()
             .padding(horizontal = 16.dp)
     ) {
-        items(selectedIngredients.value) {name ->
+        items(selectedIngredients.value) { name ->
             Spacer(modifier = Modifier.height(16.dp))
 
             IngredientItem(

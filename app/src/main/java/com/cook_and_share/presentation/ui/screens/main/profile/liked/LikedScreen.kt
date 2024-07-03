@@ -23,10 +23,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cook_and_share.R
 import com.cook_and_share.domain.model.Recipe
+import com.cook_and_share.presentation.ui.components.CustomTitle
 import com.cook_and_share.presentation.ui.components.RecipeBottomSheet
 import com.cook_and_share.presentation.ui.components.RecipeItem
 import com.cook_and_share.presentation.ui.components.TopAppBarBackIcon
@@ -86,7 +88,9 @@ private fun LikedScreenContent(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopBar(
-                text = R.string.liked,
+                title = {
+                    CustomTitle(text = stringResource(id = R.string.liked))
+                },
                 scrollBehavior = scrollBehavior,
                 iconButton = {
                     TopAppBarBackIcon(popUp)

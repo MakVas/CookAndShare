@@ -33,6 +33,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.cook_and_share.R
 import com.cook_and_share.domain.model.Profile
 import com.cook_and_share.presentation.ui.components.CustomTextField
+import com.cook_and_share.presentation.ui.components.CustomTitle
 import com.cook_and_share.presentation.ui.components.ProfileItem
 import com.cook_and_share.presentation.ui.components.RecipeTextField
 import com.cook_and_share.presentation.ui.components.SecondaryButton
@@ -82,7 +83,9 @@ private fun AboutMeScreenContent(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopBar(
-                text = R.string.about_me,
+                title = {
+                    CustomTitle(text = stringResource(id = R.string.about_me))
+                },
                 scrollBehavior = scrollBehavior,
                 iconButton = {
                     TopAppBarBackIcon(popUp)

@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.cook_and_share.R
 import com.cook_and_share.presentation.ui.components.CategoryItem
 import com.cook_and_share.presentation.ui.components.CustomTextField
+import com.cook_and_share.presentation.ui.components.CustomTitle
 import com.cook_and_share.presentation.ui.components.TopAppBarBackIcon
 import com.cook_and_share.presentation.ui.components.TopBar
 import com.cook_and_share.presentation.ui.screens.main.add_recipe.AddRecipeViewModel
@@ -67,7 +68,9 @@ private fun CategoriesScreenContent(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopBar(
-                text = R.string.categories,
+                title = {
+                    CustomTitle(text = stringResource(id = R.string.categories))
+                },
                 scrollBehavior = scrollBehavior,
                 iconButton = {
                     TopAppBarBackIcon(popUp)

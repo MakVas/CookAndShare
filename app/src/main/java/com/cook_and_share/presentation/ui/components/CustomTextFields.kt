@@ -1,5 +1,6 @@
 package com.cook_and_share.presentation.ui.components
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -47,49 +48,51 @@ fun CustomTextField(
         onValueChange = onValueChange,
         shape = RoundedCornerShape(16.dp),
         modifier = modifier
-            .fillMaxWidth(),
-        label = {
-            Text(fieldLabel)
-        },
-        leadingIcon = {
-            Icon(
-                imageVector = icon,
-                contentDescription = "email_img",
-                tint = colorScheme.onPrimary
+            .border(
+                width = 1.dp,
+                color = colorScheme.tertiary,
+                shape = RoundedCornerShape(16.dp)
             )
-        },
-        trailingIcon = {
-            if (value.isNotEmpty()) {
-                Icon(
-                    imageVector = Icons.Default.Close,
-                    contentDescription = "close",
-                    tint = colorScheme.onPrimary,
-                    modifier = Modifier.clickable {
-                        onValueChange("")
-                    }
-                )
-
-            }
-        },
-        colors = TextFieldDefaults.colors(
-            focusedTextColor = colorScheme.onSecondary,
-            unfocusedTextColor = colorScheme.onSecondary,
-            focusedContainerColor = colorScheme.secondary,
-            unfocusedContainerColor = colorScheme.secondary,
-            disabledContainerColor = colorScheme.secondary,
-            cursorColor = colorScheme.onSecondary,
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            focusedLabelColor = colorScheme.onSecondary,
-            unfocusedLabelColor = colorScheme.onSecondary,
-            selectionColors = TextSelectionColors(
-                handleColor = colorScheme.onSecondary,
-                backgroundColor = colorScheme.onSecondary
-            )
-
+        .fillMaxWidth(),
+    placeholder = {
+        Text(fieldLabel)
+    },
+    colors = TextFieldDefaults.colors(
+        focusedContainerColor = colorScheme.secondary,
+        unfocusedContainerColor = colorScheme.secondary,
+        focusedTextColor = colorScheme.onSecondary,
+        unfocusedTextColor = colorScheme.onSecondary,
+        cursorColor = colorScheme.tertiary,
+        focusedPlaceholderColor = colorScheme.tertiary,
+        unfocusedPlaceholderColor = colorScheme.tertiary,
+        selectionColors = TextSelectionColors(
+            handleColor = colorScheme.tertiary,
+            backgroundColor = colorScheme.inverseOnSurface
         ),
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-        singleLine = true,
+        focusedIndicatorColor = Color.Transparent,
+        unfocusedIndicatorColor = Color.Transparent,
+    ),
+    leadingIcon = {
+        Icon(
+            imageVector = icon,
+            contentDescription = "icon",
+            tint = colorScheme.tertiary
+        )
+    },
+    trailingIcon = {
+        if (value.isNotEmpty()) {
+            Icon(
+                imageVector = Icons.Default.Close,
+                contentDescription = "close",
+                tint = colorScheme.tertiary,
+                modifier = Modifier.clickable {
+                    onValueChange("")
+                }
+            )
+
+        }
+    },
+    singleLine = true,
     )
 }
 

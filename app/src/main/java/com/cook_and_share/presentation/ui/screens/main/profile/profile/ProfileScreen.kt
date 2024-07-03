@@ -34,6 +34,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.cook_and_share.R
 import com.cook_and_share.domain.model.Profile
 import com.cook_and_share.domain.model.Recipe
+import com.cook_and_share.presentation.ui.components.CustomTitle
 import com.cook_and_share.presentation.ui.components.ProfileItem
 import com.cook_and_share.presentation.ui.components.RecipeBottomSheet
 import com.cook_and_share.presentation.ui.components.RecipeItem
@@ -120,7 +121,9 @@ private fun ProfileScreenContent(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopBar(
-                text = R.string.profile,
+                title = {
+                    CustomTitle(text = stringResource(id = R.string.profile))
+                },
                 scrollBehavior = scrollBehavior,
                 actions = {
                     TopAppBarAction(icon = Icons.Default.Menu) {

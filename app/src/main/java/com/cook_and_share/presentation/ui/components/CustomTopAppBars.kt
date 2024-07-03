@@ -27,38 +27,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.cook_and_share.presentation.ui.theme.Typography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
-    text: Int = 0,
     scrollBehavior: TopAppBarScrollBehavior,
     title: @Composable () -> Unit = {},
     iconButton: @Composable () -> Unit = {},
     actions: @Composable (RowScope.() -> Unit) = {}
 ) {
     TopAppBar(
-        modifier = Modifier.shadow(elevation = 3.dp),
+        modifier = Modifier,
         scrollBehavior = scrollBehavior,
         colors = TopAppBarDefaults.topAppBarColors(
             scrolledContainerColor = colorScheme.primary,
             titleContentColor = colorScheme.onPrimary
         ),
-        title = {
-            if (text != 0) {
-                Text(
-                    text = stringResource(id = text),
-                    style = Typography.titleLarge
-                )
-            } else {
-                title()
-            }
-        },
+        title = { title() },
         navigationIcon = {
             iconButton()
         },

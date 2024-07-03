@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cook_and_share.R
+import com.cook_and_share.presentation.ui.components.CustomTitle
 import com.cook_and_share.presentation.ui.components.SecondaryButton
 import com.cook_and_share.presentation.ui.components.SwitcherButton
 import com.cook_and_share.presentation.ui.components.TopAppBarBackIcon
@@ -77,7 +78,9 @@ private fun SettingsScreenContent(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopBar(
-                text = R.string.settings,
+                title = {
+                    CustomTitle(text = stringResource(id = R.string.settings))
+                },
                 scrollBehavior = scrollBehavior,
                 iconButton = {
                     TopAppBarBackIcon(popUp)
