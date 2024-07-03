@@ -35,13 +35,14 @@ private val LightColorScheme = lightColorScheme(
     secondary = CustomLightYellow,
     secondaryContainer = CustomMiddleYellow,
     tertiary = CustomChocolate,
-    onPrimary = CustomChocolate,
-    onSecondary = CustomChocolate,
+    onPrimary = CustomDarkChocolate,
+    onSecondary = CustomDarkChocolate,
     onTertiary = CustomYellow,
     background = CustomYellow,
     inversePrimary = Color.Black,
     surface = CustomYellow,
     onSurface = CustomLightYellowTrans,
+    inverseOnSurface = CustomLightChocolate,
     surfaceTint = CustomRed
 )
 

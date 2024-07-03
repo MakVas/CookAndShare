@@ -98,4 +98,7 @@
     <string name="lactose">Лактоза</string>
     <string name="edit">Редагувати</string>
     <string name="save">Зберегти</string>
+    <string name="reset">СКИНУТИ</string>
+    <string name="add_recipe">Додати рецепт</string>
+    <string name="upload_photo">Завантажте фото</string>
 </resources>

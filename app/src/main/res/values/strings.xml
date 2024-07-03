@@ -100,4 +100,7 @@
     <string name="lactose">Lactose</string>
     <string name="edit">Edit</string>
     <string name="save">Save</string>
+    <string name="reset">RESET</string>
+    <string name="add_recipe">Add recipe</string>
+    <string name="upload_photo">Upload photo</string>
 </resources>
