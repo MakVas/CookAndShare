@@ -101,4 +101,5 @@
     <string name="reset">СКИНУТИ</string>
     <string name="add_recipe">Додати рецепт</string>
     <string name="upload_photo">Завантажте фото</string>
+    <string name="more">Більше</string>
 </resources>
